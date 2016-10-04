@@ -1,0 +1,34 @@
+:toc: left
+
+ifndef::revealjs_slideshow[]
+== OCP_Workshop
+endif::revealjs_slideshow[]
+
+include::1_Setting_up_client_tools/AllSlides.txt[]
+
+include::2_Create_App_From_a_Docker_Image/AllSlides.txt[]
+
+include::3_Create_App_Using_Docker_Build/AllSlides.txt[]
+
+include::4_Using_Web_Console/AllSlides.txt[]
+
+include::5_Creating_an_application_using_JBoss_EAP_builder_image/AllSlides.txt[]
+
+include::6_Using_templates/AllSlides.txt[]
+
+include::7_Scale_up_and_Scale_down_the_application_instances/AllSlides.txt[]
+
+include::8_Binary_Deployment_of_a_war_file/AllSlides.txt[]
+
+include::9_Using_SSL_In_your_Application/AllSlides.txt[]
+
+include::10_Blue_Green_Deployments/AllSlides.txt[]
+
+include::11_SCM_Web_Hooks/AllSlides.txt[]
+
+include::12_Rollback_Applications/AllSlides.txt[]
+
+include::13_Code_Promotion_Across_Environments/AllSlides.txt[]
+
+include::14_Using_JBoss_Development_Studio/AllSlides.txt[]
+

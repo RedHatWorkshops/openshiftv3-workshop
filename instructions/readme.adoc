@@ -1,0 +1,11 @@
+== Readme Asciidoctor Project
+
+This is an empty Asciidoctor readme file.
+
+To create **asciidoc(tor)** content, more info is available http://asciidoctor.org/docs/user-manual[here]
+
+Otherwise, you can add content to this newly project created using the hyla add command :
+
+  hyla add --t asciidoc --a CONTENT  --d PathToProjectCreated
+
+where CONTENT can be an article, book, source, audio, video, table

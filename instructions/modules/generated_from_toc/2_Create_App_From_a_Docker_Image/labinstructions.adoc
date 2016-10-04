@@ -1,0 +1,25 @@
+
+:numbered:
+== MODULE NAME Lab
+
+.Goals
+After completing this lab, you should understand the following XXX key concepts:
+
+* Concept 1
+* Concept 2
+* Concept n
+    
+.Lab Assets
+The lab exercises and solutions are available in the following zip archives:
+
+* link:lab_assets.zip[]
+* link:lab_assets_solution.zip[]
+
+...
+
+ifdef::showscript[]
+[.notes]
+****
+
+****
+endif::showscript[]

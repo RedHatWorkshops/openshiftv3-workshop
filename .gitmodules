@@ -1,0 +1,3 @@
+[submodule "instructions/config"]
+	path = instructions/config
+	url = git@github.com:redhat-gpe/OPEN_common_hyla.git
