@@ -4,6 +4,7 @@
 :!numbered:
 
 === Goals
+
 After completing this lab, you should be able to:
 
 * Locate the binaries for the OpenShift Container Platform command-line interface (CLI).
@@ -11,6 +12,7 @@ After completing this lab, you should be able to:
 * CLI basic configuration.
 
 :numbered:
+
 === Locating the binaries
 The OCP CLI exposes commands for managing applications, as well as lower-level tools to interact with each component of the system. The binaries for Mac, Windows, and Linux are available for download from the Red Hat Customer Portal via the following link:
 
