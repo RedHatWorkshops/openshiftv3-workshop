@@ -1,7 +1,0 @@
-:toc: left
-
-ifndef::revealjs_slideshow[]
-== 1_Setting_up_client_tools
-endif::revealjs_slideshow[]
-
-include::labinstructions.adoc[]
