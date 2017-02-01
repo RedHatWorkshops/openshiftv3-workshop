@@ -1,4 +1,4 @@
-## Scale up and scale down the application instances
+## Scale up and Scale down and Idle the application instances
 
 In this exercise we will learn how to scale our application. OpenShift has the capability to scale your application and make sure that many instances are always running.
 
@@ -166,7 +166,40 @@ NAME      DESIRED   CURRENT   AGE
 time-1    3         3         3h
 ```
 
-**Step 4: Scaling Down**
+**Step 4: Idling the application**
+
+Run the following command to find the available endpoints
+
+```
+$ oc get endpoints
+NAME      ENDPOINTS                                            AGE
+time      10.128.0.33:8080,10.129.0.30:8080,10.129.2.27:8080   15m
+```
+Note that the name of the endpoints is `time` and there are three ips addresses for the three pods.
+
+Run the `oc idle endpoints/time` command to idle the application
+
+```
+$ oc idle endpoints/time
+Marked service mycliproject-veer/time to unidle resource DeploymentConfig mycliproject-veer/time (unidle to 3 replicas)
+Idled DeploymentConfig mycliproject-veer/time (dry run)
+```
+Go back to the webconsole. You will notice that the pods show up as idled.
+
+![image](images/idled_pods.jpeg)
+
+At this point the application is idled, the pods are not running and no resources are being used by the application. This doesn't mean that the application is deleted. The current state is just saved.. that's all.
+
+**Step 6: Reactivate your application** 
+Now click on the application route URL or access the application via curl.
+
+Note that it takes a little while for the application to respond. This is because pods are spinning up again. You can notice that in the web console.
+
+In a little while the output comes up and your application would be up with 3 pods.
+
+So, as soon as the user accesses the application, it comes up!!!
+
+**Step 7: Scaling Down**
 
 Scaling down is the same procedure as scaling up. Use the `oc scale` command on the `time` application `dc` setting.
 
