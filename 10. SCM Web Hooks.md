@@ -146,6 +146,7 @@ In this part of the Lab we will:
 - Click on Webhooks.
 - Click on the **Add webhook** button.
 - Add the recently copied Web Hook URL from OpenShift.
+- Change the Content-type as "application/json"
 - Click on the **Disable SSL Verification** button.
 - Confirm by adding the **Add Webhook** button in green at the bottom of the page.
 
