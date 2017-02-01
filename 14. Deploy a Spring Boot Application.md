@@ -7,7 +7,7 @@ Using the knowledge you gained from the earlier labs create a new project with n
 **Remember** to substitute the `UserName` with your userid.
 
 **Step 2:**
-Create a new application using SpringBoot S2I Builder image. Here we will deploy sample code from a git repository [https://github.com/RedHatWorkshops/spring-sample-app](). Please take time to understand the code; it is pretty simple.
+Create a new application using SpringBoot S2I Builder image. Here we will deploy sample code from a git repository [https://github.com/RedHatWorkshops/spring-sample-app](https://github.com/RedHatWorkshops/spring-sample-app). Please take time to understand the code; it is pretty simple.
 
 You may want to clone this into your git repository and deploy that, if you want to make changes and test.
 
