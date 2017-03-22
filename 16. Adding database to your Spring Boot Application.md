@@ -195,6 +195,11 @@ After the changes, the `template` section in the dc, should now look like this
       dnsPolicy: ClusterFirst
       securityContext:
 ```
+Optional: you can run the following to do the update on the deploymentConfig:
+
+```
+    oc set volumes dc/bootapp --add -m /opt/app-root/src/config --configmap-name=app-props
+```
 
 
 So what is this location `/opt/app-root/src/config`?
