@@ -20,4 +20,4 @@
 * Lab 16. [Adding Database to your SpringBoot App](16_Adding_database_to_your_Spring_Boot_Application.md)
 * Lab 17. [Dynamic Configuration updates using ConfigMap](17_Dynamic_Configuration_Updates_using_ConfigMap.md)
 * Lab 18. [Changing code on the fly](18_Changing_code_on_the_fly.md)
-* Lab 19. [Creating a CI/CD Pipeline](18_Creating_a_Pipeline.md)
+* Lab 19. [Creating a CI/CD Pipeline](19._Creating_a_Pipeline.md)
