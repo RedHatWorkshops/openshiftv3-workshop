@@ -13,6 +13,17 @@ oc new-project binarydeploy-UserName
 mkdir binarytest && cd binarytest
 mkdir deployments
 ```
+FYI:
+
+You can also create a modules directory at the same level as "deployments" above and have additional modules there or configuration files. For example:
+
+```
+mkdir modules
+cd modules
+mkdir cfg
+cd cfg
+touch config-1.cfg config-2.cfg
+```
 
 **Step 1: Create war file**
 
