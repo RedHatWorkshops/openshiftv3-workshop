@@ -30,15 +30,12 @@ LABEL summary="$SUMMARY" \
 # Install Apache httpd and PHP
 # To use subscription inside container yum command has to be run first (before yum-config-manager)
 # https://access.redhat.com/solutions/1443553
-RUN yum repolist > /dev/null && \
-    yum-config-manager --enable rhel-server-rhscl-7-rpms && \
-    yum-config-manager --enable rhel-7-server-optional-rpms && \
+RUN yum repolist > /dev/null  && \
     INSTALL_PKGS="rh-php70 rh-php70-php rh-php70-php-mysqlnd rh-php70-php-pgsql rh-php70-php-bcmath \
                   rh-php70-php-gd rh-php70-php-intl rh-php70-php-ldap rh-php70-php-mbstring rh-php70-php-pdo \
                   rh-php70-php-process rh-php70-php-soap rh-php70-php-opcache rh-php70-php-xml \
                   rh-php70-php-gmp" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
+    yum install -y --enable rhel-server-rhscl-7-rpms --enable rhel-7-server-optional-rpms --setopt=tsflags=nodocs $INSTALL_PKGS
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum -y install rubygem-asciidoctor
 RUN yum clean all -y
