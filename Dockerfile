@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/rhscl/php-70-rhel7
+FROM registry.access.redhat.com/rhscl/php-56-rhel7
 
 MAINTAINER Christian Hernandez <chernand@redhat.com>
 
