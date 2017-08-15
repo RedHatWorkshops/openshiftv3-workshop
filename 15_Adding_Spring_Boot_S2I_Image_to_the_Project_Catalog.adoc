@@ -116,4 +116,4 @@ tell your openshift cluster administrator. +
 *Answer* The cluster administrator will add the image to the `openshift`
 project and everyone will start seeing it.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

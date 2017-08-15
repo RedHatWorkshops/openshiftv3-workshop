@@ -222,4 +222,4 @@ concurrently, each with a unique service.
 * All that is needed to expose any of the applications is to change the
 service being used by the route to publicly advertise the application.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

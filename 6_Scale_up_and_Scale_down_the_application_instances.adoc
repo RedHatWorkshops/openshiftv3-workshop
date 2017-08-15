@@ -252,4 +252,4 @@ image:images/scale_down.jpg[image] twice to remove 2 running pods.
 Congratulations!! In this exercise you have learned about scaling and
 how to scale up/down your application on OpenShift!
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

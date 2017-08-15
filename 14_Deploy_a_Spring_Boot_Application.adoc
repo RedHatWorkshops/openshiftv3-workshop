@@ -76,4 +76,4 @@ Test your application by using the hostname assigned in the route.
 Congratulations!! You are now running a SpringBoot application on
 OpenShift.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

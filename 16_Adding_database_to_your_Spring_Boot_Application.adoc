@@ -341,4 +341,4 @@ application and also to pass configuration information using ConfigMaps.
 In the next lab, we will learn to use ConfigMaps to dynamically update
 the configuration without restarting the pod!!
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

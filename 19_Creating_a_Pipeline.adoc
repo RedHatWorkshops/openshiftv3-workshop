@@ -187,4 +187,4 @@ understand how to create a pipeline that goes across multiple projects.
 Congratulations!! In this lab, you have learnt how to set up and run
 your own CI/CD pipeline on OpenShift.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

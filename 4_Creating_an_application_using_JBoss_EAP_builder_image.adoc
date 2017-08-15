@@ -341,4 +341,4 @@ Congratulations! In this exercise you have learned how to create, build
 and deploy a JBoss EAP application using OpenShift’s JBoss EAP Builder
 Image.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

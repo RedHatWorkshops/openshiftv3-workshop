@@ -105,4 +105,4 @@ Console.
 
 Spend a few minutes and familiarize using Web Console.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

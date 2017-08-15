@@ -112,4 +112,4 @@ Verify by visiting your page by using the `https://` URI
 Congratulations!! In this exercise you have learned about service SSL
 from your application
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]

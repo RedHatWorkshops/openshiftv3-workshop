@@ -368,4 +368,4 @@ Wednesday 1st of July 2015 01:12:20 AM
 Congratulations!! In this exercise you have learnt how to create, build
 and deploy an application using OpenShift’s ``Docker Build strategy''.
 
-link:README.adoc[Table Of Contents]
+link:0_toc.adoc[Table Of Contents]
