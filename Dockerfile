@@ -2,6 +2,7 @@ FROM registry.access.redhat.com/rhscl/php-70-rhel7
 
 USER root:0
 
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum -y install rubygem-asciidoctor
 
 ADD images /opt/app-root/src/
