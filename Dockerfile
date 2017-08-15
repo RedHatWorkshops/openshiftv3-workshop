@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/rhscl/php-70-rhel7
 
-USER 0
+USER root:0
 
 RUN yum -y install rubygem-asciidoctor
 
