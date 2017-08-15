@@ -57,11 +57,11 @@ LABEL io.k8s.description="S2I builder for hosting files with Apache HTTPD server
 # to the 'root' group (gid=0) so they can be updated if necessary, such
 # as would occur if using 'oc rsync' to copy files into a container.
 
-ADD images /opt/app-root/src/
-ADD *.adoc /opt/app-root/src/
-RUN sed -e 's/\.adoc/\.html/g' /opt/app-root/src/0_toc.adoc > /opt/app-root/src/index.adoc
-RUN asciidoctor /opt/app-root/src/*.adoc -D /opt/app-root/src/
-RUN rm -rf /opt/app-root/src/*.adoc
+ADD images /opt/app-root/htdocs/images
+ADD *.adoc /opt/app-root/htdocs/
+RUN sed -e 's/\.adoc/\.html/g' /opt/app-root/htdocs/0_toc.adoc > /opt/app-root/htdocs/index.adoc
+RUN asciidoctor /opt/app-root/htdocs/*.adoc -D /opt/app-root/htdocs/
+RUN rm -rf /opt/app-root/htdocs/*.adoc
 
 RUN chown -R 1001:0 /opt/app-root && \
     find ${HOME} -type d -exec chmod g+ws {} \;
