@@ -92,7 +92,6 @@ $ oc logs pod/ks-1-build
 [INFO] ------------------------------------------------------------------------
 [INFO] Building JBoss AS Quickstarts: kitchensink 7.1.1-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
-....
 
 [INFO] Packaging webapp
 [INFO] Assembling webapp [jboss-kitchensink] in [/home/jboss/source/target/jboss-kitchensink]
