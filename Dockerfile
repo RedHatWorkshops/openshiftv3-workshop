@@ -1,5 +1,7 @@
 FROM registry.access.redhat.com/rhscl/php-70-rhel7
 
+MAINTAINER Christian Hernandez <chernand@redhat.com>
+
 USER root:0
 
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
