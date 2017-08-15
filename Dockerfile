@@ -1,70 +1,77 @@
-FROM registry.access.redhat.com/rhscl/php-70-rhel7
+FROM centos:centos7
 
-MAINTAINER Christian Hernandez <chernand@redhat.com>
+# Install any required system packages. We need the Apache httpd web
+# server in this instance, plus the 'rsync' package so we can copy
+# files into the running container if necessary.
 
-USER root:0
+RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
+    yum install -y centos-release-scl scl-utils && \
+    PACKAGES="httpd24 httpd24-httpd-devel httpd24-mod_auth_kerb httpd24-mod_ldap httpd24-mod_session rsync" && \
+    yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus ${PACKAGES} && \
+    yum -y install --setopt=tsflags=nodocs --enablerepo=centosplus https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum -y install --setopt=tsflags=nodocs --enablerepo=centosplus rubygem-asciidoctor && \
+    rpm -V ${PACKAGES} && \
+    yum clean all -y
 
-ENV PHP_VERSION=7.0 \
-    PATH=$PATH:/opt/rh/rh-php70/root/usr/bin
+# Create a non root account called 'default' to be the owner of all the
+# files which the Apache httpd server will be hosting. This account
+# needs to be in group 'root' (gid=0) as that is the group that the
+# Apache httpd server would use if the container is later run with a
+# unique user ID not present in the host account database, using the
+# command 'docker run -u'.
 
-ENV SUMMARY="Platform for building and running PHP $PHP_VERSION applications" \
-    DESCRIPTION="PHP $PHP_VERSION available as docker container is a base platform for \
-building and running various PHP $PHP_VERSION applications and frameworks. \
-PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers \
-to write dynamically generated web pages. PHP also offers built-in database integration \
-for several commercial and non-commercial database management systems, so writing \
-a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding \
-is probably as a replacement for CGI scripts."
+ENV HOME=/opt/app-root
 
-LABEL summary="$SUMMARY" \
-      description="$DESCRIPTION" \
-      io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="Apache 2.4 with PHP 7.0" \
+RUN mkdir -p ${HOME} && \
+    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
+            -c "Default Application User" default
+
+# Modify the default Apache configuration to listen on a non privileged
+# port of 8080 and log everything to stdout/stderr. Also include our own
+# configuration file so we can override other configuration.
+
+RUN mkdir -p ${HOME}/htdocs && \
+    sed -ri -e 's/^Listen 80$/Listen 8080/' \
+            -e 's%"logs/access_log"%"/proc/self/fd/1"%' \
+            -e 's%"logs/error_log"%"/proc/self/fd/2"%' \
+            /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf && \
+    echo "Include ${HOME}/httpd.conf" >> /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+
+COPY openshift/httpd.conf ${HOME}/httpd.conf
+
+EXPOSE 8080
+
+# Copy into place S2I builder scripts, the run script, and label the Docker
+# image so that the 's2i' program knows where to find them.
+
+COPY openshift/s2i ${HOME}/s2i
+COPY openshift/run ${HOME}/run
+
+LABEL io.k8s.description="S2I builder for hosting files with Apache HTTPD server" \
+      io.k8s.display-name="Apache HTTPD Server" \
       io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,php,php70,rh-php70" \
-      name="rhscl/php-70-rhel7" \
-      com.redhat.component="rh-php70-docker" \
-      version="7.0" \
-      release="5.0"
+      io.openshift.tags="builder,httpd" \
+      io.openshift.s2i.scripts-url="image://${HOME}/s2i/bin"
 
-# Install Apache httpd and PHP
-# To use subscription inside container yum command has to be run first (before yum-config-manager)
-# https://access.redhat.com/solutions/1443553
-RUN yum repolist > /dev/null  && \
-    INSTALL_PKGS="rh-php70 rh-php70-php rh-php70-php-mysqlnd rh-php70-php-pgsql rh-php70-php-bcmath \
-                  rh-php70-php-gd rh-php70-php-intl rh-php70-php-ldap rh-php70-php-mbstring rh-php70-php-pdo \
-                  rh-php70-php-process rh-php70-php-soap rh-php70-php-opcache rh-php70-php-xml \
-                  rh-php70-php-gmp" && \
-    yum install -y --enable rhel-server-rhscl-7-rpms --enable rhel-7-server-optional-rpms --setopt=tsflags=nodocs $INSTALL_PKGS
-RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-RUN yum -y install rubygem-asciidoctor
-RUN yum clean all -y
-
-# Copy extra files to the image.
-COPY ./root/ /
+# Fixup all the directories under the account so they are group writable
+# to the 'root' group (gid=0) so they can be updated if necessary, such
+# as would occur if using 'oc rsync' to copy files into a container.
 
 ADD images /opt/app-root/src/
 ADD *.adoc /opt/app-root/src/
-
+RUN sed -e 's/\.adoc/\.html/g' /opt/app-root/src/0_toc.adoc > /opt/app-root/src/index.adoc
 RUN asciidoctor /opt/app-root/src/*.adoc -D /opt/app-root/src/
 RUN rm -rf /opt/app-root/src/*.adoc
 
-# In order to drop the root user, we have to make some directories world
-# writeable as OpenShift default security model is to run the container under
-# random UID.
-RUN sed -i -f /opt/app-root/etc/httpdconf.sed /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf && \
-    sed -i '/php_value session.save_path/d' /opt/rh/httpd24/root/etc/httpd/conf.d/rh-php70-php.conf && \
-    head -n151 /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf | tail -n1 | grep "AllowOverride All" || exit && \
-    echo "IncludeOptional /opt/app-root/etc/conf.d/*.conf" >> /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf && \
-    mkdir /tmp/sessions && \
-    chown -R 1001:0 /opt/app-root /tmp/sessions && \
-    chmod -R a+rwx /tmp/sessions && \
-    chmod -R ug+rwx /opt/app-root && \
-    chmod -R a+rwx /etc/opt/rh/rh-php70 && \
-    chmod -R a+rwx /opt/rh/httpd24/root/var/run/httpd
+RUN chown -R 1001:0 /opt/app-root && \
+    find ${HOME} -type d -exec chmod g+ws {} \;
+
+# Ensure container runs as non root account from its home directory.
+
+WORKDIR ${HOME}
 
 USER 1001
 
-EXPOSE 8080
-ENTRYPOINT ["httpd"]
-CMD ["-D", "FOREGROUND"]
+# Set the Apache httpd server to be run when the container is run.
+
+CMD [ "/opt/app-root/run" ]

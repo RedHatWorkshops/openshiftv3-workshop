@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Enable SCL Apache HTTPD server package.
+
+source scl_source enable httpd24
+
+# Ensure we run the Apache HTTPD server as process ID 1 and in foreground.
+
+exec httpd -DFOREGROUND
