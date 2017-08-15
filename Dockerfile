@@ -63,7 +63,6 @@ RUN for i in $(ls -1 /opt/app-root/htdocs/*_*.adoc | grep -v 0_toc); do sed -i '
 RUN sed -e 's/\.adoc/\.html/g' /opt/app-root/htdocs/0_toc.adoc > /opt/app-root/htdocs/index.adoc
 RUN asciidoctor /opt/app-root/htdocs/*.adoc -D /opt/app-root/htdocs/
 RUN rm -rf /opt/app-root/htdocs/*.adoc
-RUN echo ${MYVAR}
 
 RUN chown -R 1001:0 /opt/app-root && \
     find ${HOME} -type d -exec chmod g+ws {} \;
