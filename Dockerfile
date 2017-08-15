@@ -4,6 +4,7 @@ MAINTAINER Christian Hernandez <chernand@redhat.com>
 
 USER root:0
 
+RUN yum -y update
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum -y install rubygem-asciidoctor
 
