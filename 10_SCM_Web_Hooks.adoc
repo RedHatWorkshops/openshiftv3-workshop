@@ -195,4 +195,4 @@ deployments of applications using OpenShift and GitHub Web Hook
 triggers. It should be noted that OpenShift also supports Generic Web
 Hooks.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

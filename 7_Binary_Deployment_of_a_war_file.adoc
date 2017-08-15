@@ -170,4 +170,4 @@ route "myapp" exposed
 
 You can use the route to access the application using the URL.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

@@ -69,4 +69,4 @@ a new build configuration.
 
 image:images/green_app.jpg[image]
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

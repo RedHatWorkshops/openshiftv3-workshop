@@ -63,4 +63,4 @@ To login to a remote server use:
 $ oc login <hostname>:<port>
 ----
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

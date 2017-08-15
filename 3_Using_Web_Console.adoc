@@ -105,4 +105,4 @@ Console.
 
 Spend a few minutes and familiarize using Web Console.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

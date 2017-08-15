@@ -277,4 +277,4 @@ configured this frontend application to access the database using a
 service, in this case, the ``mysql'' service. The frontend is made
 accessible using a route for which you gave a URL.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

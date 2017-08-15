@@ -149,4 +149,4 @@ repository.
 
 You can repeat a few more changes and enjoy the rsync!!!
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

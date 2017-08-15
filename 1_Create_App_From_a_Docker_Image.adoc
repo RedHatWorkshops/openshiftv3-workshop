@@ -180,4 +180,4 @@ Congratulations!! You now know how to create a project, an application
 using an external docker image and navigate around. Get ready for more
 fun stuff!
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

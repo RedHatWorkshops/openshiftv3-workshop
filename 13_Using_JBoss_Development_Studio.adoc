@@ -93,4 +93,4 @@ image:images/jboss_install_12.jpg[image]
 
 image:images/jboss_install_13.jpg[image]
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

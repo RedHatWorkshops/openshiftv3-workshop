@@ -220,4 +220,4 @@ application.properties were dynamically updated.
 *Summary:* In this lab, we have learnt the ConfigMap’s flexibility and
 how it allows dynamic updates to the pod configuration.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]

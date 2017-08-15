@@ -129,4 +129,4 @@ for complete understanding.
 Congratulations!! you now know how to promote your application across
 environments in OpenShift 3.
 
-link:index.html[Table Of Contents]
+link:README.adoc[Table Of Contents]
