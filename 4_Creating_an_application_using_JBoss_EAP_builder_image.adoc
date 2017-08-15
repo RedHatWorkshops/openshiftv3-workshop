@@ -1,72 +1,90 @@
-## Creating an application using JBoss EAP builder image
+[[creating-an-application-using-jboss-eap-builder-image]]
+Creating an application using JBoss EAP builder image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this exercise we will learn how to create an application using source code and the JBoss EAP builder image.
+In this exercise we will learn how to create an application using source
+code and the JBoss EAP builder image.
 
-**Step 1: Create a project or use an existing project**
+*Step 1: Create a project or use an existing project*
 
-If you want to, you can create a new project based on what you have learned in previous labs. Or you can create a new project for JBoss Applications.
+If you want to, you can create a new project based on what you have
+learned in previous labs. Or you can create a new project for JBoss
+Applications.
 
-**Remember** to replace the username before running the command.
+*Remember* to replace the username before running the command.
 
-````
+....
 $ oc new-project myjbossapp-UserName --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
-````
+....
 
-**Step 2: Create an application that uses the JBoss EAP builder image**
+*Step 2: Create an application that uses the JBoss EAP builder image*
 
-We will be using a sample application called "Kitchensink" (found [here](https://github.com/RedHatWorkshops/kitchensink)). Taking that source-code; we will use the JBoss ImageStream (or the builder image) to assemble our application.
+We will be using a sample application called ``Kitchensink'' (found
+https://github.com/RedHatWorkshops/kitchensink[here]). Taking that
+source-code; we will use the JBoss ImageStream (or the builder image) to
+assemble our application.
 
-Open the browser and select your new project **My JBoss Applications**.
+Open the browser and select your new project *My JBoss Applications*.
 
-Click into **Add to Project** button.
+Click into *Add to Project* button.
 
-In the search text box type `jboss-eap64-openshift` and select the latest version tag for this builder image (at the moment of creation this lab it is `jboss-eap64-openshift:1.4`).
+In the search text box type `jboss-eap64-openshift` and select the
+latest version tag for this builder image (at the moment of creation
+this lab it is `jboss-eap64-openshift:1.4`).
 
 Fill the fields with the following information:
 
-```
+....
 Name: ks
 Git Repository URL: https://github.com/RedHatWorkshops/kitchensink
-```
+....
 
-Click on the blue link that says: **Show advanced routing, build, and deployment options**.
+Click on the blue link that says: *Show advanced routing, build, and
+deployment options*.
 
-On **Build Configuration** add a new *Environment Variable*.
+On *Build Configuration* add a new _Environment Variable_.
 
-```
+....
 name: MAVEN_MIRROR_URL
 value: <nexus_url>/repository/maven-public/
 
 Ex:-   http://nexus-ci.cloudapps.chicago.openshift3roadshow.com/repository/maven-public/
-```
-**REMEMBER:** Check with your instructor the proper URL for the Nexus repository.
+....
 
-![image](images/nexus_repo.png)
+*REMEMBER:* Check with your instructor the proper URL for the Nexus
+repository.
 
-Click on **Create** and then on **Continue to overview**.
+image:images/nexus_repo.png[image]
 
-**Step 3: Build**
+Click on *Create* and then on *Continue to overview*.
 
-Give it some seconds and you will see OpenShift starts the build process for you. You can view the list of builds using `oc get builds` command.
+*Step 3: Build*
 
-```
+Give it some seconds and you will see OpenShift starts the build process
+for you. You can view the list of builds using `oc get builds` command.
+
+....
 $ oc get builds
 
 NAME      TYPE      FROM          STATUS     STARTED         DURATION
 ks-1      Source    Git@50ea6f4   Complete   2 minutes ago   24s
-```
+....
 
-Note the name of the build that is running i.e. `ks-1`. We will use that name to look at the build logs. Run the command as shown below to look at the build logs. This will run for a few mins. At the end you will notice that the docker image is successfully created and it will start pushing this to OpenShift's internal docker registry.
+Note the name of the build that is running i.e. `ks-1`. We will use that
+name to look at the build logs. Run the command as shown below to look
+at the build logs. This will run for a few mins. At the end you will
+notice that the docker image is successfully created and it will start
+pushing this to OpenShift’s internal docker registry.
 
-
-```
+....
 $oc get pods
 NAME         READY     STATUS    RESTARTS   AGE
 ks-1-build   1/1       Running   0          11m
-```
+....
+
 We can check the logs by executing the following command:
 
-```
+....
 $ oc logs pod/ks-1-build
 
 
@@ -108,15 +126,22 @@ Pushed 4/6 layers, 82% complete
 Pushed 5/6 layers, 98% complete
 Pushed 6/6 layers, 100% complete
 Push successful
+....
 
-```
-You will notice that in the logs that not only does it copy your source code to the builder image, but it also does a `maven` build to compile your code as well. Also, in the above log, note how the image is pushed to the local docker registry. The registry is running at `172.30.89.28` at port `5000`.
+You will notice that in the logs that not only does it copy your source
+code to the builder image, but it also does a `maven` build to compile
+your code as well. Also, in the above log, note how the image is pushed
+to the local docker registry. The registry is running at `172.30.89.28`
+at port `5000`.
 
-**Step 4: Deployment**
+*Step 4: Deployment*
 
-Once the image is pushed to the docker registry, OpenShift will trigger a deploy process. Let us also quickly look at the deployment configuration by running the following command. Note `dc` represents `deploymentconfig`.
+Once the image is pushed to the docker registry, OpenShift will trigger
+a deploy process. Let us also quickly look at the deployment
+configuration by running the following command. Note `dc` represents
+`deploymentconfig`.
 
-```
+....
 $ oc get dc ks -o json
 
 {
@@ -241,54 +266,63 @@ $ oc get dc ks -o json
         }
     }
 }
-```
-Note where the image is picked from. It shows that the deployment picks the image from the local registry (same ip address and port as in buildconfig) and the image tag is the same as what we built earlier. This means the deployment step deploys the application image what was built earlier during the build step.
+....
 
-If you get the list of pods, you'll notice that the application gets deployed quickly and starts running in its own pod.
+Note where the image is picked from. It shows that the deployment picks
+the image from the local registry (same ip address and port as in
+buildconfig) and the image tag is the same as what we built earlier.
+This means the deployment step deploys the application image what was
+built earlier during the build step.
 
-```
+If you get the list of pods, you’ll notice that the application gets
+deployed quickly and starts running in its own pod.
+
+....
 $ oc get pods
 
 NAME         READY     STATUS      RESTARTS   AGE
 ks-1-build   0/1       Completed   0          26m
 ks-1-ey7m2   1/1       Running     0          12m
-```
+....
 
-**Step 5: Adding route**
+*Step 5: Adding route*
 
-This step is very much the same as what we did in previous exercises. We will check the service and add a route to expose that service.
+This step is very much the same as what we did in previous exercises. We
+will check the service and add a route to expose that service.
 
-```
+....
 $ oc get service ks
 
 NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
 ks        172.30.201.90   <none>        8080/TCP,8443/TCP,8778/TCP   21m
-```
+....
+
 Route should be already created.
 
-```
+....
 $ oc get routes
 
 NAME      HOST/PORT                                                      PATH      SERVICES   PORT       TERMINATION
 ks        ks-myjbossapp-Username.apps.osecloud.com                                 ks         8080-tcp   
-```
+....
 
-If route does not show, we expose the service `ks` via the command below.
+If route does not show, we expose the service `ks` via the command
+below.
 
-```
+....
 $ oc expose service ks
 
 route "ks" exposed
-```
+....
 
 And now we can check the route uri.
 
+*Step 6: Run the application*
 
-**Step 6: Run the application**
+Now access the application by using the route you got in the previous
+step. You can use either curl or your browser.
 
-Now access the application by using the route you got in the previous step. You can use either curl or your browser.
-
-````
+....
 $ curl ks-myjbossapp-UserName.apps.osecloud.com
 
  <!-- Plain HTML page that kicks us into the app -->
@@ -297,11 +331,15 @@ $ curl ks-myjbossapp-UserName.apps.osecloud.com
 <meta http-equiv="Refresh" content="0; URL=index.jsf">
 </head>
 </html>
-````
+....
 
-Go to https://ks-myjbossapp-Username.apps.osecloud.com via your browser. Please replace your username with yours.
+Go to https://ks-myjbossapp-Username.apps.osecloud.com via your browser.
+Please replace your username with yours.
 
-![image](images/ks-myjbossapp.png)
+image:images/ks-myjbossapp.png[image]
 
+Congratulations! In this exercise you have learned how to create, build
+and deploy a JBoss EAP application using OpenShift’s JBoss EAP Builder
+Image.
 
-Congratulations! In this exercise you have learned how to create, build and deploy a JBoss EAP application using OpenShift's JBoss EAP Builder Image.
+link:index.html[Table Of Contents]

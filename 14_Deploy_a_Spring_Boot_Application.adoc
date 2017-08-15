@@ -1,20 +1,27 @@
-## Deploy a SpringBoot Application
+[[deploy-a-springboot-application]]
+Deploy a SpringBoot Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this exercise we will deploy a SpringBoot application using a custom source to image builder image.
+In this exercise we will deploy a SpringBoot application using a custom
+source to image builder image.
 
-**Step 1:**
-Using the knowledge you gained from the earlier labs create a new project with name `spring-UserName`.
-**Remember** to substitute the `UserName` with your userid.
+*Step 1:* Using the knowledge you gained from the earlier labs create a
+new project with name `spring-UserName`. *Remember* to substitute the
+`UserName` with your userid.
 
-**Step 2:**
-Create a new application using SpringBoot S2I Builder image. Here we will deploy sample code from a git repository [https://github.com/RedHatWorkshops/spring-sample-app](https://github.com/RedHatWorkshops/spring-sample-app). Please take time to understand the code; it is pretty simple.
+*Step 2:* Create a new application using SpringBoot S2I Builder image.
+Here we will deploy sample code from a git repository
+https://github.com/RedHatWorkshops/spring-sample-app. Please take time
+to understand the code; it is pretty simple.
 
-You may want to clone this into your git repository and deploy that, if you want to make changes and test.
+You may want to clone this into your git repository and deploy that, if
+you want to make changes and test.
 
-**Note:** We are using an S2I builder image from docker directly. This S2I builder image was created using this Dockerfile. [https://github.com/codecentric/springboot-maven3-centos/blob/master/Dockerfile]()
+*Note:* We are using an S2I builder image from docker directly. This S2I
+builder image was created using this Dockerfile.
+link:[https://github.com/codecentric/springboot-maven3-centos/blob/master/Dockerfile]
 
-
-```
+....
 $ oc new-app veermuchandi/spring-mvn-base~https://github.com/RedHatWorkshops/spring-sample-app --name=bootapp
 --> Found Docker image c3ddd9e (7 days old) from Docker Hub for "veermuchandi/spring-mvn-base"
 
@@ -41,28 +48,32 @@ $ oc new-app veermuchandi/spring-mvn-base~https://github.com/RedHatWorkshops/spr
 --> Success
     Build scheduled, use 'oc logs -f bc/bootapp' to track its progress.
     Run 'oc status' to view your app.
-```
+....
 
 Expose Service to create a route
 
-```
+....
 $ oc expose service bootapp
 route "bootapp" exposed
-
-```
+....
 
 Check the route
 
-```
+....
 $ oc get route
 NAME      HOST/PORT                                      PATH      SERVICES   PORT       TERMINATION
 bootapp   bootapp-spring-UserName.apps.devday.ocpcloud.com             bootapp    8080-tcp   
-```
+....
 
-Wait for your application to be built and deployed. Using the knowlege you gained from the previous labs, check your build logs by running `oc logs -f <build pod name>`
+Wait for your application to be built and deployed. Using the knowlege
+you gained from the previous labs, check your build logs by running
+`oc logs -f <build pod name>`
 
-**Step 3**
+*Step 3*
 
 Test your application by using the hostname assigned in the route.
 
-Congratulations!! You are now running a SpringBoot application on OpenShift.
+Congratulations!! You are now running a SpringBoot application on
+OpenShift.
+
+link:index.html[Table Of Contents]
