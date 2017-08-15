@@ -4,8 +4,8 @@ MAINTAINER Christian Hernandez <chernand@redhat.com>
 
 USER root:0
 
-RUN yum -y --enablerepo=rhel-server-rhscl-7-rpms update
-RUN yum -y --enablerepo=rhel-server-rhscl-7-rpms update httpd24 httpd24-*
+RUN yum -y --enablerepo=rhel-server-rhscl-7-rpms --enablerepo=rhel-7-server-optional-rpms update
+RUN yum -y --enablerepo=rhel-server-rhscl-7-rpms --enablerepo=rhel-7-server-optional-rpms update httpd24 httpd24-*
 RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum -y install rubygem-asciidoctor
 
