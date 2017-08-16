@@ -1,0 +1,119 @@
+[[adding-spring-boot-s2i-image-to-the-project-catalog]]
+Adding Spring Boot S2I Image to the Project Catalog
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the last lab to
+link:14.%20Deploy%20a%20Spring%20Boot%20Application.md[deploy a spring
+boot application], we used the S2I image directly from a docker registry
+that is outside OpenShift environment. The Spring Boot image was not in
+the catalog. In this lab, we will learn how to add the Spring Boot image
+to the project catalog so that you can deploy the application directly
+from your screen.
+
+*Step 1:* Clean up the project that you created in the last lab.
+
+Ensure you are in the right project by running `oc project` command. If
+not, change your project by running `oc project spring-UserName`,
+*replacing* the UserName with your own userid.
+
+Clean up the contents of this project:
+
+....
+oc delete all --all
+....
+
+Verify that all the contents are gone by running `oc get all`
+
+*Step 2:* Add the Spring Boot image stream.
+
+We will use the image stream from the file
+link:[https://github.com/VeerMuchandi/openshift-springboot/blob/master/springboot-imagestream.json].
+Please go through the contents of this file.
+
+....
+{
+    "kind": "ImageStream",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "springboot"
+    },
+    "spec": {
+        "tags": [
+            {
+                "name": "latest",
+                "annotations": {
+                    "description": "Spring Boot S2I Image CentOS based",
+                    "iconClass": "icon-jboss",
+                    "tags": "builder,springboot,java,maven",
+                    "supports": "springboot,java:8,maven",
+                    "version": "1.0"
+                },
+            "from": {
+              "kind": "DockerImage",
+              "name": "docker.io/veermuchandi/spring-mvn-base:latest"
+            }
+            }
+        ]
+    }
+}
+....
+
+Notice, that this json points to the Spring Boot S2I builder Image on
+docker hub. Also note the tags used in this imagestream. The tag
+`builder` will display this in the catalog.
+
+You have two ways to add this to the catalog. 1. Add from command line
+2. Add using the web console
+
+'''''
+
+To add using CLI run the `oc create` command as under -
+
+....
+$ oc create -f https://raw.githubusercontent.com/VeerMuchandi/openshift-springboot/master/springboot-imagestream.json
+imagestream "springboot" created
+....
+
+Check by running `oc get is`
+
+You can also search your spring boot image by running the following
+command
+
+....
+$ oc new-app --search springboot
+Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
+-----
+springboot
+  Project: springtest2
+  Tags:    latest
+....
+
+'''''
+
+To add using the web console, select `Add to Project`, and then
+`Import YAML/JSON` tab on the top. Then you can copy paste the above
+imagestream contents into the text box and press `Create` button.
+
+*Step 3*
+
+Now it is time to create your application. Press on `Add to Project`
+button on the web console. This will take you to `Browse Catalog`. You
+will start seeing `springboot` listed in the catalog. If you have
+trouble finding it, type _spring_ in the filter box, and you should find
+it.
+
+Now use that S2I image to deploy your sample spring boot application
+link:[https://github.com/RedHatWorkshops/spring-sample-app] on OpenShift
+using your experience from the previous labs.
+
+Congratulations!! you have learnt to make an image stream available in
+your project.
+
+*If you got a question in mind* - _Well how can I make this image
+available for everyone?_ Pat yourself on your back.. or ask your
+colleague to do it ;). You are thinking right. All you need to do is
+tell your openshift cluster administrator. +
+*Answer* The cluster administrator will add the image to the `openshift`
+project and everyone will start seeing it.
+
+link:0_toc.adoc[Table Of Contents]
