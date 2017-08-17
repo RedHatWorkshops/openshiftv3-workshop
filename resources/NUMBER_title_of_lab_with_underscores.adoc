@@ -1,5 +1,5 @@
-[[heading-one-shortname]]
-Heading One - Lab Name
+[[main-heading-shortname]]
+Main Heading - Lab Name
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The purpose of this short lab is to demonstrate how...
@@ -16,6 +16,7 @@ In this Lab, we will be:
 [[subheading-shortnames]]
 Subheading
 ^^^^^^^^^^
+
 
 *Step 1: Discription*
 
@@ -65,6 +66,6 @@ image:images/image_name.png[image]
 Summary
 ^^^^^^^
 
-Summary are here
+Summary goes here
 
 link:0_toc.adoc[Table Of Contents]
