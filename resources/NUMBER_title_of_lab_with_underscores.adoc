@@ -12,11 +12,10 @@ In this Lab, we will be:
 * Item x
 * Item x
 
-image:images/blue_green_deployment.png[image]
 
 [[subheading-shortnames]]
 Subheading
-^^^^^^
+^^^^^^^^^^
 
 *Step 1: Discription*
 
@@ -36,87 +35,36 @@ COMMANDS
 COMMANDS
 ....
 
-[[part-ii]]
-Subheadding
-~~~~~~~
+image:images/image_name.png[image]
 
-In this part, we will:
+[[subheading-shortnames]]
+Subheading
+^^^^^^^^^^
 
-* Deploy a new version of this application (Same one as before with a
-very small change)
-* Point the previously created FQDN (route) to the new service that will
-be created as part of the new application creation process.
-
-image:images/blue_green_active_green.png[image]
-
-*Step 1: Create new version of the application*
-
-Create a new application the same way as you did above in Part I. Make
-sure to name the application as `green' this time.
+*Step 1: Discription*
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=green --name=green
+COMMANDS
 ....
 
-* Wait until the application is built and deployed. You should now see
-two services if you run:
+*Step 2: Discription*
 
 ....
-$ oc get service
-
-NAME      CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-blue      172.30.2.161     <none>        8080/TCP   24m
-green     172.30.136.184   <none>        8080/TCP   1m
+COMMANDS
 ....
 
-* Edit the previously created route and change the `service` name (from
-`blue` to `green`), all the way at the bottom to the new service that
-was just created. You are essentially still using the FQDN you had
-previously created. However, that route will now point to a different
-(green) service.
+*Step X: Discription*
 
 ....
-$ oc edit route bluegreen
-
-apiVersion: v1
-kind: Route
-metadata:
-  creationTimestamp: 2015-12-22T19:16:28Z
-  labels:
-    app: green
-  name: bluegreen
-  namespace: bluegreen-UserName
-  resourceVersion: "2969408"
-  selfLink: /oapi/v1/namespaces/bluegreen-UserName/routes/bluegreen
-  uid: 80829b59-a8e0-11e5-be21-fa163ec58dad
-spec:
-  host: bluegreen.UserName.apps.osecloud.com
-  port:
-    targetPort: "8080"
-  to:
-    kind: Service
-    name: green
-status: {}
+COMMANDS
 ....
 
-*Step 2: Test the application*
-
-....
-$ oc get route
-....
-
-* Copy the HOST/PORT and paste it in your browser.
-* You should now see the new version of the recently deployed
-application with a green rectangle.
+image:images/image_name.png[image]
 
 [[summary]]
 Summary
-~~~~~~~
+^^^^^^^
 
-* Blue-Green deployments can be easily accomplished in OpenShift v3.
-* We have shown multiple versions of an application; all running
-concurrently, each with a unique service.
-* All that is needed to expose any of the applications is to change the
-service being used by the route to publicly advertise the application.
+Summary are here
 
 link:0_toc.adoc[Table Of Contents]
