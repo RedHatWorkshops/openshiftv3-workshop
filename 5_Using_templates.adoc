@@ -40,16 +40,15 @@ parameters and edit the values to use the following values:
 
 ....
 Database Service Name: mysql
-MySQL Connection Username: mysqluser
-MySQL Connection Password: supersecret
-MySQL Database Name: sample
+MySQL Connection Username: pricelist
+MySQL Connection Password: pricelist
+MySQL Database Name: pricelist
 ....
 
 In the next section you can add the label:
 
 ....
-name=name
-value=mysql
+app=pricelist
 ....
 
 Click the *Create* button.
@@ -65,7 +64,7 @@ an image of a running pod.
 
 image:images/mysql_pod_on_proj_overview.png[image]
 
-If pod does not show running, Click *Applications* and select
+pass:[<u>*IF*</u] pod does not show running, Click *Applications* and select
 *Deployments*, do the following:
 
 1.  Click onto `mysql` deployments config
@@ -85,104 +84,17 @@ default it exposes `3306`.
 
 image:images/mysql_service.png[image]
 
-*Step 3: Add data to MySQL database*
-
-Let us see how we can enter the pod and access the database.
-
-From the command line, change the project to the
-``consoleproject-UserName'' using the following command:
-
-*Remember* to substitute your username.
-
-....
- oc project consoleproject-UserName
-....
-
-Based on what you learned previously get the list of running pods (Tip:
-`oc get pods`). You will find one pod for mysql running. Take a note of
-it’s name.
-
-Enter the pod by running the following command. Substitute the pod name
-with your mysql pod name.
-
-....
-$ oc rsh mysql-1-aewve
-
-bash-4.2$
-....
-
-You will be taken to a bash prompt inside the running pod. Now using the
-service ip address you noted earlier, port number, username and password
-you used start the mysql client as shown below. You will have to
-substitute your values here.
-
-_Tip:_ If you need service ip address navigate to
-*Applications->Services* tab on the Web Console.
-
-....
-mysql -h127.0.0.1 -P3306 -umysqluser -psupersecret
-....
-
-You will be taken to the `mysql` prompt. See the list of databases. You
-will notice that the sample database that you requested is added and
-available.
-
-....
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| sample             |
-+--------------------+
-2 rows in set (0.00 sec)
-....
-
-Change over to use the `sample` database.
-
-....
-mysql> use sample;
-Database changed
-....
-
-Now `show tables` shows an empty set. So let us create a table and add
-some records using the commands shown below.
-
-Create the table:
-
-[source,sql]
-----
-create table users (user_id int not null auto_increment, username varchar(200),PRIMARY KEY(user_id));
-----
-
-Now we add some data:
-
-[source,sql]
-----
-insert into users values (null, 'joe');
-insert into users values (null, 'alice');
-----
-
-Verify that the records you added are there
-
-[source,sql]
-----
-select * from users;
-----
-
-Now `exit` MySQL client and `exit` out of the pod.
-
-*Step 4: Add a PHP frontend to talk to this database*
+*Step 3: Add a PHP frontend to talk to this database*
 
 In this step we will add a PHP frontend application that talks to
-recently create database. The code is available on github to use at
-https://github.com/VeerMuchandi/dbtest.
+recently created database. The code is available on github at
+https://github.com/RedHatWorkshops/php-pricelist
 
-Browse through the code in this repository. It has a simple php file
-(`dbtest.php`) that connects to the database and reads the values from
-the users table and displays them.
+Browse through the code in this repository. If you take a look at the
+link:https://raw.githubusercontent.com/RedHatWorkshops/php-pricelist/master/config/database.php[database configuration] file (`config/database.php`) you will see that
+it reads the values from environment varables.
 
-To add a frontend again click on *Add to Project* to spin up a frontend
+To add a frontend again click on *Add to Project -> Browse Catalog* to spin up a frontend
 application in the same *consoleproject-UserName*. It takes you to
 select image or template page and choose the *PHP* template under PHP
 apps.
@@ -192,8 +104,8 @@ image:images/php.png[image]
 Enter the following values for each parameters:
 
 ....
-* Name: dbtest
-* Git Repository URL: https://github.com/VeerMuchandi/dbtest
+* Name: pricelist
+* Git Repository URL: https://github.com/RedHatWorkshops/php-pricelist
 ....
 
 Click onto the link ``Show advanced routing, build, and deployment
@@ -205,8 +117,7 @@ image:images/dbtest_deployment_env.png[image]
 In the next section add a label:
 
 ....
-* name=name
-* value=dbtest
+* app=pricelist
 ....
 
 Click *Create* to add this frontend application to talk to the database.
@@ -216,11 +127,9 @@ image:images/cakephp_confirm.png[image]
 Click *Continue to overview*.
 
 You will be taken back to the Project Overview page and you will start
-seeing that a new service is now available and exposed as a route.
-
-image:images/dbtest_build.png[image]
-
-Click ``Group Service'' next to DB test and select ``mysql'' service.
+seeing that a new service is now available and exposed as a route. Since
+you labeled both frontend web and backend db as `app=pricelist` it will
+show as one application
 
 You will also notice that a build starts running very soon. Once the
 build completes, the application image created from the source code will
@@ -231,24 +140,20 @@ image:images/console_project_overview.png[image]
 You can check the build logs using the following command:
 
 ....
-$ oc logs build/dbtest-1
-
-Cloning "https://github.com/VeerMuchandi/dbtest.git" ...
-    Commit: 1bb0515221459a11ca2e7563dca903bb93d8150e (small change)
-    Author: VeerMuchandi <veer.muchandi@gmail.com>
-    Date:   Tue Jan 26 12:53:35 2016 -0500
-
+$ oc logs build/pricelist-1
+Cloning "https://github.com/RedHatWorkshops/php-pricelist" ...
+	Commit:	2aa50442e8432c48beedc1503cd3d05dcb834515 (Added db connection)
+	Author:	Christian Hernandez <christian.hernandez@yahoo.com>
+	Date:	Thu Jun 29 10:52:43 2017 -0700
 ---> Installing application source...
-
-
-Pushing image 172.30.89.28:5000/consoleproject-admin/dbtest:latest ...
-Pushed 0/5 layers, 7% complete
-Pushed 1/5 layers, 21% complete
-Pushed 2/5 layers, 41% complete
-Pushed 3/5 layers, 70% complete
-Pushed 3/5 layers, 99% complete
-Pushed 4/5 layers, 100% complete
-Pushed 5/5 layers, 100% complete
+Pushing image docker-registry.default.svc:5000/consoleproject-christian/pricelist:latest ...
+Pushed 0/6 layers, 2% complete
+Pushed 1/6 layers, 26% complete
+Pushed 2/6 layers, 42% complete
+Pushed 3/6 layers, 56% complete
+Pushed 4/6 layers, 75% complete
+Pushed 5/6 layers, 97% complete
+Pushed 6/6 layers, 100% complete
 Push successful
 ....
 
@@ -257,16 +162,77 @@ deployment is complete, the frontend pod starts running. You will find
 the running pod when you navigate to *Applications->Pods* on the Web
 console.
 
-Now type in your application url in the browser or use curl with
-`http://<<your application url>>/dbtest.php`
+Now use `curl` to run the database `bootstrap` script
+....
+$ oc project
+Using project "consoleproject-Username" on server "https://ocp.example.com:8443".
 
-You will notice that it displays the records read from the database
+$ curl -k http://$(oc get route/pricelist -o jsonpath='{.spec.host}')/create_database.php
+Array
+(
+    [0] => 00000
+    [1] =>
+    [2] =>
+)
 
 ....
-Hello All.. Here is the list of users:
-User Id: 1 User Name: joe
-User Id: 2 User Name: alice
-End of the list
+
+Go ahead and open your application. The URL will be displayed by `oc get route`
+
+....
+$ oc get route
+NAME        HOST/PORT                                                    PATH      SERVICES    PORT       TERMINATION   WILDCARD
+pricelist   pricelist-consoleproject-Username.apps.example.com 	                   pricelist   8080-tcp                 None
+....
+
+When you open your application, click on the "Create Record" button and create a record.
+Once you added a record, click on "Read Records". The page should look
+like this.
+
+image:images/application_create_screen.png[image]
+
+You can verify this by logging into the database using `oc rsh`
+
+....
+$ oc get pods
+NAME                READY     STATUS      RESTARTS   AGE
+mysql-1-rxnlp       1/1       Running     0          25m
+pricelist-1-build   0/1       Completed   0          13m
+pricelist-1-z55t2   1/1       Running     0          12m
+....
+
+Here you'll notice that the database pod is called `mysql-1-rxnlp`. Login
+to this pod using `oc rsh`
+
+....
+$ oc rsh mysql-1-rxnlp
+sh-4.2$
+....
+
+Run `mysql -u root pricelist` to login and run the query.
+....
+sh-4.2$ mysql -u root pricelist
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 326
+Server version: 5.7.16 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT * FROM products;
++----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
+| id | name      | description                                  | price | category_id | created             | modified            |
++----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
+| 14 | OpenShift | Build, deploy, and manage your applications! |  5000 |           4 | 2017-08-21 22:06:28 | 2017-08-21 22:06:28 |
++----+-----------+----------------------------------------------+-------+-------------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> \q
 ....
 
 In this lab exercise you have seen a complete web application deployed
