@@ -5,12 +5,14 @@ Blue-Green Deployments
 The purpose of this short lab is to demonstrate how simple it is to
 implement Blue-Green Deployments in OpenShift v3.
 
-``__Blue-green deployment is a release strategy that can be utilized by
+----
+Blue-green deployment is a release strategy that can be utilized by
 developers for deploying software in a production environment. Blue can
 be one particular production environment whereas green can define an
 identical production environment. Under blue-green deployment strategy,
-software developers are able to minimize downtime and reduce risk.__''
+software developers are able to minimize downtime and reduce risk.
 https://en.wikipedia.org/wiki/User:Nuqing/Blue-green_deployment[1*]
+----
 
 In this Lab, we will be:
 
@@ -122,7 +124,7 @@ $ oc get service
 *Remember* to substitute the username. Expose the service:
 
 ....
-$ oc expose service blue --hostname=bluegreen.UserName..<<DomainNameSuffix>> --name=bluegreen
+$ oc expose service blue --hostname=bluegreen.UserName.<<DomainNameSuffix>> --name=bluegreen
 ....
 
 *Step 8: Test the application*
@@ -212,6 +214,54 @@ $ oc get route
 * You should now see the new version of the recently deployed
 application with a green rectangle.
 
+[[part-iii]]
+Part III
+~~~~~~~
+
+You can route traffic to both services. This is also known as "cannary in a colemine". 
+
+*Step 1: Edit Your Route*
+Using the lefthand side navigation; click on *Applications -> Routes*. This will 
+bring you to the `Route` overview page.
+
+image:images/bg-routes-page.png[image]
+
+Here, click on the  `bluegreen` route. The page after will display the current configuration.
+On the upper right hand side, click on *Actions -> Edit*. You should see a page similar to
+this one.
+
+image:images/bg-edit-route.png[image]
+
+Next, tick on `Split traffic across multiple services`
+
+image:images/bg-slipt-traffic.png[image]
+
+Here, set the weight to 50% on blue and 50% on green. This will make it to where half the
+traffic will go to the green application and half to the blue application.
+
+image:images/bg-5050-split.png[image]
+
+Once you click on *Save*; you should see this on the Route Overview page.
+
+image:images/bg-route-split-overview.png[image]
+
+*Step 2: Test Your Settings*
+
+If you try and visit your application; you'll notice it won't "switch" over
+to the other application. This is because the default behavior is:
+
+* Sticky Session on the Router
+* Session Cookie set on the router
+
+To get "true" round robin; annotate your route with the following
+
+....
+oc annotate route/bluegreen haproxy.router.openshift.io/balance=roundrobin
+oc annotate route/bluegreen haproxy.router.openshift.io/disable_cookies=true
+....
+
+
+
 [[summary]]
 Summary
 ~~~~~~~
@@ -221,5 +271,6 @@ Summary
 concurrently, each with a unique service.
 * All that is needed to expose any of the applications is to change the
 service being used by the route to publicly advertise the application.
+* You can split traffic accross two services
 
 link:0_toc.adoc[Table Of Contents]
