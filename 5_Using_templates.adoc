@@ -22,7 +22,7 @@ Console. This will accomplish the same job as `oc new-project` from CLI.
 
 *Step 2: Create a MYSQL database using the template*
 
-Click on *Add to Project ~> Browse Catolog* button and you will be taken to select an
+Click on *Add to Project -> Browse Catolog* button and you will be taken to select an
 image or template. You will see the application create screen as shown
 below:
 
