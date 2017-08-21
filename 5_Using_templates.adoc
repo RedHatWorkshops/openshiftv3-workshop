@@ -108,8 +108,8 @@ Enter the following values for each parameters:
 * Git Repository URL: https://github.com/RedHatWorkshops/php-pricelist
 ....
 
-Click onto the link ``Show advanced routing, build, and deployment
-options'', go to Deployment Configuration section and enter the
+Click onto the link `Show advanced routing, build, and deployment
+options`, go to Deployment Configuration section and enter the
 following environment variables:
 
 image:images/dbtest_deployment_env.png[image]
