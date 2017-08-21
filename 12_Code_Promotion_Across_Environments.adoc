@@ -102,7 +102,10 @@ oc tag FullImageId development-UserName/myapp:promote-qa
 Check the following commands and replace the values where needed:
 
 ....
-$ oc tag docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf development-UserName/welcome-php:promote-qa
+$ oc tag \
+docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf \
+development-UserName/welcome-php:promote-qa
+
 Tag welcome-php:promote-qa set to docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf.
 
 
