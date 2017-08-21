@@ -19,7 +19,7 @@ $ oc new-project myjbossapp-UserName --display-name="My JBoss Applications" --de
 
 *Step 2: Create an application that uses the JBoss EAP builder image*
 
-We will be using a sample application called ``Kitchensink'' (found
+We will be using a sample application called `Kitchensink` (found
 https://github.com/RedHatWorkshops/kitchensink[here]). Taking that
 source-code; we will use the JBoss ImageStream (or the builder image) to
 assemble our application.
@@ -30,7 +30,7 @@ Click into *Add to Project* button.
 
 In the search text box type `jboss-eap64-openshift` and select the
 latest version tag for this builder image (at the moment of creation
-this lab it is `jboss-eap64-openshift:1.4`).
+this lab it is `jboss-eap64-openshift:1.5`).
 
 Fill the fields with the following information:
 
