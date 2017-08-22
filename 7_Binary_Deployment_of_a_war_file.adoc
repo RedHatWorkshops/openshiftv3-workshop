@@ -46,7 +46,7 @@ Create a war file and place it in deployments directory.
 As an example here we have a WAR file called `petstore.war` that we
 renamed to `ROOT.war` and placed in the deployments folder (you can
 download this example WAR file
-https://raw.githubusercontent.com/VeerMuchandi/ps/master/deployments/ROOT.war[here]).
+https://raw.githubusercontent.com/RedHatWorkshops/ps/master/deployments/ROOT.war[here]).
 
 ....
 $ ls -lR

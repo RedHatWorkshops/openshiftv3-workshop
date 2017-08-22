@@ -18,9 +18,11 @@ interface (OSE CLI)
 The OSE CLI exposes commands for managing applications, as well as
 lower-level tools to interact with each component of a system. The
 binaries for Mac, Windows, and Linux are available for download from the
-Red Hat Customer Portal via the following link:
+Red Hat Customer Portal via the following methods:
 
-Portal https://access.redhat.com/downloads/content/290
+* Supported Binary from the Red Hat Portal: https://access.redhat.com/downloads/content/290
+* Upstream Origin Binary: https://github.com/openshift/origin/releases
+* Past releases: https://mirror.openshift.com/pub/openshift-v3/clients
 
 *Installing the CLI tools*
 
@@ -29,7 +31,7 @@ directory. In order to make it simple for any user to access the OSE
 CLI, it is recommended that it is made available in a directory mapped
 to the environment variable called `PATH` from the OS. More information
 can be found about installation process here:
-https://docs.openshift.com/container-platform/3.3/cli_reference/get_started_cli.html
+https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
 
 1.  *OSX and Linux:*
 +

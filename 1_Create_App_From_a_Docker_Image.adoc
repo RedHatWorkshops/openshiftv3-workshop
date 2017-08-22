@@ -94,7 +94,8 @@ welcome-1-dkyyq   1/1       Running   0          56s
 *Step 3: Add a Route for your application*
 
 OpenShift also spins up a service for this application. Run the
-following command to view the list of services in the project.
+following command to view the list of services in the project (you
+can also use `oc get svc` shorthand).
 
 ....
 $ oc get services
