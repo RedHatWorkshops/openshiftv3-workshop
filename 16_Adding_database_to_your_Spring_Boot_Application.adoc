@@ -148,7 +148,7 @@ oc edit configmap app-props
 So far, we have created a ConfigMap in the project but your springboot
 application does not know how to use it.
 
-*Step 3: Edit Deployment Configuration *
+*Step 3: Edit Deployment Configuration*
 
 Now we will mount the ConfigMap so that the springboot application can
 use it. You can either edit from CLI or from WebConsole.
