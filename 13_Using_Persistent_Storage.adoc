@@ -196,10 +196,6 @@ pod "openshift-php-upload-demo-8-16dzg" deleted
 
 Log into the newly spunup pod and verify that your file is still there!
 
-...
-
-Log into the newly spunup pod and verify that your file is still there!
-
 ....
 $ oc get pods
 NAME                                READY     STATUS      RESTARTS   AGE
