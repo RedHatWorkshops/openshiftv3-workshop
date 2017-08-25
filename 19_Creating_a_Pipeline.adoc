@@ -7,8 +7,9 @@ pipeline will be setup using Jenkins running as an application pod on
 OpenShift. The pipeline running on Jenkins will trigger builds and
 deployments on OpenShift.
 
-*Prerequisites:* You need a github account if you want to make changes
-and test the pipeline kick-off.
+*Prerequisites:* 
+* You need a github account if you want to make changes and test the pipeline kick-off.
+* You will be using the projects you created in the "Promiting Applications" lab.
 
 *Step 1:* Create a new project Create a new project with name
 `pipeline-UserName`. _Substitute UserName with your own user name._
@@ -74,7 +75,7 @@ On the next screen, allow all `Requested Permissions`
 
 Now you will be taken to Jenkins console (that is running on OpenShift).
 
-*Step 3:* Understand the pipeline
+*Step 3:* Updating the pipeline
 
 Using left menu on the Web Console, select `Builds`->`Pipelines`. You
 will see that `myfirstpipeline` is created. Click on that.
@@ -86,53 +87,68 @@ configuration details.
 *Note* There are webhook urls on this page. We will come back to this
 and use after a couple of steps.
 
-Review the `Jenkinsfile` on this page. +
-* It has two stages `build` and `deploy` +
-* In the `build` stage the `openshiftBuild` plugin is used to trigger a
-build named `myphp` +
-* In the `deploy` stage the `openshiftDeploy` plugin invokes a
-deployment configuration `myphp` and then invokes `openshiftScale`
-plugin to scale up the same deployment configuration to 2 replicas.
+On the top right hand side click on `Actions` -> `Edit`. This will bring
+you to the editing page. Replace the current content with the following.
 
-This means that we need a build configuration and deployment
-configuration for our application, but we want these triggered by our
-pipeline (not auto-triggered by default). So let us create an
-application `myphp` with the build configuration and deployment
-configuration so that we can trigger it using this Jenkins pipeline.
+....
+node('maven') {
+stage 'buildInDevelopment'
+openshiftBuild(namespace: 'development-UserName', buildConfig: 'welcome-php', showBuildLogs: 'true')
+stage 'deployInDevelopment'
+openshiftDeploy(namespace: 'development-UserName', deploymentConfig: 'welcome-php')
+openshiftScale(namespace: 'development-UserName', deploymentConfig: 'welcome-php',replicaCount: '2')
+stage 'deployInTesting'
+input 'Promote Dev Image to Testing?'
+openshiftTag(namespace: 'development-UserName', sourceStream: 'welcome-php',  sourceTag: 'latest', destinationStream: 'welcome-php', destinationTag: 'promote-qa')
+openshiftDeploy(namespace: 'testing-UserName', deploymentConfig: 'welcome-php', )
+openshiftScale(namespace: 'testing-UserName', deploymentConfig: 'welcome-php',replicaCount: '3')
+}
+....
 
-*Step 4:* Create an application
+And click `Save`. (Make sure you change the values according to your configuration)
 
-Clone the following application into your github account
-https://github.com/VeerMuchandi/bluegreen if you haven’t already done it
-in a previous lab.
+Review these `Jenkinsfile` changes on this page.
+* It has two stages `build` and `deploy`
+* In the build stage the `openshiftBuild` plugin is used to trigger a build named `welcome-php`
+* In the deploy stage the `openshiftDeploy` plugin invokes a deployment configuration `welcome-php` and then invokes `openshiftScale` plugin to scale up the same deployment configuration to 2 replicas.
 
-Click on `Add to Project` on the project and select `PHP` latest image.
-We will use `myphp` as the application name. *Note* same name will be
-used for buildConfig and deployConfig by default.
+*Step 4:* Permissions and Configuration Changes
 
-Use your own github url if you want to test by pushing changes to code.
-Otherwise you can use https://github.com/VeerMuchandi/bluegreen.
+The Jenkins user in the jenkins project you created needs
+to have access to the projects `development-UserName` and
+`testing-UserName`. Just for testing; we will give jenkins
+full access to these projects.
 
-Now click on the link `advanced options`. It will open up a bunch of
-options and we will edit those. Under the section `Build Configuration`,
-*uncheck* all the three check boxes for the following options +
-* Configure a webhook build trigger * Automatically build a new image
-when the builder image changes * Launch the first build when the build
-configuration is created
+....
+oc project jenkins-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n testing-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n development-UserName
+....
 
-By unchecking these, we are disabling the start of the builds as we want
-to control those using pipeline.
+For reference the syntax is: `system:serviceaccount:PROJECTNAME:SERVICEACCOUNT`
 
-In the section `Deployment Configuration`, *uncheck* the two auto-deploy
-options * New image is available * Deployment configuration changes
+Next, we will edit the `development-UserName` project to disable
+the deployment triggers.
 
-By unchecking these, we are disabling the start of the deployments as we
-want to control those using pipeline. image:images/pipeline1.jpeg[image]
+Using the left-side navigation; go to `Application` -> `Deployments`. On the overview
+page click on your build to see your deployment histroy page.
 
-Now scroll down and click on the `Create` button.
+Click on the `Actions` -> `Edit` on the upper right hand side to go into
+the `Configuration` page for your deployment. 
 
-This will create the required objects (build configuration, deployment
-configuration, imagestream, service and route) but won’t start a build.
+Untick the following boxes:
+
+* `Automatically start a new deployment when the image changes`
+* `Automatically start a new deployment when the deployment configuration changes`
+
+Click "Save" and in the end, the config should look like this.
+image:images/disable-triggers1.png[image]
+
+
+Do the same steps for the `testing-UserName` project. It should 
+look similar.
+image:images/disable-triggers2.png[image]
+
 
 *Step 5:* Start pipeline
 
