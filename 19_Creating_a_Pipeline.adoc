@@ -176,7 +176,7 @@ you cloned and set up a webhook pointing to this URL.
 *Tips*
 
 * Navigate to `Settings` -> `Webhooks` on your project in github
-* Set the`Payload URL` to `Github Webhook` URL noted above
+* Set the `Payload URL` to `Github Webhook` URL noted above
 * Make sure the `Content Type` is set to `application/json`
 * Press on `Disable SSL`
 * Press on `Add Webhook`
