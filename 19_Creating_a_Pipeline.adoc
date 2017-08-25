@@ -8,6 +8,7 @@ OpenShift. The pipeline running on Jenkins will trigger builds and
 deployments on OpenShift.
 
 *Prerequisites:* 
+
 * You need a github account if you want to make changes and test the pipeline kick-off.
 * You will be using the projects you created in the "Promiting Applications" lab.
 
