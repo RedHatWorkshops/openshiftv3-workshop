@@ -64,26 +64,6 @@ an image of a running pod.
 
 image:images/mysql_pod_on_proj_overview.png[image]
 
-pass:[<u>*IF*</u] pod does not show running, Click *Applications* and select
-*Deployments*, do the following:
-
-1.  Click onto `mysql` deployments config
-2.  Click on the *Actions* button and select *Edit Health Checks*
-3.  Under the Readiness Probe section remove the single quotes around
-$MYSQL_PASSWORD
-4.  Click *Save*
-5.  Click *Applications* and select *Pods*
-6.  Click onto the pod name
-7.  Click on the *Actions* button and select *Delete*
-
-Browse over to Pods, Services and Deployments from the *Applications*
-tab to notice the additions to the project. You will note that the
-service has been assigned an IP address that starts with `172.*`. Make a
-note of that. Also note the port that is exposed by this service. By
-default it exposes `3306`.
-
-image:images/mysql_service.png[image]
-
 *Step 3: Add a PHP frontend to talk to this database*
 
 In this step we will add a PHP frontend application that talks to
