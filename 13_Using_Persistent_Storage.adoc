@@ -23,7 +23,7 @@ In this Lab, we will be:
 Create a project called `storage-UserName` and deploy the application
 
 ....
-oc new-app storage-UserName
+oc new-project storage-UserName --description="My Storage-project" --display-name="Storage Project"
 oc new-app php~https://github.com/RedHatWorkshops/openshift-php-upload-demo
 ....
 
