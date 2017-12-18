@@ -4,7 +4,7 @@ Blue-Green Deployments
 :data-uri:
 
 The purpose of this short lab is to demonstrate how simple it is to
-implement Blue-Green Deployments in OpenShift v3.
+implement Blue-Green Deployments in OpenShift.
 
 "_Blue-green deployment is a release strategy that can be utilized by
 developers for deploying software in a production environment. Blue can
@@ -13,7 +13,7 @@ identical production environment. Under blue-green deployment strategy,
 software developers are able to minimize downtime and reduce risk._"
 https://en.wikipedia.org/wiki/User:Nuqing/Blue-green_deployment[1*]
 
-In this Lab, we will be:
+In this exercise, we will be:
 
 * Deploying two versions of the same application. The first version will
 display a blue rectangle.

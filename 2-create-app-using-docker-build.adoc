@@ -70,14 +70,14 @@ $ oc new-app https://github.com/VeerMuchandi/time --context-dir=rhel
 ....
 
 You'll notice that OpenShift created a few things at this point. You
-will find a buildconfig, deploymentconfig, service and imagestreams in
+will find a `buildconfig`, `deploymentconfig`, `service` and `imagestreams` in
 the above list. The application is not running yet. It needs to be built
 and deployed. Within a minute or so, you will see that OpenShift starts
 the build.
 
 *Step 3: Build*
 
-In the meanwhile lets have a look at the buildconfig by running the
+In the meanwhile lets have a look at the `buildconfig` by running the
 command shown below.
 
 ....
@@ -156,7 +156,7 @@ $ oc get bc time -o json
 }
 ....
 
-Note the name of the buildconfig in metadata is set to "time", the git
+Note the name of the `buildconfig` in metadata is set to "time", the git
 uri pointing to the value you gave while creating the application. Also
 note the Strategy.type set to "Docker". This indicates that the build
 will use the instructions in this Dockerfile to do the docker build.
@@ -164,7 +164,7 @@ will use the instructions in this Dockerfile to do the docker build.
 Build starts in a minute or so. You can view the list of builds using
 `oc get builds` command. You can also start the build using
 `oc start-build time` where "time" is the name we noticed in the
-buildconfig.
+`buildconfig`.
 
 ....
 $ oc get builds
@@ -172,11 +172,11 @@ NAME      TYPE      STATUS    POD
 time-1    Docker    Running   time-1-build
 ....
 
-Note the name of the build that is running i.e. time-1. We will use that
+Note the name of the build that is running i.e. `time-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
 at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
-pushing this to OpenShift's internal docker registry.
+pushing this to OpenShift internal docker registry.
 
 ....
 $ oc logs build/time-1
@@ -185,8 +185,8 @@ Successfully built 99563b872361
 I0701 01:00:01.954898       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
 I0701 01:00:01.955401       1 cfg.go:64] Using serviceaccount user for Docker authentication
 I0701 01:00:01.955426       1 docker.go:84] Using Docker authentication provided
-I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject/time image ...
-I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject/time
+I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject-userxx/time image ...
+I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject-userxx/time
 ....
 
 In the above log note how the image is pushed to the local docker

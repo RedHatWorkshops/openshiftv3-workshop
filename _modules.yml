@@ -3,12 +3,15 @@ config:
     - name: DEFAULT_PASSWORD
       desc: Default password for users in the environment
       value: openshift
+    - name: GIT_SERVER_URL
+      desc: Git server url
+      value: http://gitlab-ci.apps.ocp.cloudvillage.in
     - name: CONSOLE_ADDRESS
       desc: HTTP address of the OpenShift console
-      value: https://master.ocpazure.cgftdev.com:8443
+      value: https://master.ocp.cloudvillage.in:8443
     - name: APPS_ADDRESS
       desc: HTTP address suffix of apps deployed on OpenShift
-      value: apps.ocpazure.cgftdev.com
+      value: apps.ocp.cloudvillage.in
     - name: GET_STARTED_CLI_URL
       desc: URL to documentation to configure CLI
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
