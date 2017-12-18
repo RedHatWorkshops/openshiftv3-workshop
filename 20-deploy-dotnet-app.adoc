@@ -1,0 +1,414 @@
+[[deploy-a-dotnet-application]]
+== Deploy a .Net Application
+
+:data-uri:
+
+In this exercise we will learn how to create a .Net application using source
+code and the .Net builder image.
+
+*Step 1: Create a project or use an existing project*
+
+If you want to, you can create a new project based on what you have
+learned in previous labs. Or you can create a new project for .Net
+Applications.
+
+IMPORTANT: Please replace *userxx* with the username assigned to you in
+the commands below.
+
+....
+$ oc new-project mydotnetapp-userxx --display-name="My .Net Applications" --description="A place for my .Net Applications"
+....
+
+*Step 2: Create an application that uses the .Net builder image*
+
+We will be using a sample application called ".Net Core Sample App" (found
+https://github.com/redhat-developer/s2i-dotnetcore-ex[here]). Taking that
+source-code; we will use the .Net ImageStream (or the builder image) to
+assemble our application.
+
+Open the browser and select your new project *My .Net Applications*.
+
+Click into *Add to Project* button.
+
+In the search text box type `dotnet` and select `.Net Core` template with
+latest version tag for this builder image (at the moment of creation
+this lab it is `.NET Core Builder Images`).
+
+Fill the fields with the following information:
+
+....
+Name: dotnet20
+Git Repository URL: https://github.com/redhat-developer/s2i-dotnetcore-ex
+Branch: dotnetcore-2.0
+Context Dir: app
+....
+
+Click on the blue link that says: *Show advanced routing, build, and
+deployment options*.
+
+
+Click on *Create* and then on *Continue to overview*.
+
+*Step 3: Build*
+
+Give it some seconds and you will see OpenShift starts the build process
+for you. You can view the list of builds using `oc get builds` command.
+
+....
+$ oc get builds
+
+NAME            TYPE      FROM          STATUS     STARTED         DURATION
+dotnet11-1      Source    Git@50ea6f4   Complete   2 minutes ago   24s
+....
+
+Note the name of the build that is running i.e. `dotnet11-1`. We will use that
+name to look at the build logs. Run the command as shown below to look
+at the build logs. This will run for a few mins. At the end you will
+notice that the docker image is successfully created and it will start
+pushing this to OpenShift's internal docker registry.
+
+....
+$oc get pods
+
+NAME               READY     STATUS    RESTARTS   AGE
+dotnet11-1-build   1/1       Running   0          11m
+....
+
+We can check the logs by executing the following command:
+
+[source,shell]
+----
+$ oc logs pod/dotnet11-1-build
+
+
+log  : Installing Microsoft.VisualBasic 10.0.1.
+log  : Restoring packages for tool 'Microsoft.AspNetCore.Razor.Tools' in /opt/app-root/src/project.json...
+log  : Restoring packages for tool 'Microsoft.AspNetCore.Server.IISIntegration.Tools' in /opt/app-root/src/project.json...
+log  : Installing Microsoft.AspNetCore.Server.IISIntegration.Tools 1.0.0-preview2-final.
+log  : Restoring packages for tool 'Microsoft.EntityFrameworkCore.Tools.DotNet' in /opt/app-root/src/project.json...
+log  : Installing Microsoft.NETCore.Jit 1.0.4.
+log  : Installing Microsoft.NETCore.Runtime.CoreCLR 1.0.4.
+log  : Restoring packages for tool 'Microsoft.Extensions.SecretManager.Tools' in /opt/app-root/src/project.json...
+log  : Installing Microsoft.Extensions.SecretManager.Tools 1.0.0-preview2-final.
+log  : Restoring packages for tool 'Microsoft.VisualStudio.Web.CodeGeneration.Tools' in /opt/app-root/src/project.json...
+log  : Writing lock file to disk. Path: /opt/app-root/src/project.lock.json
+log  : /opt/app-root/src/project.json
+log  : Restore completed in 26617ms.
+---> Publishing application ...
+Publishing src for .NETCoreApp,Version=v1.1
+npm WARN deprecated graceful-fs@2.0.3: graceful-fs v3.0.0 and before will fail on node releases >= v7.0. Please update to graceful-fs@^4.0.0 as soon as possible. Use 'npm ls graceful-fs' to find it in the tree.
+npm WARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+npm WARN deprecated minimatch@0.2.14: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+npm WARN deprecated graceful-fs@1.2.3: graceful-fs v3.0.0 and before will fail on node releases >= v7.0. Please update to graceful-fs@^4.0.0 as soon as possible. Use 'npm ls graceful-fs' to find it in the tree.
+rimraf@2.5.2 node_modules/rimraf
+└── glob@7.1.2 (inherits@2.0.3, path-is-absolute@1.0.1, fs.realpath@1.0.0, once@1.4.0, inflight@1.0.6, minimatch@3.0.4)
+gulp-concat@2.6.0 node_modules/gulp-concat
+├── through2@0.6.5 (xtend@4.0.1, readable-stream@1.0.34)
+├── concat-with-sourcemaps@1.0.4 (source-map@0.5.6)
+└── gulp-util@3.0.8 (array-differ@1.0.0, lodash._reescape@3.0.0, lodash._reevaluate@3.0.0, lodash._reinterpolate@3.0.0, beeper@1.1.1, object-assign@3.0.0, array-uniq@1.0.3, dateformat@2.0.0, replace-ext@0.0.1, fancy-log@1.3.0, has-gulplog@0.1.0, minimist@1.2.0, vinyl@0.5.3, chalk@1.1.3, gulplog@1.0.0, lodash.template@3.6.2, multipipe@0.1.2, through2@2.0.3)
+gulp@3.9.1 node_modules/gulp
+├── interpret@1.0.3
+├── pretty-hrtime@1.0.3
+├── deprecated@0.0.1
+├── archy@1.0.0
+├── tildify@1.2.0 (os-homedir@1.0.2)
+├── minimist@1.2.0
+├── v8flags@2.1.1 (user-home@1.1.1)
+├── semver@4.3.6
+├── chalk@1.1.3 (escape-string-regexp@1.0.5, supports-color@2.0.0, ansi-styles@2.2.1, strip-ansi@3.0.1, has-ansi@2.0.0)
+├── orchestrator@0.3.8 (stream-consume@0.1.0, sequencify@0.0.7, end-of-stream@0.1.5)
+├── gulp-util@3.0.8 (array-differ@1.0.0, lodash._reescape@3.0.0, lodash._reevaluate@3.0.0, lodash._reinterpolate@3.0.0, object-assign@3.0.0, array-uniq@1.0.3, beeper@1.1.1, dateformat@2.0.0, replace-ext@0.0.1, has-gulplog@0.1.0, fancy-log@1.3.0, vinyl@0.5.3, lodash.template@3.6.2, gulplog@1.0.0, multipipe@0.1.2, through2@2.0.3)
+├── vinyl-fs@0.3.14 (strip-bom@1.0.0, defaults@1.0.3, vinyl@0.4.6, graceful-fs@3.0.11, through2@0.6.5, mkdirp@0.5.1, glob-stream@3.1.18, glob-watcher@0.0.6)
+└── liftoff@2.3.0 (lodash.isstring@4.0.1, lodash.isplainobject@4.0.6, lodash.mapvalues@4.6.0, rechoir@0.6.2, extend@3.0.1, flagged-respawn@0.3.2, fined@1.0.2, resolve@1.3.3, findup-sync@0.4.3)
+gulp-uglify@1.5.3 node_modules/gulp-uglify
+├── uglify-save-license@0.4.1
+├── deap@1.0.0
+├── isobject@2.1.0 (isarray@1.0.0)
+├── vinyl-sourcemaps-apply@0.2.1 (source-map@0.5.6)
+├── fancy-log@1.3.0 (time-stamp@1.1.0, chalk@1.1.3)
+├── through2@2.0.3 (xtend@4.0.1, readable-stream@2.2.9)
+├── gulp-util@3.0.8 (array-differ@1.0.0, lodash._reescape@3.0.0, lodash._reevaluate@3.0.0, lodash._reinterpolate@3.0.0, object-assign@3.0.0, beeper@1.1.1, array-uniq@1.0.3, dateformat@2.0.0, replace-ext@0.0.1, has-gulplog@0.1.0, minimist@1.2.0, vinyl@0.5.3, chalk@1.1.3, lodash.template@3.6.2, gulplog@1.0.0, multipipe@0.1.2)
+└── uglify-js@2.6.2 (async@0.2.10, uglify-to-browserify@1.0.2, source-map@0.5.6, yargs@3.10.0)
+gulp-cssmin@0.1.7 node_modules/gulp-cssmin
+├── filesize@2.0.4
+├── graceful-fs@2.0.3
+├── map-stream@0.0.4
+├── gulp-rename@1.1.0
+├── temp-write@0.1.1 (tempfile@0.1.3)
+├── clean-css@3.4.26 (commander@2.8.1, source-map@0.4.4)
+└── gulp-util@2.2.20 (lodash._reinterpolate@2.4.1, minimist@0.2.0, vinyl@0.2.3, chalk@0.5.1, through2@0.5.1, lodash.template@2.4.1, multipipe@0.1.2, dateformat@1.0.12)
+bower jquery-validation-unobtrusive#3.2.6           ENOGIT git is not installed or not in the PATH
+[06:25:42] Using gulpfile ~/src/gulpfile.js
+[06:25:42] Starting 'clean:js'...
+[06:25:42] Starting 'clean:css'...
+[06:25:42] Finished 'clean:js' after 4.94 ms
+[06:25:42] Finished 'clean:css' after 3.33 ms
+[06:25:42] Starting 'clean'...
+[06:25:42] Finished 'clean' after 9 μs
+[06:25:43] Using gulpfile ~/src/gulpfile.js
+[06:25:43] Starting 'min:js'...
+[06:25:43] Starting 'min:css'...
+[06:25:43] Finished 'min:js' after 56 ms
+[06:25:43] Finished 'min:css' after 68 ms
+[06:25:43] Starting 'min'...
+[06:25:43] Finished 'min' after 29 μs
+Project src (.NETCoreApp,Version=v1.1) will be compiled because expected outputs are missing
+Compiling src for .NETCoreApp,Version=v1.1
+Compilation succeeded.
+0 Warning(s)
+0 Error(s)
+Time elapsed 00:00:02.9669437
+The specified framework 'Microsoft.NETCore.App', version '1.0.0' was not found.
+  - Check application dependencies and target a framework version installed at:
+      /opt/rh/rh-dotnetcore11/root/usr/lib64/dotnetcore/shared/Microsoft.NETCore.App
+  - The following versions are installed:
+      1.1.2
+  - Alternatively, install the framework version '1.0.0'.
+publish: Published to /opt/app-root/publish
+Published 1/1 projects successfully
+Pushing image 172.30.192.15:5000/ocp-dotnet/dotnet11:latest ...
+Pushed 0/4 layers, 0% complete
+Pushed 1/4 layers, 25% complete
+Push successful
+----
+
+You will notice that in the logs that not only does it copy your source
+code to the builder image, but it also does a `maven` build to compile
+your code as well. Also, in the above log, note how the image is pushed
+to the local docker registry. The registry is running at `172.30.89.28`
+at port `5000`.
+
+*Step 4: Deployment*
+
+Once the image is pushed to the docker registry, OpenShift will trigger
+a deploy process. Let us also quickly look at the deployment
+configuration by running the following command. Note `dc` represents
+`deploymentconfig`.
+
+....
+$ oc get dc dotnet11 -o json
+
+{
+    "apiVersion": "v1",
+    "kind": "DeploymentConfig",
+    "metadata": {
+        "annotations": {
+            "openshift.io/generated-by": "OpenShiftWebConsole"
+        },
+        "creationTimestamp": "2017-05-30T06:24:46Z",
+        "generation": 2,
+        "labels": {
+            "app": "dotnet11"
+        },
+        "name": "dotnet11",
+        "namespace": "ocp-dotnet",
+        "resourceVersion": "2912921",
+        "selfLink": "/oapi/v1/namespaces/ocp-dotnet/deploymentconfigs/dotnet11",
+        "uid": "ad4cd70b-4500-11e7-a064-000d3a005254"
+    },
+    "spec": {
+        "replicas": 1,
+        "selector": {
+            "deploymentconfig": "dotnet11"
+        },
+        "strategy": {
+            "activeDeadlineSeconds": 21600,
+            "resources": {},
+            "rollingParams": {
+                "intervalSeconds": 1,
+                "maxSurge": "25%",
+                "maxUnavailable": "25%",
+                "timeoutSeconds": 600,
+                "updatePeriodSeconds": 1
+            },
+            "type": "Rolling"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "dotnet11",
+                    "deploymentconfig": "dotnet11"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "172.30.192.15:5000/ocp-dotnet/dotnet11@sha256:5f6ad018c5a0bd15330f2f5dcc20f2122ca9d49b793b4a9d85d550ea01c51d99",
+                        "imagePullPolicy": "Always",
+                        "name": "dotnet11",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Always",
+                "securityContext": {},
+                "terminationGracePeriodSeconds": 30
+            }
+        },
+        "test": false,
+        "triggers": [
+            {
+                "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                        "dotnet11"
+                    ],
+                    "from": {
+                        "kind": "ImageStreamTag",
+                        "name": "dotnet11:latest",
+                        "namespace": "ocp-dotnet"
+                    },
+                    "lastTriggeredImage": "172.30.192.15:5000/ocp-dotnet/dotnet11@sha256:5f6ad018c5a0bd15330f2f5dcc20f2122ca9d49b793b4a9d85d550ea01c51d99"
+                },
+                "type": "ImageChange"
+            },
+            {
+                "type": "ConfigChange"
+            }
+        ]
+    },
+    "status": {
+        "availableReplicas": 1,
+        "conditions": [
+            {
+                "lastTransitionTime": "2017-05-30T06:27:07Z",
+                "lastUpdateTime": "2017-05-30T06:27:07Z",
+                "message": "Deployment config has minimum availability.",
+                "status": "True",
+                "type": "Available"
+            },
+            {
+                "lastTransitionTime": "2017-05-30T06:26:42Z",
+                "lastUpdateTime": "2017-05-30T06:27:09Z",
+                "message": "replication controller \"dotnet11-1\" successfully rolled out",
+                "reason": "NewReplicationControllerAvailable",
+                "status": "True",
+                "type": "Progressing"
+            }
+        ],
+        "details": {
+            "causes": [
+                {
+                    "imageTrigger": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "dotnet11:latest",
+                            "namespace": "ocp-dotnet"
+                        }
+                    },
+                    "type": "ImageChange"
+                }
+            ],
+            "message": "image change"
+        },
+        "latestVersion": 1,
+        "observedGeneration": 2,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "unavailableReplicas": 0,
+        "updatedReplicas": 1
+    }
+}
+....
+
+Note where the image is picked from. It shows that the deployment picks
+the image from the local registry (same ip address and port as in
+buildconfig) and the image tag is the same as what we built earlier.
+This means the deployment step deploys the application image what was
+built earlier during the build step.
+
+If you get the list of pods, you'll notice that the application gets
+deployed quickly and starts running in its own pod.
+
+....
+$ oc get pods
+
+NAME                  READY     STATUS      RESTARTS   AGE
+dotnet11-1-544x6      1/1       Running     0          9h
+dotnet11-1-build      0/1       Completed   0          10h
+....
+
+*Step 5: Adding route*
+
+This step is very much the same as what we did in previous exercises. We
+will check the service and add a route to expose that service.
+
+....
+$ oc get service dotnet11
+
+NAME       CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+dotnet11   172.30.179.140   <none>        8080/TCP   10h
+....
+
+Route should be already created.
+
+....
+$ oc get routes
+
+NAME         HOST/PORT                                 PATH      SERVICES     PORT        TERMINATION
+dotnet11     dotnet11-ocp-dotnet.{{APPS_ADDRESS}}                dotnet11     8080-tcp    None
+....
+
+If route does not show, we expose the service `dotnet11` via the command
+below.
+
+....
+$ oc expose service dotnet11
+
+route "dotnet11" exposed
+....
+
+And now we can check the route uri.
+
+*Step 6: Run the application*
+
+Now access the application by using the route you got in the previous
+step. You can use either curl or your browser.
+
+....
+$ curl dotnet11-userxx.{{APPS_ADDRESS}}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page - WebApplication</title>
+
+    <!-- FIXME: To be used with bower install
+    See: https://github.com/openshift-s2i/s2i-aspnet-example/issues/7
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment> -->
+
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css" />
+<meta name="x-stylesheet-fallback-test" content="" class="sr-only" /><script>!function(a,b,c){var d,e=document,f=e.getElementsByTagName("SCRIPT"),g=f[f.length-1].previousElementSibling,h=e.defaultView&&e.defaultView.getComputedStyle?e.defaultView.getComputedStyle(g):g.currentStyle;if(h&&h[a]!==b)for(d=0;d<c.length;d++)e.write('<link rel="stylesheet" href="'+c[d]+'"/>')}("position","absolute",["\/lib\/bootstrap\/dist\/css\/bootstrap.min.css"]);</script>
+        <link rel="stylesheet" href="/css/site.min.css?v=78TaBTSGdek5nF1RDwBLOnz-PHnokB0X5pwQZ6rE9ZA" />
+</head>
+<body>
+
+<script>(window.jQuery||document.write("\u003Cscript src=\u0022\/lib\/jquery\/dist\/jquery.min.js\u0022\u003E\u003C\/script\u003E"));</script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js">
+        </script>
+<script>(window.jQuery && window.jQuery.fn && window.jQuery.fn.modal||document.write("\u003Cscript src=\u0022\/lib\/bootstrap\/dist\/js\/bootstrap.min.js\u0022\u003E\u003C\/script\u003E"));</script>
+        <script src="/js/site.min.js?v=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"></script>
+
+
+
+</body>
+</html>
+....
+
+Congratulations! In this exercise you have learned how to create, build
+and deploy a JBoss EAP application using OpenShift's JBoss EAP Builder
+Image.

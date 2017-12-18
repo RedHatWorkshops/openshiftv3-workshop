@@ -1,0 +1,186 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: dockerfilebuild
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APPLICATION_NAME}:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: rhel
+      git:
+        uri: ${GIT_REPO}
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: rhel7:latest
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: zRxL9W-LzQfCpnGIpX0f
+      type: GitHub
+    - generic:
+        secret: auYsTCBB_yahhwyYoyyV
+      type: Generic
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2017-09-15T23:06:58Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app: ${APPLICATION_NAME}
+    name: rhel7
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: registry.access.redhat.com/rhel7
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/openshift/rhel7:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: ${APPLICATION_NAME}:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    replicas: 1
+    selector:
+      app: ${APPLICATION_NAME}
+      deploymentconfig: ${APPLICATION_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: ${APPLICATION_NAME}
+          deploymentconfig: ${APPLICATION_NAME}
+      spec:
+        containers:
+        - image: ''
+          imagePullPolicy: Always
+          name: ${APPLICATION_NAME}
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APPLICATION_NAME} 
+        from:
+          kind: ImageStreamTag
+          name: ${APPLICATION_NAME}:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ${APPLICATION_NAME}
+      deploymentconfig: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+parameters:
+- description: The name for the application.
+  displayName: Application Name
+  name: APPLICATION_NAME
+  required: true
+  value: time
+- description: git repo
+  displayName: Git Repo
+  name: GIT_REPO
+  value: https://github.com/VeerMuchandi/time
+

@@ -1,0 +1,75 @@
+[[dotnet-and-mysql-using-template]]
+== Using .Net and MYSQL Template
+
+:data-uri:
+
+In this lab exercise we will learn how to use OpenShift Web Console to
+spin up a MySQL database and .Net application using templates.
+We can spin up both .Net and database tier at the same time. The .Net
+application accesses this database using the service exposed by
+the database. We will provide a route (a URL) to access the frontend
+application from a browser.
+
+*Step 1: Create a Project*
+
+Based on the experience gained from the previous exercise, log into the
+OpenShift Web Console. You will see the list of Projects.
+
+IMPORTANT: Please replace *userxx* with the username assigned to you in
+the commands below.
+
+Using the *New Project* button, create a new project. We will call it
+*dotnet-userxx*.
+Type in a *Display Name* and *Description* of your choice.
+
+Press the *Create* button to complete the project creation from the Web
+Console. This will accomplish the same job as `oc new-project` from CLI.
+
+*Step 2: Create a .Net application using the template*
+
+Click on *Add to Project* button and you will be taken to select an
+image or template. You will see the application create screen as shown
+below:
+
+image::dotnet_mysql_template.png[image]
+
+Click select the `dotnet + mysql` template
+
+....
+Git URL: https://github.com/piggyvenus/s2i-aspnet-musicstore-ex.git[here]
+Git Reference: rel/1.1.0
+Database Username: mysqluser
+Database Password: password
+Database Name: sampledb
+Label: app = musicstore
+....
+Click create.
+
+image::dotnet_mysql_create.png[image]
+
+Click overview
+Click mysql link next to Deployment Config.
+Click deploy
+
+image::mysql_deploymentconfig.png[image]
+
+After the build is completed, you can click on the route as shown below.
+
+image::dotnet_mysql_route.png[image]
+
+The .Net application built with .Net core 1.1 builder image.
+
+image::dotnet_mysql_final.png[image]
+
+Information for login:
+....
+username: Administrator@test.com"
+password: YouShouldChangeThisPassword1
+....
+
+
+
+In this lab exercise you have seen a complete web application deployed
+using OpenShift templates. We are able to deploy application via templates.
+Using template, we can capture all the information that it require to deploy
+application in one step.
