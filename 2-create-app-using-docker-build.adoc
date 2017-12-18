@@ -196,8 +196,8 @@ registry. The registry is running at `172.30.246.7` at port `5000`.
 
 Once the image is pushed to the docker registry, OpenShift will trigger
 a deploy process. Let us also quickly look at the deployment
-configuration by running the following command. Note dc represents
-deploymentconfig.
+configuration by running the following command. Note `dc` represents
+`deploymentconfig`.
 
 ....
 $ oc get dc -o json
@@ -212,7 +212,7 @@ $ oc get dc -o json
             "apiVersion": "v1",
             "metadata": {
                 "name": "time",
-                "namespace": "mycliproject",
+                "namespace": "mycliproject-userxx",
                 "selfLink": "/osapi/v1beta3/namespaces/mycliproject-userxx/deploymentconfigs/time",
                 "uid": "85a3d5c0-1fad-11e5-a792-fa163e91b409",
                 "resourceVersion": "12684",
@@ -302,7 +302,7 @@ $ oc get dc -o json
 
 Note where the image is picked from. It shows that the deployment picks
 the image from the local registry (same ip address and port as in
-buildconfig) and the image tag is same as what we built earlier. This
+`buildconfig`) and the image tag is same as what we built earlier. This
 means the deployment step deploys the application image what was built
 earlier during the build step.
 
@@ -355,8 +355,10 @@ automatically assigned the project name extension to the route name.
 
 Now run the application by using the route you provided in the previous
 step. You can use either curl or your browser. The application displays
-time. *If you don't provide time.php extension, it displays apache's
-default index page.*
+time.
+
+NOTE: If you don't provide time.php extension, it displays apache's
+default index page.
 
 ....
 $ curl time-mycliproject-userxx.{{APPS_ADDRESS}}
