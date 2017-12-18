@@ -1,6 +1,6 @@
 [[binary-deployment-of-a-war-file]]
-Binary Deployment of a war file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Binary Deployment of a war file
+
 
 In the past you have seen how OpenShift can take your existing java
 code, build it and deploy the resultant docker image as an application.

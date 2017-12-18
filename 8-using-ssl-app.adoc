@@ -1,6 +1,6 @@
 [[using-ssl-in-your-application]]
-Using SSL in your application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Using SSL in your application
+
 
 In this exercise you will set up your application to encrypt traffic
 with the OpenShift Wildcard certificate.

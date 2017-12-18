@@ -1,11 +1,5 @@
-# OpenShift Workshop Labs
-To provision the workshop on OCP just execute the following:
+# Lab Exercises - Table of Contents
 
-```
-oc new-app samueltauil/workshopper -e CONTENT_URL_PREFIX="https://raw.githubusercontent.com/RedHatWorkshops/openshiftv3-workshop/asciidoc" -e WORKSHOPS_URLS="https://raw.githubusercontent.com/RedHatWorkshops/openshiftv3-workshop/asciidoc/_module_groups.yml"
-```
-
-## Lab Exercises - Table of Contents
 * Lab 0. [Setting up client tools](0-setting-up-client-tools.adoc)
 * Lab 1. [Creating an application from an existing Docker Image using CLI](1-create-app-from-docker-image.adoc)
 * Lab 2. [Create an application using Docker Build Strategy using CLI](2-create-app-using-docker-build.adoc)

@@ -1,6 +1,6 @@
 [[scale-up-and-scale-down-and-idle-the-application-instances]]
-Scale up and Scale down and Idle the application instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Scale up and Scale down and Idle the application instances
+
 :data-uri:
 
 In this exercise we will learn how to scale our application. OpenShift
