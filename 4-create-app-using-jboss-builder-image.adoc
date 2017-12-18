@@ -72,7 +72,7 @@ Note the name of the build that is running i.e. `ks-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
 at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
-pushing this to OpenShift's internal docker registry.
+pushing this to OpenShift internal docker registry.
 
 ....
 $oc get pods
@@ -83,7 +83,6 @@ ks-1-build   1/1       Running   0          11m
 
 We can check the logs by executing the following command:
 
-[source,shell]
 ----
 $ oc logs pod/ks-1-build
 
@@ -133,7 +132,7 @@ You will notice that in the logs that not only does it copy your source
 code to the builder image, but it also does a `maven` build to compile
 your code as well. Also, in the above log, note how the image is pushed
 to the local docker registry. The registry is running at `172.30.89.28`
-at port `5000`.
+at port `5000` in this case.
 
 *Step 4: Deployment*
 
@@ -271,7 +270,7 @@ $ oc get dc ks -o json
 
 Note where the image is picked from. It shows that the deployment picks
 the image from the local registry (same ip address and port as in
-buildconfig) and the image tag is the same as what we built earlier.
+`buildconfig`) and the image tag is the same as what we built earlier.
 This means the deployment step deploys the application image what was
 built earlier during the build step.
 

@@ -1,6 +1,6 @@
 [[using-templates]]
-Using Templates
-~~~~~~~~~~~~~~~
+### Using Templates
+
 :data-uri:
 
 In this lab exercise we will learn how to use OpenShift Web Console to
@@ -103,9 +103,10 @@ the commands below.
  oc project consoleproject-userxx
 ....
 
-Based on what you learned previously get the list of running pods.
-
-TIP: `oc get pods`
+Based on what you learned previously get the list of running pods by running:
+----
+ oc get pods
+----
 
 You will find one pod for mysql running. Take a note of it's name.
 
@@ -221,7 +222,7 @@ image::cakephp_confirm.png[image]
 
 Click *Continue to overview*.
 
-You will be taken back to the Project Overview page and you will start
+You will be taken back to the *Project Overview* page and you will start
 seeing that a new service is now available and exposed as a route.
 
 image::dbtest_build.png[image]
@@ -256,7 +257,7 @@ the running pod when you navigate to *Applications->Pods* on the Web
 console.
 
 Now type in your application url in the browser or use curl with:
-[source,shell]
+
 ----
 http://[your application url]/dbtest.php
 ----
