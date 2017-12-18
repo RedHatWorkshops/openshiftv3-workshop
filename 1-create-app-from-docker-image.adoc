@@ -112,6 +112,9 @@ Now add a route to the service with the following command. `oc expose`
 command will allow you to expose your service to the world so that you
 can access it from the browser.
 
+NOTE: The `--hostname` attribute in the command below is not required properly as we are using
+a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
+
 ....
 $ oc expose service welcome --name=welcome --hostname=welcome.userxx.{{APPS_ADDRESS}}
 
@@ -121,8 +124,7 @@ welcome   welcome.userxx.{{APPS_ADDRESS}}             welcome
 
 *Step 4: Try your application*
 
-Access the application: Now access the application using curl (looking
-for 200 status code) or from the browser and see the result
+Now access the application using curl (looking for 200 status code) or from the browser and see the result.
 
 ....
 $ curl -Is http://welcome.userxx.{{APPS_ADDRESS}}
@@ -131,7 +133,7 @@ $ curl -Is http://welcome.userxx.{{APPS_ADDRESS}}
 Voila!! you created your first application using an existing docker
 image on OpenShift.
 
-*Step 4: Clean up*
+*Step 5: Clean up*
 
 Run the `oc get all` command to view all the components that were
 created in your project.
@@ -167,8 +169,8 @@ service "welcome" deleted
 pod "welcome-1-ynedb" deleted
 ....
 
-You will notice that it has deleted the imagestream for the application,
-the deploymentconfig, the service and the route.
+You will notice that it has deleted the `imagestream` for the application,
+the `deploymentconfig`, the `service` and the `route`.
 
 You can run `oc get all` again to make sure the project is empty.
 

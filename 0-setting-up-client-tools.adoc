@@ -1,6 +1,6 @@
 [[setting-up-client-tools]]
 Setting up client tools
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 In this Lab we will look at how to install the OpenShift CLI tools.
 

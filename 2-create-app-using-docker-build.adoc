@@ -1,6 +1,6 @@
 [[create-an-app-using-docker-build]]
 Create an App using Docker build
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this exercise we will learn how to create an application from a
 Dockerfile. OpenShift takes Dockerfile as an input and generates your

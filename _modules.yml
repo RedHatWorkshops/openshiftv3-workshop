@@ -60,5 +60,3 @@ modules:
     name: Changing code on the fly
   20-deploy-dotnet-app:
     name: Deploy .Net core application
-  27-signup-ocp-online:
-    name: Signup OpenShift Online
