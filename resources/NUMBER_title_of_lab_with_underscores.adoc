@@ -1,6 +1,6 @@
 [[main-heading-shortname]]
-Main Heading - Lab Name
-~~~~~~~~~~~~~~~~~~~~~
+### Main Heading - Lab Name
+
 
 The purpose of this short lab is to demonstrate how...
 

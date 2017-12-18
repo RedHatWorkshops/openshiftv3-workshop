@@ -1,6 +1,6 @@
 [[blue-green-deployments]]
-Blue-Green Deployments
-~~~~~~~~~~~~~~~~~~~~~
+### Blue-Green Deployments
+
 :data-uri:
 
 The purpose of this short lab is to demonstrate how simple it is to

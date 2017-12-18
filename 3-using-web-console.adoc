@@ -96,9 +96,9 @@ a different lab exercise.
 
 [[extra-credits]]
 Extra Credits
-^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
-Repeat the lab that creates an application from a docker image (lab 2) using OpenShift Web
+Repeat the lab that creates an application from a docker image using OpenShift Web
 Console.
 
 Spend a few minutes and familiarize using Web Console.

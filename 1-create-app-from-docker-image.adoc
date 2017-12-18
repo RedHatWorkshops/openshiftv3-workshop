@@ -1,6 +1,5 @@
 [[create-an-app-from-a-docker-image]]
-Create an App from a Docker image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Create an App from a Docker image
 
 In this lab you will learn how to create a new project on OpenShift and
 how to create an application from an existing docker image.

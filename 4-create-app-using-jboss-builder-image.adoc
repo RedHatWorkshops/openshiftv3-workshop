@@ -1,6 +1,6 @@
 [[creating-an-application-using-jboss-eap-builder-image]]
-Creating an application using JBoss EAP builder image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Creating an application using JBoss EAP builder image
+
 
 :data-uri:
 
@@ -24,7 +24,7 @@ $ oc new-project myjbossapp-userxx --display-name="My JBoss Applications" --desc
 
 We will be using a sample application called "Kitchensink" (found
 https://github.com/RedHatWorkshops/kitchensink[here]). Taking that
-source-code; we will use the JBoss ImageStream (or the builder image) to
+source-code; we will use the JBoss `ImageStream` (or the builder image) to
 assemble our application.
 
 Open the browser and select your new project *My JBoss Applications*.
