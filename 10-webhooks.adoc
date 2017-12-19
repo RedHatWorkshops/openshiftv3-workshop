@@ -28,13 +28,13 @@ $ oc new-project scm-web-hooks-userxx --display-name="Test WebHooks"
 
 *Step 2: Create new application*
 
-* We will use the forked repository from the previous lab.
+* We will use the forked repository from the previous lab ({{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git).
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
 ....
-$ oc new-app --image-stream=php --code=http://gogs-ci.{{APPS_ADDRESS}}/your_gogs_username/bluegreen.git --name=scm-web-hooks
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_git_repo_username/bluegreen.git --name=scm-web-hooks
 ....
 
 *Step 3: Look at some of the created resources*
@@ -155,13 +155,13 @@ image::github_show_url.png[image]
 
 *Step 2: Configure GitHub repository Web Hook*
 
-* Login to your Gogs account.
+* Login to your Gitlab account.
 * Navigate to the forked repository you used to create the application.
-* Click on Settings.
-* Click on Webhooks.
-* Click on the *Add webhook* button.
-* Add the recently copied Web Hook URL from OpenShift.
+* Click on Settings --> Integrations.
+* Add the recently copied Web Hook URL from OpenShift to URL.
 * Change the Content-type as "application/json"
+* Checked *Push events*
+* Unchecked *Enable SSL verification*
 * Confirm by adding the *Add Webhook* button in green at the bottom of
 the page.
 

@@ -54,7 +54,7 @@ php
 *Step 3: Create an application*
 
 We will be using a sample application that displays a blue or green
-rectangle. The sample app can be browsed at {{GIT_SERVER_URL}}RedHatWorkshops/bluegreen.git
+rectangle. The sample app can be browsed at {{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git
 
 We will be using an env var in order to change the color of the box; but
 in practice you would use a different branch for each version of the
