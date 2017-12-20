@@ -16,9 +16,9 @@ Applications.
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-....
+----
 $ oc new-project myjbossapp-userxx --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
-....
+----
 
 *Step 2: Create an application that uses the JBoss EAP builder image*
 
@@ -37,20 +37,22 @@ this lab it is `jboss-eap64-openshift:1.5`).
 
 Fill the fields with the following information:
 
-....
-Name: ks
-Git Repository URL: https://github.com/RedHatWorkshops/kitchensink
-....
+[width="50%",options="header"]
+|=========================================================
+|Name |Git Repository URL
+|ks   |https://github.com/RedHatWorkshops/kitchensink
+|=========================================================
 
 Click on the blue link that says: *Show advanced routing, build, and
 deployment options*.
 
 On *Build Configuration* add a new _Environment Variable_.
 
-....
-name: MAVEN_MIRROR_URL
-value: {{NEXUS_URL}}
-....
+[width="50%",options="header"]
+|=========================================================
+|Name |Value
+|MAVEN_MIRROR_URL   |{{NEXUS_URL}}
+|=========================================================
 
 image::nexus_repo.png[image]
 
@@ -61,12 +63,12 @@ Click on *Create* and then on *Continue to overview*.
 Give it some seconds and you will see OpenShift starts the build process
 for you. You can view the list of builds using `oc get builds` command.
 
-....
+----
 $ oc get builds
 
 NAME      TYPE      FROM          STATUS     STARTED         DURATION
 ks-1      Source    Git@50ea6f4   Complete   2 minutes ago   24s
-....
+----
 
 Note the name of the build that is running i.e. `ks-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
@@ -74,12 +76,12 @@ at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
 pushing this to OpenShift internal docker registry.
 
-....
-$oc get pods
+----
+$ oc get pods
 
 NAME         READY     STATUS    RESTARTS   AGE
 ks-1-build   1/1       Running   0          11m
-....
+----
 
 We can check the logs by executing the following command:
 
@@ -141,7 +143,7 @@ a deploy process. Let us also quickly look at the deployment
 configuration by running the following command. Note `dc` represents
 `deploymentconfig`.
 
-....
+----
 $ oc get dc ks -o json
 
 {
@@ -266,7 +268,7 @@ $ oc get dc ks -o json
         }
     }
 }
-....
+----
 
 Note where the image is picked from. It shows that the deployment picks
 the image from the local registry (same ip address and port as in
@@ -277,43 +279,43 @@ built earlier during the build step.
 If you get the list of pods, you'll notice that the application gets
 deployed quickly and starts running in its own pod.
 
-....
+----
 $ oc get pods
 
 NAME         READY     STATUS      RESTARTS   AGE
 ks-1-build   0/1       Completed   0          26m
 ks-1-ey7m2   1/1       Running     0          12m
-....
+----
 
 *Step 5: Adding route*
 
 This step is very much the same as what we did in previous exercises. We
 will check the service and add a route to expose that service.
 
-....
+----
 $ oc get service ks
 
 NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
 ks        172.30.201.90   <none>        8080/TCP,8443/TCP,8778/TCP   21m
-....
+----
 
 Route should be already created.
 
-....
+----
 $ oc get routes
 
 NAME      HOST/PORT                                                      PATH      SERVICES   PORT       TERMINATION
 ks        ks-myjbossapp-userxx.{{APPS_ADDRESS}}                                 ks         8080-tcp
-....
+----
 
 If route does not show, we expose the service `ks` via the command
 below.
 
-....
+----
 $ oc expose service ks
 
 route "ks" exposed
-....
+----
 
 And now we can check the route uri.
 
@@ -322,7 +324,7 @@ And now we can check the route uri.
 Now access the application by using the route you got in the previous
 step. You can use either curl or your browser.
 
-....
+----
 $ curl ks-myjbossapp-userxx.{{APPS_ADDRESS}}
 
  <!-- Plain HTML page that kicks us into the app -->
@@ -331,7 +333,7 @@ $ curl ks-myjbossapp-userxx.{{APPS_ADDRESS}}
 <meta http-equiv="Refresh" content="0; URL=index.jsf">
 </head>
 </html>
-....
+----
 
 Go to https://ks-myjbossapp-userxx.{{APPS_ADDRESS}} via your browser.
 

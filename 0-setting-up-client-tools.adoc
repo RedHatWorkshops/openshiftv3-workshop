@@ -57,7 +57,6 @@ configuration file that is then used for subsequent commands.
 
 To login to a remote server use:
 
-[source,shell]
 ----
 $ oc login {{CONSOLE_ADDRESS}}
 ----

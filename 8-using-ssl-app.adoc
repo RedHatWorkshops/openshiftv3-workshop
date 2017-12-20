@@ -15,18 +15,23 @@ project* command.
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-....
+----
 $ oc project myjbossapp-userxx
-....
+----
 
 *Step 2: View the routing config*
 
 To view the routing config you will need to use the `oc get route`
-command
+command:
 
-....
+----
 $ oc get route/ks -o yaml
+----
 
+You should get a result like this:
+
+[source,yaml]
+----
 apiVersion: v1
 kind: Route
 metadata:
@@ -56,7 +61,7 @@ status:
       type: Admitted
     host: ks-myjbossapp-userxx.{{APPS_ADDRESS}}
     routerName: router
-....
+----
 
 Note here that the `host:` is set to the FQDN that your application is
 running on.
@@ -75,14 +80,15 @@ sometimes called SSL-offloading).
 
 Edit your routing configuration:
 
-....
-oc edit route/ks
-....
+----
+$ oc edit route/ks
+----
 
 You are going to add `tls: termination: edge` right below the `host:`
 section. It should look something like this.
 
-....
+[source,yaml]
+----
 apiVersion: v1
 kind: Route
 metadata:
@@ -106,7 +112,7 @@ spec:
     kind: Service
     name: ks
 status: {}
-....
+----
 
 *Step 4: Verify*
 

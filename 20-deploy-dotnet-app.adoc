@@ -1,5 +1,5 @@
 [[deploy-a-dotnet-application]]
-== Deploy a .Net Application
+### Deploy a .Net Application
 
 :data-uri:
 

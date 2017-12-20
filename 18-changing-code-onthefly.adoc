@@ -1,6 +1,6 @@
 [[changing-code-on-the-fly]]
-Changing code on the fly
-~~~~~~~~~~~~~~~~~~~~~~~~
+### Changing code on the fly
+
 
 In this lab, we will learn how to make changes to the code on the local
 machine and immediately sync it with the code running in a pod.
@@ -21,9 +21,9 @@ Create a new project on the OpenShift cluster with name
 repository to your workstation.
 https://github.com/VeerMuchandi/nodejs-hello using the command:
 
-....
+----
 $ git clone https://github.com/VeerMuchandi/nodejs-hello
-....
+----
 
 This is a very simple nodejs application. Feel free to understand the
 code.
@@ -32,13 +32,13 @@ code.
 
 Change to the `nodejs-hello` folder.
 
-....
+----
 $ cd nodejs-hello
-....
+----
 
 Now let us create an application using this code.
 
-....
+----
 $ oc new-app .
 --> Found image 448a51d (11 weeks old) in image stream "nodejs" in project "openshift" under tag "4" for "nodejs"
 
@@ -64,27 +64,27 @@ $ oc new-app .
 --> Success
     Build scheduled, use 'oc logs -f bc/nodejs-hello' to track its progress.
     Run 'oc status' to view your app.
-....
+----
 
-Create a route
+Create a route:
 
-....
+----
 $ oc expose service nodejs-hello
 route "nodejs-hello" exposed
-....
+----
 
-Wait for the build to complete and test the application
+Wait for the build to complete and test the application:
 
-....
+----
 $ oc get route
 NAME           HOST/PORT                                          PATH      SERVICES       PORT       TERMINATION
 nodejs-hello   nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}             nodejs-hello   8080-tcp
-....
+----
 
-....
+----
 $ $ curl nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}
 Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
-....
+----
 
 *Step 4: Make code changes and sync with rsync*
 
@@ -113,23 +113,23 @@ app.get('/', function (req, res) {
 
 Run `oc get pods` to get your application pod name as shown below:
 
-....
+----
 $ oc get pods
 NAME                   READY     STATUS      RESTARTS   AGE
 nodejs-hello-1-8qigc   1/1       Running     0          8m
 nodejs-hello-1-build   0/1       Completed   0          9m
-....
+----
 
 Use `oc rsync` to sync the code from the local workstation to the pod as
 shown below
 
-....
+----
 $ oc rsync . nodejs-hello-1-8qigc:/opt/app-root/src --no-perms=true --exclude=.git
 building file list ... done
 
 sent 89 bytes  received 20 bytes  2.29 bytes/sec
 total size is 805  speedup is 7.39
-....
+----
 
 The command above will copy the code from the local machine to the pod.
 Note that:
@@ -140,11 +140,11 @@ Note that:
 Now test the application again. This time it should show the output in
 two lines as below:
 
-....
+----
 $ curl nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}
 Welcome to OpenShift!!
 My HostName is: nodejs-hello-1-8qigc
-....
+----
 
 Note that pod did not restart, we did not have to check into git repo
 and rebuild the image. The changes moved from your workstation directly

@@ -1,6 +1,6 @@
 [[using-web-console]]
-Using Web Console
-~~~~~~~~~~~~~~~~~
+### Using Web Console
+
 :data-uri:
 
 In this lab exercise, we will review the OpenShift Web Console.
@@ -95,8 +95,8 @@ the Quotas and Other Resources, if they exist. We will deal with them in
 a different lab exercise.
 
 [[extra-credits]]
-Extra Credits
-^^^^^^^^^^^^
+#### Extra Credits
+
 
 Repeat the lab that creates an application from a docker image using OpenShift Web
 Console.

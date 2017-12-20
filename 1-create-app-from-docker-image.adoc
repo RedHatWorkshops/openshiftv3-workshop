@@ -9,17 +9,17 @@ how to create an application from an existing docker image.
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-....
+----
 $ oc new-project mycliproject-userxx --description="My CLI Project" --display-name="CLI Project"
-....
+----
 
 Upon project creation, OpenShift will automatically switch to the newly
 created project/namespace. If you wish to view the list of projects, run
 the following command:
 
-....
+----
 $ oc get projects
-....
+----
 
 If you have more than one project, you can switch to a different one by
 issuing `oc project <project name>`. Although you don't want to do it
@@ -28,14 +28,14 @@ now.
 You can also check the status of the project by running the following
 command. It says that the project is currently not running anything.
 
-....
+----
 $ oc status
 
 In project CLI Project (mycliproject-userxx)
 
 You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
-....
+----
 
 *Step 2: Create an application from a Docker Image*
 
@@ -47,7 +47,7 @@ for this exercise.
 First create a new application using the docker image using the
 `oc new-app` command as shown below:
 
-....
+----
 $ oc new-app redhatworkshops/welcome-php --name=welcome
 
 --> Found Docker image f001b13 (8 months old) from Docker Hub for "redhatworkshops/welcome-php"
@@ -64,43 +64,43 @@ $ oc new-app redhatworkshops/welcome-php --name=welcome
     service "welcome" created
 --> Success
     Run 'oc status' to view your app.
-....
+----
 
 The above command uses the docker image to deploy a docker container in
 a pod. If you quickly run `oc get pods` you will notice that a deployer
 pod runs and it starts an application pod as shown below.
 
-....
+----
 $ oc get pods
 
 NAME               READY     STATUS    RESTARTS   AGE
 welcome-1-deploy   1/1       Running   0          1m
 welcome-1-dkyyq    0/1       Pending   0          0s
-....
+----
 
 In the above example `welcome-1-deploy` is the deployer pod and the
 other one is the actual application pod. In a little while the deployer
 pod will succeed and the application pod will change for `Pending` to
 `Running` status.
 
-....
+----
 $ oc get pods
 
 NAME              READY     STATUS    RESTARTS   AGE
 welcome-1-dkyyq   1/1       Running   0          56s
-....
+----
 
 *Step 3: Add a Route for your application*
 
 OpenShift also spins up a service for this application. Run the
 following command to view the list of services in the project.
 
-....
+----
 $ oc get services
 
 NAME      CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
 welcome   172.30.77.93   <none>        8080/TCP   2m
-....
+----
 
 You will notice the `welcome` service was created for this project.
 
@@ -114,20 +114,20 @@ can access it from the browser.
 NOTE: The `--hostname` attribute in the command below is not required properly as we are using
 a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
 
-....
+----
 $ oc expose service welcome --name=welcome --hostname=welcome.userxx.{{APPS_ADDRESS}}
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
 welcome   welcome.userxx.{{APPS_ADDRESS}}             welcome
-....
+----
 
 *Step 4: Try your application*
 
 Now access the application using curl (looking for 200 status code) or from the browser and see the result.
 
-....
+----
 $ curl -Is http://welcome.userxx.{{APPS_ADDRESS}}
-....
+----
 
 Voila!! you created your first application using an existing docker
 image on OpenShift.
@@ -137,7 +137,7 @@ image on OpenShift.
 Run the `oc get all` command to view all the components that were
 created in your project.
 
-....
+----
 $ oc get all
 
 NAME      TYPE      SOURCE
@@ -154,11 +154,11 @@ NAME      LABELS    SELECTOR                   IP(S)           PORT(S)
 welcome   <none>    deploymentconfig=welcome   172.30.155.37   80/TCP
 NAME              READY     REASON    RESTARTS   AGE
 welcome-1-8d7nk   1/1       Running   0          4h
-....
+----
 
 Now you can delete all these components by running one command.
 
-....
+----
 $ oc delete all --all
 
 imagestream "welcome" deleted
@@ -166,7 +166,7 @@ deploymentconfig "welcome" deleted
 route "welcome" deleted
 service "welcome" deleted
 pod "welcome-1-ynedb" deleted
-....
+----
 
 You will notice that it has deleted the `imagestream` for the application,
 the `deploymentconfig`, the `service` and the `route`.

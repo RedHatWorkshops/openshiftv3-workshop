@@ -61,7 +61,5 @@ modules:
     name: Dynamic configuration updates using ConfigMap
   18-changing-code-onthefly:
     name: Changing code on the fly
-  19-creating-a-pipeline:
-    name: Creating a Pipeline
   20-deploy-dotnet-app:
     name: Deploy .Net core application

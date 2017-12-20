@@ -15,9 +15,9 @@ it. Run the following command to make sure.
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-....
+----
 $ oc project mycliproject-userxx
-....
+----
 
 *Step 2: Create an application that uses Dockerfile*
 
@@ -44,7 +44,7 @@ Later it uses this image to deploy an application that runs in a pod.
 Now let's create an application using this approach. We will run
 `oc new-app` command by supplying the git uri as the parameter.
 
-....
+----
 $ oc new-app https://github.com/VeerMuchandi/time --context-dir=rhel
 
 --> Found Docker image 1d309a6 (6 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhel7"
@@ -67,7 +67,7 @@ $ oc new-app https://github.com/VeerMuchandi/time --context-dir=rhel
 --> Success
     Build scheduled, use 'oc logs -f bc/time' to track its progress.
     Run 'oc status' to view your app.
-....
+----
 
 You'll notice that OpenShift created a few things at this point. You
 will find a `buildconfig`, `deploymentconfig`, `service` and `imagestreams` in
@@ -80,7 +80,7 @@ the build.
 In the meanwhile lets have a look at the `buildconfig` by running the
 command shown below.
 
-....
+----
 $ oc get bc time -o json
 
 {
@@ -154,7 +154,7 @@ $ oc get bc time -o json
         "lastVersion": 1
     }
 }
-....
+----
 
 Note the name of the `buildconfig` in metadata is set to "time", the git
 uri pointing to the value you gave while creating the application. Also
@@ -166,11 +166,11 @@ Build starts in a minute or so. You can view the list of builds using
 `oc start-build time` where "time" is the name we noticed in the
 `buildconfig`.
 
-....
+----
 $ oc get builds
 NAME      TYPE      STATUS    POD
 time-1    Docker    Running   time-1-build
-....
+----
 
 Note the name of the build that is running i.e. `time-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
@@ -178,7 +178,7 @@ at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
 pushing this to OpenShift internal docker registry.
 
-....
+----
 $ oc logs build/time-1
 
 Successfully built 99563b872361
@@ -187,7 +187,7 @@ I0701 01:00:01.955401       1 cfg.go:64] Using serviceaccount user for Docker au
 I0701 01:00:01.955426       1 docker.go:84] Using Docker authentication provided
 I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject-userxx/time image ...
 I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject-userxx/time
-....
+----
 
 In the above log note how the image is pushed to the local docker
 registry. The registry is running at `172.30.246.7` at port `5000`.
@@ -199,7 +199,7 @@ a deploy process. Let us also quickly look at the deployment
 configuration by running the following command. Note `dc` represents
 `deploymentconfig`.
 
-....
+----
 $ oc get dc -o json
 
 {
@@ -298,7 +298,7 @@ $ oc get dc -o json
         }
     ]
 }
-....
+----
 
 Note where the image is picked from. It shows that the deployment picks
 the image from the local registry (same ip address and port as in
@@ -309,43 +309,43 @@ earlier during the build step.
 If you get the list of pods, you'll notice that the application gets
 deployed quickly and starts running in its own pod.
 
-....
+----
 $ oc get pods
 
 NAME           READY     STATUS      RESTARTS   AGE
 time-1-build   0/1       Completed   0          2h
 time-1-rqa7c   1/1       Running     0          2h
-....
+----
 
 *Step 5: Adding route*
 
 This step is very much the same as what we did in the previous exercise.
 We will check the service and add a route to expose that service.
 
-....
+----
 $ oc get services
 
 NAME      CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
 time      172.30.xx.82   <none>        8080/TCP   2h
-....
+----
 
 Here we expose the service as a route.
 
-....
+----
 $ oc expose service time
 
 NAME      HOST/PORT   PATH      SERVICE   LABELS     TLS TERMINATION
 time                            time      app=time
-....
+----
 
 And then we check the route exposed.
 
-....
+----
 $ oc get routes
 
 NAME      HOST/PORT                                                          PATH      SERVICES   PORT       TERMINATION
 time      time-mycliproject-userxx.{{APPS_ADDRESS}}                       time       8080-tcp
-....
+----
 
 NOTE: Unlike in the previous lab, this time we did not use --hostname
 parameter while exposing the service to create a route. OpenShift
@@ -360,10 +360,10 @@ time.
 NOTE: If you don't provide time.php extension, it displays apache's
 default index page.
 
-....
+----
 $ curl time-mycliproject-userxx.{{APPS_ADDRESS}}
 Wednesday 1st of July 2015 01:12:20 AM
-....
+----
 
 Congratulations!! In this exercise you have learnt how to create, build
 and deploy an application using OpenShift's "Docker Build strategy".
