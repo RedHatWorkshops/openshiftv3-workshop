@@ -2538,14 +2538,24 @@ This module splits a long slide into multiple slides.
 </section>
 <section class="slide">
 <h2>Setting up client tools</h2>
+<p>Let&#8217;s login on our cluster:</p>
 <div class="listingblock">
 <div class="content">
 <pre><tt>oc login &lt;server url&gt;</tt></pre>
 </div></div>
 </section>
 <section class="slide">
-<h2>Slide Two</h2>
-<p>That&#8217;s all.</p>
+<h2>Create an App from a Docker image</h2>
+<p>Create a new project:</p>
+<div class="listingblock">
+<div class="content">
+<pre><tt>oc new-project mycliproject-userxx --description="My CLI Project" --display-name="CLI Project"</tt></pre>
+</div></div>
+<p>List all projects:</p>
+<div class="listingblock">
+<div class="content">
+<pre><tt>oc get projects</tt></pre>
+</div></div>
 </section>
 <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
 <a href="#" class="deck-next-link" title="Next">&#8594;</a>

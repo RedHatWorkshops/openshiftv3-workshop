@@ -43,10 +43,20 @@ OpenShift Workshop
 
 == Setting up client tools
 
+Let's login on our cluster:
+
 --------
 oc login <server url>
 --------
 
-== Slide Two
+== Create an App from a Docker image
 
-That's all.
+Create a new project:
+-------
+oc new-project mycliproject-userxx --description="My CLI Project" --display-name="CLI Project"
+-------
+
+List all projects:
+----
+oc get projects
+----
