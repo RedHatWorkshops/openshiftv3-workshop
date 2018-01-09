@@ -8,14 +8,14 @@ In this Lab we will look at how to install the OpenShift CLI tools.
 
 After completing this section, you should be able to:
 
-* Locate the binaries for the OpenShift Enterprise command-line
-interface (OSE CLI)
-* Install the OSE CLI tools.
+* Locate the binaries for the OpenShift Container Platform command-line
+interface (OCP CLI)
+* Install the OCP CLI tools.
 * CLI basic configuration
 
 *Locating the binaries*
 
-The OSE CLI exposes commands for managing applications, as well as
+The OCP CLI exposes commands for managing applications, as well as
 lower-level tools to interact with each component of a system. The
 binaries for Mac, Windows, and Linux are available for download from the
 Red Hat Customer Portal via the following methods:
@@ -27,7 +27,7 @@ Red Hat Customer Portal via the following methods:
 *Installing the CLI tools*
 
 The CLI is provided as compressed files that can be decompressed to any
-directory. In order to make it simple for any user to access the OSE
+directory. In order to make it simple for any user to access the OCP
 CLI, it is recommended that it is made available in a directory mapped
 to the environment variable called `PATH` from the OS. More information
 can be found about installation process here:
