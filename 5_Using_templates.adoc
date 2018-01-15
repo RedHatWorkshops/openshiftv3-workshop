@@ -43,13 +43,13 @@ Add to Project: consoleproject-UserName
 Database Service Name: mysql
 MySQL Connection Username: pricelist
 MySQL Connection Password: pricelist
+MySQL root user Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-Click the *Next* button.
-
 image:images/mysql_ephemeral_creation.png[image]
 
+Click the *Next* button.
 
 Click the checkbox to create the secret
 
@@ -57,46 +57,53 @@ image:images/mysql_secret_binding.png[image]
 
 Click *Create*
 
-Click *Go to overview*.
-
-image:images/mysql_pod_on_proj_details.png[image]
+Click *Continue to project overview*.
 
 It will take you back to the project overview page and soon you will see
 an image of a running pod.
 
 image:images/mysql_pod_on_proj_overview.png[image]
 
+Please wait for the Bindings to complete. It may take few minutes.
+
+While we are waiting we can add a lable to the mysql deployment
+Run the following on the command line:
+****
+ oc label dc mysql app=pricelist
+****
+
 *Step 3: Add a PHP frontend to talk to this database*
 
 In this step we will add a PHP frontend application that talks to
 recently created database. The code is available on github at
+
 https://github.com/RedHatWorkshops/php-pricelist
 
 Browse through the code in this repository. If you take a look at the
 link:https://raw.githubusercontent.com/RedHatWorkshops/php-pricelist/master/config/database.php[database configuration] file (`config/database.php`) you will see that
 it reads the values from environment varables.
 
-To add a frontend again click on *Add to Project -> Browse Catalog* to spin up a frontend
-application in the same *consoleproject-UserName*. It takes you to
-select image or template page and choose the *PHP* template under PHP
-apps.
+To add a frontend again click on *Add to Project -> Browse Catalog*
+This will take you to the Service Catalog. 
+Select Languages -> PHP -> PHP
+
+Click *Next*
+
+****
+Add to Project: consoleproject-UserName (this should be the same project as MySQL Ephemeral)
+Application Name: pricelist
+Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 
 image:images/php.png[image]
 
-Enter the following values for each parameters:
 
-....
-* Name: pricelist
-* Git Repository URL: https://github.com/RedHatWorkshops/php-pricelist
-....
-
-Click onto the link `Show advanced routing, build, and deployment
-options`, go to Deployment Configuration section and enter the
+Click onto the link `Advanced Options`
+Go to Deployment Configuration section and enter the
 following environment variables:
 
 image:images/dbtest_deployment_env.png[image]
 
-In the next section add a label:
+In the Labels section add the following label if its not there:
 
 ....
 * app=pricelist
@@ -106,7 +113,7 @@ Click *Create* to add this frontend application to talk to the database.
 
 image:images/cakephp_confirm.png[image]
 
-Click *Continue to overview*.
+Click *Continue to product overview*.
 
 You will be taken back to the Project Overview page and you will start
 seeing that a new service is now available and exposed as a route. Since
