@@ -166,8 +166,8 @@ buildconfig.
 
 ....
 $ oc get builds
-NAME      TYPE      STATUS    POD
-time-1    Docker    Running   time-1-build
+NAME      TYPE      FROM          STATUS     STARTED          DURATION
+time-1    Docker    Git@1ec2d66   Complete   19 minutes ago   1m13s
 ....
 
 Note the name of the build that is running i.e. time-1. We will use that
@@ -183,16 +183,19 @@ $ oc logs build/time-1
 ....
 ....
 ....
-Successfully built 99563b872361
-I0701 01:00:01.954898       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
-I0701 01:00:01.955401       1 cfg.go:64] Using serviceaccount user for Docker authentication
-I0701 01:00:01.955426       1 docker.go:84] Using Docker authentication provided
-I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject/time image ...
-I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject/time
+Successfully built 492e4a3bf772
+Pushing image docker-registry.default.svc:5000/mycliproject-user02/time:latest ...
+Pushed 0/5 layers, 60% complete
+Pushed 1/5 layers, 60% complete
+Pushed 2/5 layers, 63% complete
+Pushed 3/5 layers, 62% complete
+Pushed 4/5 layers, 80% complete
+Pushed 5/5 layers, 100% complete
+Push successful
 ....
 
 In the above log note how the image is pushed to the local docker
-registry. The registry is running at `172.30.246.7` at port `5000`.
+registry. The registry is running at `docker-registry.default.svc` at port `5000`.
 
 *_Step 4: Deployment_*
 
@@ -205,32 +208,86 @@ deploymentconfig.
 $ oc get dc -o json
 
 {
-    "kind": "List",
     "apiVersion": "v1",
-    "metadata": {},
     "items": [
         {
-            "kind": "DeploymentConfig",
             "apiVersion": "v1",
+            "kind": "DeploymentConfig",
             "metadata": {
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                },
+                "creationTimestamp": "2018-01-15T18:07:34Z",
+                "generation": 2,
+                "labels": {
+                    "app": "time"
+                },
                 "name": "time",
-                "namespace": "mycliproject",
-                "selfLink": "/osapi/v1beta3/namespaces/mycliproject/deploymentconfigs/time",
-                "uid": "85a3d5c0-1fad-11e5-a792-fa163e91b409",
-                "resourceVersion": "12684",
-                "creationTimestamp": "2015-07-01T04:56:23Z"
+                "namespace": "mycliproject-user02",
+                "resourceVersion": "37867345",
+                "selfLink": "/oapi/v1/namespaces/mycliproject-user02/deploymentconfigs/time",
+                "uid": "f63997bb-fa1e-11e7-9e8e-06d3bdd62498"
             },
             "spec": {
-                "strategy": {
-                    "type": "Recreate",
-                    "resources": {}
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "app": "time",
+                    "deploymentconfig": "time"
                 },
+                "strategy": {
+                    "activeDeadlineSeconds": 21600,
+                    "resources": {},
+                    "rollingParams": {
+                        "intervalSeconds": 1,
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%",
+                        "timeoutSeconds": 600,
+                        "updatePeriodSeconds": 1
+                    },
+                    "type": "Rolling"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "time",
+                            "deploymentconfig": "time"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "image": "docker-registry.default.svc:5000/mycliproject-user02/time@sha256:a8f34cc98aba4a68d3566f3ea387295f7a2945347ffc7794246cd8a89b556706",
+                                "imagePullPolicy": "Always",
+                                "name": "time",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30
+                    }
+                },
+                "test": false,
                 "triggers": [
                     {
                         "type": "ConfigChange"
                     },
                     {
-                        "type": "ImageChange",
                         "imageChangeParams": {
                             "automatic": true,
                             "containerNames": [
@@ -238,67 +295,56 @@ $ oc get dc -o json
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "time:latest"
+                                "name": "time:latest",
+                                "namespace": "mycliproject-user02"
                             },
-                            "lastTriggeredImage": "172.30.246.7:5000/mycliproject/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5"
-                        }
+                            "lastTriggeredImage": "docker-registry.default.svc:5000/mycliproject-user02/time@sha256:a8f34cc98aba4a68d3566f3ea387295f7a2945347ffc7794246cd8a89b556706"
+                        },
+                        "type": "ImageChange"
                     }
-                ],
-                "replicas": 1,
-                "selector": {
-                    "deploymentconfig": "time"
-                },
-                "template": {
-                    "metadata": {
-                        "creationTimestamp": null,
-                        "labels": {
-                            "deploymentconfig": "time"
-                        }
-                    },
-                    "spec": {
-                        "containers": [
-                            {
-                                "name": "time",
-                                "image": "172.30.246.7:5000/mycliproject/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5",
-                                "ports": [
-                                    {
-                                        "name": "time-tcp-80",
-                                        "containerPort": 80,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {},
-                                "terminationMessagePath": "/dev/termination-log",
-                                "imagePullPolicy": "Always",
-                                "securityContext": {
-                                    "capabilities": {},
-                                    "privileged": false
-                                }
-                            }
-                        ],
-                        "restartPolicy": "Always",
-                        "dnsPolicy": "ClusterFirst"
-                    }
-                }
+                ]
             },
             "status": {
-                "latestVersion": 2,
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2018-01-15T18:08:51Z",
+                        "lastUpdateTime": "2018-01-15T18:08:51Z",
+                        "message": "Deployment config has minimum availability.",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2018-01-15T18:08:49Z",
+                        "lastUpdateTime": "2018-01-15T18:08:52Z",
+                        "message": "replication controller \"time-1\" successfully rolled out",
+                        "reason": "NewReplicationControllerAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
                 "details": {
                     "causes": [
                         {
-                            "type": "ImageChange",
-                            "imageTrigger": {
-                                "from": {
-                                    "kind": "DockerImage",
-                                    "name": "172.30.246.7:5000/mycliproject/time:latest"
-                                }
-                            }
+                            "type": "ConfigChange"
                         }
-                    ]
-                }
+                    ],
+                    "message": "config change"
+                },
+                "latestVersion": 1,
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "unavailableReplicas": 0,
+                "updatedReplicas": 1
             }
         }
-    ]
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
 }
 ....
 
@@ -345,8 +391,8 @@ And then we check the route exposed.
 ....
 $ oc get routes
 
-NAME      HOST/PORT                                                          PATH      SERVICES   PORT       TERMINATION
-time      time-mycliproject-UserName.apps.osecloud.com                       time       8080-tcp   
+NAME      HOST/PORT                                           PATH      SERVICES   PORT       TERMINATION   WILDCARD
+time      time-mycliproject-UserName.apps.devday.ocpcloud.com             time       8080-tcp                 None
 ....
 
 *Note:* Unlike in the previous lab, this time we did not use `--hostname`
@@ -361,7 +407,7 @@ time. *If you don’t provide time.php extension, it displays apache’s
 default index page.*
 
 ....
-$ curl time-mycliproject-UserName.apps.osecloud.com
+$ curl time-mycliproject-UserName.apps.devday.ocpcloud.com
 Wednesday 1st of July 2015 01:12:20 AM
 ....
 
