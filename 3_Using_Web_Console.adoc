@@ -14,13 +14,18 @@ the master URL.
 
 image:images/login.png[image]
 
-Key in the username and password provided by the instructor. You will
-see the list of projects now. Note the project you created in the last
-lab exercise is shown here.
+Key in the username and password provided by the instructor. You will now
+see the Service Catalog. Your created project will be listed on the right
+
+image:images/service_catalog.png[image]
+
+
+Click on "View All" on the right. You will see the list of projects now.
+Note the project you created in the last lab exercise is shown here.
 
 image:images/projects_list.png[image]
 
-Also note the *New Project* button which allows you to create a new
+Also note the *Create Project* button which allows you to create a new
 project from Web Console.
 
 Now click on the CLI Project to view the details. OpenShift takes you by
