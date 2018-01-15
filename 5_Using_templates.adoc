@@ -13,7 +13,7 @@ application from a browser.
 Based on the experience gained from the previous exercise, log into the
 OpenShift Web Console. You will see the list of Projects.
 
-Using the *New Project* button, create a new project. We will call it
+Using the *Create Project* button, create a new project. We will call it
 *consoleproject-UserName*. Replace by your username to make this project
 unique. Type in a *Display Name* and *Description* of your choice.
 
@@ -26,34 +26,36 @@ Click on *Add to Project -> Browse Catolog* button and you will be taken to sele
 image or template. You will see the application create screen as shown
 below:
 
-image:images/template-add-to-project.png[image]
+image:images/service_catalog2.png[image]
 
-Scroll down and click on *Data Stores* session. Find *MySQL (Ephemeral)*
+Click on *Databases* tab. Find *MySQL* then *MySQL (Ephemeral)*
 template from the list and click *Select*. You will also notice *MySQL
 (Persistent)* template. But we will address that in a different lab
 exercise.
 
 image:images/mysql_ephemeral_template.png[image]
 
-You will be taken to the mysql ephemeral creation screen. Click edit
+You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
 
 ....
+Add to Project: consoleproject-UserName
 Database Service Name: mysql
 MySQL Connection Username: pricelist
 MySQL Connection Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-In the next section you can add the label:
-
-....
-app=pricelist
-....
-
-Click the *Create* button.
+Click the *Next* button.
 
 image:images/mysql_ephemeral_creation.png[image]
+
+
+Click the checkbox to create the secret
+
+image:images/mysql_secret_binding.png[image]
+
+Click *Create*
 
 Click *Go to overview*.
 
