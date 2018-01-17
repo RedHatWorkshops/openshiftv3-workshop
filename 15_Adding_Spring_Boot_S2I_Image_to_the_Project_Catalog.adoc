@@ -101,9 +101,9 @@ Now use that S2I image to deploy your sample spring boot application
 link:[https://github.com/RedHatWorkshops/spring-sample-app] on OpenShift
 using your experience from the previous labs.
 
-****
+....
 oc new-app springboot~https://github.com/RedHatWorkshops/spring-sample-app.git --name newapp
-****
+....
 
 Congratulations!! you have learnt to make an image stream available in
 your project.
