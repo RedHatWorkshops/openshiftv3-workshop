@@ -96,15 +96,14 @@ imagestream contents into the text box and press `Create` button.
 
 *Step 3*
 
-Now it is time to create your application. Press on `Add to Project`
-button on the web console. This will take you to `Browse Catalog`. You
-will start seeing `springboot` listed in the catalog. If you have
-trouble finding it, type _spring_ in the filter box, and you should find
-it.
 
 Now use that S2I image to deploy your sample spring boot application
 link:[https://github.com/RedHatWorkshops/spring-sample-app] on OpenShift
 using your experience from the previous labs.
+
+****
+oc new-app springboot~https://github.com/RedHatWorkshops/spring-sample-app.git --name newapp
+****
 
 Congratulations!! you have learnt to make an image stream available in
 your project.
