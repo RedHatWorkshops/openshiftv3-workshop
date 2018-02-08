@@ -50,7 +50,7 @@ spec:
   strategy:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
-      jenkinsfile: "node() {\nstage 'build'\nopenshiftBuild(buildConfig: 'myphp', showBuildLogs: 'true')\nstage 'deploy'\nopenshiftDeploy(deploymentConfig: 'myphp')\nopenshiftScale(deploymentConfig: 'myphp',replicaCount: '2')\n}"
+      jenkinsfile: "node('maven') {\nstage 'buildInDevelopment'\nopenshiftBuild(namespace: 'development-UserName', buildConfig: 'welcome-php', showBuildLogs: 'true')\nstage 'deployInDevelopment'\nopenshiftDeploy(namespace: 'development-UserName', deploymentConfig: 'welcome-php')\nopenshiftScale(namespace: 'development-UserName', deploymentConfig: 'welcome-php',replicaCount: '2')\nstage 'deployInTesting'\ninput 'Promote Dev Image to Testing?'\nopenshiftTag(namespace: 'development-UserName', sourceStream: 'welcome-php',  sourceTag: 'latest', destinationStream: 'welcome-php', destinationTag: 'promote-qa')\nopenshiftDeploy(namespace: 'testing-UserName', deploymentConfig: 'welcome-php', )\nopenshiftScale(namespace: 'testing-UserName', deploymentConfig: 'welcome-php',replicaCount: '3')\n}"
   output:
   resources:
   postCommit:
@@ -76,7 +76,7 @@ On the next screen, allow all `Requested Permissions`
 
 Now you will be taken to Jenkins console (that is running on OpenShift).
 
-*Step 3:* Updating the pipeline
+*Step 3:* Viewing the pipeline
 
 Using left menu on the Web Console, select `Builds`->`Pipelines`. You
 will see that `myfirstpipeline` is created. Click on that.
@@ -88,27 +88,7 @@ configuration details.
 *Note* There are webhook urls on this page. We will come back to this
 and use after a couple of steps.
 
-On the top right hand side click on `Actions` -> `Edit`. This will bring
-you to the editing page. Replace the current content with the following.
-
-....
-node('maven') {
-stage 'buildInDevelopment'
-openshiftBuild(namespace: 'development-UserName', buildConfig: 'welcome-php', showBuildLogs: 'true')
-stage 'deployInDevelopment'
-openshiftDeploy(namespace: 'development-UserName', deploymentConfig: 'welcome-php')
-openshiftScale(namespace: 'development-UserName', deploymentConfig: 'welcome-php',replicaCount: '2')
-stage 'deployInTesting'
-input 'Promote Dev Image to Testing?'
-openshiftTag(namespace: 'development-UserName', sourceStream: 'welcome-php',  sourceTag: 'latest', destinationStream: 'welcome-php', destinationTag: 'promote-qa')
-openshiftDeploy(namespace: 'testing-UserName', deploymentConfig: 'welcome-php', )
-openshiftScale(namespace: 'testing-UserName', deploymentConfig: 'welcome-php',replicaCount: '3')
-}
-....
-
-And click `Save`. (Make sure you change the values according to your configuration)
-
-Review these `Jenkinsfile` changes on this page.
+Review these `Jenkinsfile` on this page.
 * It has two stages `build` and `deploy`
 * In the build stage the `openshiftBuild` plugin is used to trigger a build named `welcome-php`
 * In the deploy stage the `openshiftDeploy` plugin invokes a deployment configuration `welcome-php` and then invokes `openshiftScale` plugin to scale up the same deployment configuration to 2 replicas.

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: myfirstpipeline
+  labels:
+    name: myfirstpipeline
+  annotations:
+    pipeline.alpha.openshift.io/uses: '[{"name": "myphp", "namespace": "", "kind": "DeploymentConfig"}]'
+spec:
+  triggers:
+    -
+      type: GitHub
+      github:
+        secret: secret101
+    -
+      type: Generic
+      generic:
+        secret: secret101
+  runPolicy: Serial
+  source:
+    type: None
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: "node('maven') {\nstage 'buildInDevelopment'\nopenshiftBuild(namespace: 'development-UserName', buildConfig: 'welcome-php', showBuildLogs: 'true')\nstage 'deployInDevelopment'\nopenshiftDeploy(namespace: 'development-UserName', deploymentConfig: 'welcome-php')\nopenshiftScale(namespace: 'development-UserName', deploymentConfig: 'welcome-php',replicaCount: '2')\nstage 'deployInTesting'\ninput 'Promote Dev Image to Testing?'\nopenshiftTag(namespace: 'development-UserName', sourceStream: 'welcome-php',  sourceTag: 'latest', destinationStream: 'welcome-php', destinationTag: 'promote-qa')\nopenshiftDeploy(namespace: 'testing-UserName', deploymentConfig: 'welcome-php', )\nopenshiftScale(namespace: 'testing-UserName', deploymentConfig: 'welcome-php',replicaCount: '3')\n}"
+  output:
+  resources:
+  postCommit:
