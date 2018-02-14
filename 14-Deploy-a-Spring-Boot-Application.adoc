@@ -62,7 +62,7 @@ Check the route
 ....
 $ oc get route
 NAME      HOST/PORT                                      PATH      SERVICES   PORT       TERMINATION
-bootapp   bootapp-spring-UserName.apps.devday.ocpcloud.com             bootapp    8080-tcp   
+bootapp   bootapp-spring-UserName.{{APPS_ADDRESS}}             bootapp    8080-tcp   
 ....
 
 Wait for your application to be built and deployed. Using the knowlege

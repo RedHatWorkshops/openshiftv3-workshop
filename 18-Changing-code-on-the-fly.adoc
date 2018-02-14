@@ -74,11 +74,11 @@ Wait for the build to complete and test the application
 ....
 $ oc get route
 NAME           HOST/PORT                                          PATH      SERVICES       PORT       TERMINATION
-nodejs-hello   nodejs-hello-rsync-UserName.apps.devday.ocpcloud.com             nodejs-hello   8080-tcp
+nodejs-hello   nodejs-hello-rsync-UserName.{{APPS_ADDRESS}}             nodejs-hello   8080-tcp
 ....
 
 ....
-$ $ curl nodejs-hello-rsync-UserName.apps.devday.ocpcloud.com
+$ $ curl nodejs-hello-rsync-UserName.{{APPS_ADDRESS}}
 Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
 ....
 
@@ -134,7 +134,7 @@ Now test the application again. This time it should show the output in
 two lines as below:
 
 ....
-$ curl nodejs-hello-rsync-veer.apps.devday.ocpcloud.com
+$ curl nodejs-hello-rsync-veer.{{APPS_ADDRESS}}
 Welcome to OpenShift!!
 My HostName is: nodejs-hello-1-8qigc
 ....

@@ -14,13 +14,13 @@ environments (development, qa, production).
 
 Using the knowledge you gained from the past create two projects.
 
-Name the first project *development-UserName* 
+Name the first project *development-UserName*
 
 ....
 $ oc new-project development-UserName
 ....
 
-Name the second *testing-UserName*. 
+Name the second *testing-UserName*.
 ....
 $ oc new-project testing-UserName
 ....
@@ -88,7 +88,11 @@ latest
 ....
 
 In this case, the full image Id is
-`docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf`
+
+....
+docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+
+....
 
 Now let us assume that this docker image is good and is ready to promote
 to QA. Let us tag this docker image using the `oc tag` command.

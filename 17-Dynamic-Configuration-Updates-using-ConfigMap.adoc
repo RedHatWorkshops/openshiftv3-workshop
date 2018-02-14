@@ -50,7 +50,7 @@ Now create the table using the script
 
 ....
 CREATE TABLE IF NOT EXISTS customer (
-   CUST_ID serial primary key,   
+   CUST_ID serial primary key,
    NAME varchar(100) NOT NULL,
    AGE integer NOT NULL);
 ....
@@ -72,21 +72,21 @@ https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resour
 Here is how I added the data in the terminal
 
 ....
-sh-4.2$ psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE                                                                                          
-sampledb=> CREATE TABLE IF NOT EXISTS customer (                                                                                                                  
-sampledb(>    CUST_ID serial primary key,                                                                                                                         
-sampledb(>    NAME varchar(100) NOT NULL,                                                                                                                         
-sampledb(>    AGE integer NOT NULL);                                                                                                                              
-sampledb=> insert into customer (name,age) values ('Joe Psql', 88);                                                                                               
-sampledb=> insert into customer (name,age) values ('Jack Psql', 54);                                                                                              
-sampledb=> insert into customer (name,age) values ('Ann Psql', 32);                                                                                               
-sampledb=> select * from customer;                                                                                                                                
- cust_id |   name    | age                                                                                                                                        
----------+-----------+-----                                                                                                                                       
-       1 | Joe Psql  |  88                                                                                                                                        
-       2 | Jack Psql |  54                                                                                                                                        
-       3 | Ann Psql  |  32                                                                                                                                        
-(3 rows)                                                                                                                                                          
+sh-4.2$ psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE
+sampledb=> CREATE TABLE IF NOT EXISTS customer (
+sampledb(>    CUST_ID serial primary key,
+sampledb(>    NAME varchar(100) NOT NULL,
+sampledb(>    AGE integer NOT NULL);
+sampledb=> insert into customer (name,age) values ('Joe Psql', 88);
+sampledb=> insert into customer (name,age) values ('Jack Psql', 54);
+sampledb=> insert into customer (name,age) values ('Ann Psql', 32);
+sampledb=> select * from customer;
+ cust_id |   name    | age
+---------+-----------+-----
+       1 | Joe Psql  |  88
+       2 | Jack Psql |  54
+       3 | Ann Psql  |  32
+(3 rows)
 
 sampledb=> \q
 ....
@@ -137,17 +137,17 @@ pod terminal on the Web Console or use oc rsh) . You will note that the
 ConfigMap.
 
 ....
-sh-4.2$ cat config/application.properties                                                                                                                                                                                                                                                                                                          
-spring.datasource.platform=postgresql                                                                                                                             
-spring.datasource.url= jdbc:postgresql://postgresql.spring-veer:5432/sampledb                                                                                     
-spring.datasource.username=user                                                                                                                                   
-spring.datasource.password=password  
+sh-4.2$ cat config/application.properties
+spring.datasource.platform=postgresql
+spring.datasource.url= jdbc:postgresql://postgresql.spring-veer:5432/sampledb
+spring.datasource.username=user
+spring.datasource.password=password
 ....
 
 *Step 4: Test the application connection*
 
 Click the application url now i.e
-`http://bootapp-spring-UserName.apps.devday.ocpcloud.com/`. It will open
+`http://bootapp-spring-UserName.{{APPS_ADDRESS}}/`. It will open
 a new tab and greets you
 
 ....
@@ -159,7 +159,7 @@ example `oc logs -f bootapp-2-06a4b` Watch out for connection url in the
 output.
 
 Now try the `/dbtest` endpoint i.e.
-`http://bootapp-spring-veer.apps.devday.ocpcloud.com/dbtest`.
+`http://bootapp-spring-veer.{{APPS_ADDRESS}}/dbtest`.
 
 *Note* that the output is still from the MySQLDB.
 
@@ -185,7 +185,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ....
-$ curl -X POST http://bootapp-spring-veer.apps.devday.ocpcloud.com/refresh
+$ curl -X POST http://bootapp-spring-veer.{{APPS_ADDRESS}}/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ....
 

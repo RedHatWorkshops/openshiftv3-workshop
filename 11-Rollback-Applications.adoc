@@ -7,7 +7,7 @@ quickly without switching to an older version of the source code in SCM.
 
 In this Lab we will:
 
-* Use the same app we deployed in Lab 10. If you haven’t, please
+* Use the same app we deployed in previous Web Hooks Lab. If you haven’t, please
 complete that Lab first.
 * Rollback the application using the OpenShift v3 command ``rollback''.
 
@@ -42,7 +42,7 @@ scm-web-hooks   2          1         1         config,image(scm-web-hooks:latest
 * The latest and active version for the application is *2*
 * If we display the application in the browser we see:
 
-image:images/blue_app.jpg[image]
+image::blue_app.jpg[image]
 
 *Step 2: Rollback the application*
 
@@ -67,6 +67,6 @@ scm-web-hooks   3          1         1         config,image(scm-web-hooks:latest
 a new build configuration.
 * Reloading the application now displays:
 
-image:images/green_app.jpg[image]
+image::green_app.jpg[image]
 
 link:0_toc.adoc[Table Of Contents]

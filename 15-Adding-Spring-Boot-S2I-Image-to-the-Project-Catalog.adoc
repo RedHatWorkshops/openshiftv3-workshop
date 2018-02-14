@@ -102,7 +102,7 @@ link:[https://github.com/RedHatWorkshops/spring-sample-app] on OpenShift
 using your experience from the previous labs.
 
 ....
-oc new-app springboot~https://github.com/RedHatWorkshops/spring-sample-app.git --name newapp
+oc new-app springboot~https://github.com/RedHatWorkshops/spring-sample-app.git --name bootapp
 ....
 
 Congratulations!! you have learnt to make an image stream available in

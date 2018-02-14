@@ -7,7 +7,7 @@ pipeline will be setup using Jenkins running as an application pod on
 OpenShift. The pipeline running on Jenkins will trigger builds and
 deployments on OpenShift.
 
-*Prerequisites:* 
+*Prerequisites:*
 
 * You need a github account if you want to make changes and test the pipeline kick-off.
 * You will be using the projects you created in the "Promiting Applications" lab.
@@ -63,7 +63,7 @@ pipeline that runs. We will discuss that in the next step.
 This will spin up a Jenkins pod. Give it a few minutes as it takes time
 to download and deploy jenkins. You will also see the URL assigned to
 your Jenkins. It would be something like
-`https://jenkins-pipeline-UserName.apps.devday.osecloud.com`
+`https://jenkins-pipeline-UserName.{{APPS_ADDRESS}}`
 
 If you click on that URL, you will be taken to Jenkins Console. *Note:*
 The browser may complain that the URL is insecure. Click on advanced and
@@ -122,8 +122,8 @@ full access to these projects.
 
 ....
 oc project jenkins-UserName
-oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n testing-UserName
-oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n development-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n testing-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n development-UserName
 ....
 
 For reference the syntax is: `system:serviceaccount:PROJECTNAME:SERVICEACCOUNT`
@@ -135,7 +135,7 @@ Using the left-side navigation; go to `Application` -> `Deployments`. On the ove
 page click on your build to see your deployment histroy page.
 
 Click on the `Actions` -> `Edit` on the upper right hand side to go into
-the `Configuration` page for your deployment. 
+the `Configuration` page for your deployment.
 
 Untick the following boxes:
 
@@ -143,21 +143,27 @@ Untick the following boxes:
 * `Automatically start a new deployment when the deployment configuration changes`
 
 Click "Save" and in the end, the config should look like this.
-image:images/disable-triggers1.png[image]
+
+image::disable-triggers1.png[image]
 
 
-Do the same steps for the `testing-UserName` project. It should 
+
+Do the same steps for the `testing-UserName` project. It should
 look similar.
-image:images/disable-triggers2.png[image]
+
+image::disable-triggers2.png[image]
 
 
 *Step 5:* Start pipeline
-
+Change Project to pipeline-Username
+Build --> Pipelines
 Now click on the `Start Pipeline` button to start the pipeline.
-image:images/pipeline2.jpeg[image]
+
+image::pipeline2.jpeg[image]
 
 Notice the pipeline starts and `build` and `deploy` stages are executed.
-image:images/pipeine3.jpeg[image]
+
+image::pipeine3.jpeg[image]
 
 Click on the `View log` link for the pipeline. It’ll take you to Jenkins
 and show the logs.
@@ -169,7 +175,9 @@ application to notice that the `blue` box is displayed.
 *Step 6:* Configure webhook and trigger with changes (optional)
 
 Navigate back to the `configuration` tab for the pipeline as explained
-in Step 3. Copy the value for `Github webhook` url.
+in Step 3. Copy the value for `Github webhook` url
+Since development-User uses git repo from https://github.com/RedHatWorkshops/welcome-php),
+you will need to fork this repo and update the developement configure to use the forked repo.
 
 Based on what you learn in the past, go to your github repository that
 you cloned and set up a webhook pointing to this URL.
@@ -182,16 +190,8 @@ you cloned and set up a webhook pointing to this URL.
 * Press on `Disable SSL`
 * Press on `Add Webhook`
 
-Now edit the `image.php` file to uncomment the green box and comment the
-blue box as shown below
-
-....
-// Draw a filled rectangle
-//imagefilledrectangle($im, 0, 0, 199, 199, $blue);
-imagefilledrectangle($im, 0, 0, 199, 199, $green);
-....
-
-and `Commit` changes.
+Now edit the one of the file in your repo and `Commit` changes.
+Pipeline build will be triggered.
 
 Come back and watch the Web Console, you will notice that a new build
 has just started. Once the build completes, you will also see the

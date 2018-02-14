@@ -1,0 +1,62 @@
+config:
+  vars:
+    - name: DEFAULT_PASSWORD
+      desc: Default password for users in the environment
+      value: openshift
+    - name: CONSOLE_ADDRESS
+      desc: HTTP address of the OpenShift console
+      value: https://ocpmaster.sc.osecloud.com:8443
+    - name: APPS_ADDRESS
+      desc: HTTP address suffix of apps deployed on OpenShift
+      value: apps.sc.osecloud.com
+    - name: GET_STARTED_CLI_URL
+      desc: URL to documentation to configure CLI
+      value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
+    - name: NEXUS_URL
+      desc: URL to Nexus repository
+      value: http://nexus-ci.apps.sc.osecloud.com/repository/maven-public/
+    - name: REDHAT_DOWNLOAD_OC_PORTAL_URL
+      desc: URL for Red Hat portal oc binary download
+      value: https://access.redhat.com/downloads/content/290
+
+modules:
+  0-Setting-up-client-tools:
+    name: Setting up client tools
+  1-Create-App-From-a-Docker-Image:
+    name: Create an App from a Docker image
+  2-Create-App-Using-Docker-Build:
+    name: Create an App using Docker build
+  3-Using-Web-Console:
+    name: Using Web Console
+  4-Creating-an-application-using-JBoss-EAP-builder-image:
+    name: Creating an application using JBoss EAP builder image
+  5-Using-templates:
+    name: Using Templates
+  6-Scale-up-and-Scale-down-the-application-instances:
+    name: Scale up and Scale down and Idle the application instances
+  7-Binary-Deployment-of-a-war-file:
+    name: Binary Deployment of a war file
+  8-Using-SSL-In-your-Application:
+    name: Using SSL in your application
+  9-Blue-Green-Deployments:
+    name: Blue-Green Deployments
+  10-SCM-Web-Hooks:
+    name: SCM Web Hooks
+  11-Rollback-Applications:
+    name: Rollback Applications
+  12-Code-Promotion-Across-Environments:
+    name: Code Promotion across Environments
+  13-Using-Persistent-Storage:
+    name: Using Persistent Storage
+  14-Deploy-a-Spring-Boot-Application:
+    name: Deploy a SpringBoot Application
+  15-Adding-Spring-Boot-S2I-Image-to-the-Project-Catalog:
+    name: Adding Spring Boot S2I Image to the Project Catalog
+  16-Adding-database-to-your-Spring-Boot-Application:
+    name: Adding a backend database to the SpringBoot application
+  17-Dynamic-Configuration-Updates-using-ConfigMap:
+    name: Dynamic configuration updates using ConfigMap
+  18-Changing-code-on-the-fly:
+    name: Changing code on the fly
+  19-Creating-a-Pipeline:
+    name: Create Pipeline

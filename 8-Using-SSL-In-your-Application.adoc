@@ -38,7 +38,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/myjbossapp-admin/routes/ks
   uid: 14cf078c-8b8e-11e6-ba5b-080027782cf7
 spec:
-  host: ks-myjbossapp-UserName.apps.osecloud.com
+  host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
   port:
     targetPort: 8080-tcp
   to:
@@ -51,8 +51,8 @@ status:
     - lastTransitionTime: 2016-10-06T06:28:23Z
       status: "True"
       type: Admitted
-    host: ks-myjbossapp-UserName.apps.osecloud.com
-    routerName: router  
+    host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
+    routerName: router
 ....
 
 Note here that the `host:` is set to the FQDN that your application is
@@ -94,7 +94,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/myjbossapp-shchan/routes/ks
   uid: fba5d1e6-a85f-11e5-be21-fa163ec58dad
 spec:
-  host: ks-myjbossapp-UserName.apps.osecloud.com
+  host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
   tls:
     termination: edge
   port:

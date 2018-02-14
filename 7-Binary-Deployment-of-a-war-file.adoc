@@ -71,7 +71,7 @@ Here I am naming my application as *myapp*. So all the artifacts will
 get the name *myapp*.
 
 ....
-$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --name=myapp
+$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift:1.3 --binary=true --name=myapp
 
 --> Found image 58272fb (11 weeks old) in image stream "jboss-webserver30-tomcat8-openshift" in project "openshift" under tag "latest" for "jboss-webserver30-tomcat8-openshift"
 

@@ -28,39 +28,33 @@ Open the browser and select your new project *My JBoss Applications*.
 
 Click into *Browse Catalog* button.
 
-In the search text box type `Red Hat JBoss EAP 6.4` and select the
-latest version tag for this builder image (at the moment of creation
-this lab it is `Red Hat JBoss EAP 6.4 1.6`).
+In the search text box type `EAP 6.4` and select `JBoss EAP 6.4 (no https)`.
 
-Hit Next
+Click Next
 
 ....
 In the Add to Project box select the created "My JBoss Applications" Project
+Add to Project: select your project name if it is not show
 
 Application Name: ks
 
 Git Repository URL: https://github.com/RedHatWorkshops/kitchensink
-....
 
-image:images/jboss_wizard_configuration.png[image]
+Git Reference: master
 
+Context Directory: /
 
-Click on the blue link that says: *Advanced Options*
-
-On *Build Configuration* add a new _Environment Variable_.
-
-....
-name: MAVEN_MIRROR_URL
-value: <nexus_url>/repository/maven-public/
-
-Ex:-  http://nexus-artrepo.apps.devday.ocpcloud.com/repository/maven-public/
+Maven mirror URL: {{NEXUS_URL}}
 ....
 
 *REMEMBER:* Check with your instructor the proper URL for the Nexus
 repository.
 
-image:images/nexus_repo.png[image]
+image::jboss_wizard_configuration.png[image]
+image::jboss_wizard_configuration2.png[image]
 
+Click Next
+Select `Create a secret in ... to be used later`
 Click on *Create* and then on *Continue to the project overview*.
 
 *Step 3: Build*
@@ -307,7 +301,7 @@ Route should be already created.
 $ oc get routes
 
 NAME      HOST/PORT                                                      PATH      SERVICES   PORT       TERMINATION
-ks        ks-myjbossapp-Username.apps.osecloud.com                                 ks         8080-tcp   
+ks        ks-myjbossapp-Username.{{APPS_ADDRESS}}                                 ks         8080-tcp
 ....
 
 If route does not show, we expose the service `ks` via the command
@@ -327,7 +321,7 @@ Now access the application by using the route you got in the previous
 step. You can use either curl or your browser.
 
 ....
-$ curl ks-myjbossapp-UserName.apps.osecloud.com
+$ curl ks-myjbossapp-UserName.{{APPS_ADDRESS}}
 
 <!--
     JBoss, Home of Professional Open Source
@@ -354,10 +348,10 @@ $ curl ks-myjbossapp-UserName.apps.osecloud.com
 </html>
 ....
 
-Go to https://ks-myjbossapp-Username.apps.osecloud.com via your browser.
+Go to https://ks-myjbossapp-Username.{{APPS_ADDRESS}} via your browser.
 Please replace your username with yours.
 
-image:images/ks-myjbossapp.png[image]
+image::ks-myjbossapp.png[image]
 
 Congratulations! In this exercise you have learned how to create, build
 and deploy a JBoss EAP application using OpenShift’s JBoss EAP Builder
