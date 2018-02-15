@@ -26,14 +26,14 @@ Click on *Add to Project -> Browse Catolog* button and you will be taken to sele
 image or template. You will see the application create screen as shown
 below:
 
-image::service_catalog2.png[image]
+image::images/service_catalog2.png[image]
 
 Click on *Databases* tab. Find *MySQL* then *MySQL (Ephemeral)*
 template from the list and click *Select*. You will also notice *MySQL
 (Persistent)* template. But we will address that in a different lab
 exercise.
 
-image::mysql_ephemeral_template.png[image]
+image::images/mysql_ephemeral_template.png[image]
 
 You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
@@ -47,13 +47,13 @@ MySQL root user Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-image::mysql_ephemeral_creation.png[image]
+image::images/mysql_ephemeral_creation.png[image]
 
 Click the *Next* button.
 
 Click the checkbox to create the secret
 
-image::mysql_secret_binding.png[image]
+image::images/mysql_secret_binding.png[image]
 
 Click *Create*
 
@@ -62,7 +62,7 @@ Click *Continue to project overview*.
 It will take you back to the project overview page and soon you will see
 an image of a running pod.
 
-image::mysql_pod_on_proj_overview.png[image]
+image::images/mysql_pod_on_proj_overview.png[image]
 
 Please wait for the Bindings to complete. It may take few minutes.
 
@@ -94,14 +94,14 @@ Add to Project: consoleproject-UserName (this should be the same project as MySQ
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 
-image::php.png[image]
+image::images/images/php.png[image]
 
 
 Click onto the link `Advanced Options`
 Go to Deployment Configuration section and enter the
 following environment variables:
 
-image::dbtest_deployment_env.png[image]
+image::images/images/dbtest_deployment_env.png[image]
 
 In the Labels section add the following label if its not there:
 
@@ -111,7 +111,7 @@ In the Labels section add the following label if its not there:
 
 Click *Create* to add this frontend application to talk to the database.
 
-image::cakephp_confirm.png[image]
+image::images/cakephp_confirm.png[image]
 
 Click *Continue to product overview*.
 
@@ -124,7 +124,7 @@ You will also notice that a build starts running very soon. Once the
 build completes, the application image created from the source code will
 be uploaded to the docker repository.
 
-image::console_project_overview.png[image]
+image::images/console_project_overview.png[image]
 
 You can check the build logs using the following command:
 
@@ -178,7 +178,7 @@ When you open your application, click on the "Create Record" button and create a
 Once you added a record, click on "Read Records". The page should look
 like this.
 
-image::application_create_screen.png[image]
+image::images/application_create_screen.png[image]
 
 You can verify this by logging into the database using `oc rsh`
 

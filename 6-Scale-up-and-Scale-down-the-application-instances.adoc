@@ -151,7 +151,7 @@ To scale your application we will edit the `deploymentConfig` to 3.
 Open your browser to the Overview page and note you only have one
 instance running.
 
-image::scale_updown_overview.png[image]
+image::images/scale_updown_overview.png[image]
 
 Now scale your application using the `oc scale` command (remembering to
 specify the `dc`)
@@ -163,7 +163,7 @@ deploymentconfig "time" scaled
 
 If you look at the web console and you will see that there are 3
 instances running now
-image::scale_updown_overview_scaled.png[image]
+image::images/scale_updown_overview_scaled.png[image]
 
 *Note:* You can also scale up and down from the web console by going to
 the project overview page and clicking twice on
@@ -217,7 +217,7 @@ Idled DeploymentConfig mycliproject-veer/time (dry run)
 Go back to the webconsole. You will notice that the pods show up as
 idled.
 
-image::idled_pods.jpeg[image]
+image::images/idled_pods.jpeg[image]
 
 At this point the application is idled, the pods are not running and no
 resources are being used by the application. This doesn’t mean that the
