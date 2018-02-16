@@ -10,7 +10,7 @@ Lab Exercises Table of Contents
 * Lab 1. link:1-Create-App-From-a-Docker-Image.adoc[Creating an application from an existing Docker Image using CLI]
 * Lab 2. link:2-Create-App-Using-Docker-Build.adoc[Create an application using Docker Build Strategy using CLI]
 * Lab 3. link:3-Using-Web-Console.adoc[Using Web Console]
-* Lab 4. link:4-Creating-an-application_using_JBoss_EAP_builder_image.adoc[Creating an application using JBoss EAP builder image]
+* Lab 4. link:4-Creating-an-application-using-JBoss-EAP-builder-image.adoc[Creating an application using JBoss EAP builder image]
 * Lab 5. link:5-Using-templates.adoc[Creating an application with frontend and backend database using templates]
 * Lab 6. link:6-Scale-up-and-Scale-down-the-application-instances.adoc[Scale Up Scale Down and Idle the application instances]
 * Lab 7. link:7-Binary-Deployment-of-a-war-file.adoc[Binary deployment of a war file]
