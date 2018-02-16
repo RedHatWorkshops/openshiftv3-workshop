@@ -147,7 +147,7 @@ spring.datasource.password=password
 *Step 4: Test the application connection*
 
 Click the application url now i.e
-`http://bootapp-spring-UserName.{{APPS_ADDRESS}}/`. It will open
+`http://bootapp-spring-UserName.apps.workshop.osecloud.com/`. It will open
 a new tab and greets you
 
 ....
@@ -159,7 +159,7 @@ example `oc logs -f bootapp-2-06a4b` Watch out for connection url in the
 output.
 
 Now try the `/dbtest` endpoint i.e.
-`http://bootapp-spring-veer.{{APPS_ADDRESS}}/dbtest`.
+`http://bootapp-spring-veer.apps.workshop.osecloud.com/dbtest`.
 
 *Note* that the output is still from the MySQLDB.
 
@@ -185,7 +185,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ....
-$ curl -X POST http://bootapp-spring-veer.{{APPS_ADDRESS}}/refresh
+$ curl -X POST http://bootapp-spring-veer.apps.workshop.osecloud.com/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ....
 

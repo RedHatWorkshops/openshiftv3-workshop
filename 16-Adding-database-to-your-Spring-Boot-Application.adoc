@@ -9,7 +9,7 @@ If you already created the SpringBoot application in the previous lab
 link:14.%20Deploy%20a%20Spring%20Boot%20Application.md[deploy a spring
 boot application], just test one more thing. Try your application url
 with `/dbtest`
-(http://bootapp-spring-UserName.{{APPS_ADDRESS}}/dbtest
+(http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest
 *substitute* UserName) extension and it should list you some data from
 the HSQLDB configured within the same app.
 
@@ -292,7 +292,7 @@ Note the contents of this file are what you added to the ConfigMap.
 
 Go back to the `Overview` page. Click on your application url which
 would be something like
-`http://bootapp-spring-UserName.{{APPS_ADDRESS}}/`
+`http://bootapp-spring-UserName.apps.workshop.osecloud.com/`
 
 It will open a new tab and your running application will greet you
 
@@ -306,7 +306,7 @@ oc logs -f bootapp-2-06a4b
 ....
 
 Now access the application with the `/dbtest` extension -
-`http://bootapp-spring-UserName.{{APPS_ADDRESS}}/dbtest`
+`http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest`
 
 It should show the data from your MySQL database.
 

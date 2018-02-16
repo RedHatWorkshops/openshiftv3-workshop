@@ -171,7 +171,7 @@ Go ahead and open your application. The URL will be displayed by `oc get route`
 ....
 $ oc get route
 NAME        HOST/PORT                                                    PATH      SERVICES    PORT       TERMINATION   WILDCARD
-pricelist   pricelist-consoleproject-Username.{{APPS_ADDRESS}} 	                   pricelist   8080-tcp                 None
+pricelist   pricelist-consoleproject-Username.apps.workshop.osecloud.com 	                   pricelist   8080-tcp                 None
 ....
 
 When you open your application, click on the "Create Record" button and create a record.

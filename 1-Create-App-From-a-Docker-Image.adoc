@@ -114,14 +114,14 @@ command will allow you to expose your service to the world so that you
 can access it from the browser.
 
 *Note*: In this example, I am using a domain name of
-`{{APPS_ADDRESS}}`. *Ask the instructor for the domain name suffix* for
+`apps.workshop.osecloud.com`. *Ask the instructor for the domain name suffix* for
 your setup an change it.
 
 ....
-$ oc expose service welcome --name=welcome --hostname=welcome.UserName.{{APPS_ADDRESS}}
+$ oc expose service welcome --name=welcome --hostname=welcome.UserName.apps.workshop.osecloud.com
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.UserName.{{APPS_ADDRESS}}             welcome
+welcome   welcome.UserName.apps.workshop.osecloud.com             welcome
 ....
 
 *Step 4: Try your application*
@@ -130,7 +130,7 @@ Access the application: Now access the application using curl (looking
 for 200 status code) or from the browser and see the result
 
 ....
-$ curl -Is http://welcome.UserName.{{APPS_ADDRESS}}
+$ curl -Is http://welcome.UserName.apps.workshop.osecloud.com
 ....
 
 Voila!! you created your first application using an existing docker
@@ -153,7 +153,7 @@ welcome   ConfigChange, ImageChange   1
 CONTROLLER   CONTAINER(S)   IMAGE(S)                             SELECTOR                                        REPLICAS
 welcome-1    welcome        redhatworkshops/welcome-php:latest   deployment=welcome-1,deploymentconfig=welcome   1
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.{{APPS_ADDRESS}}             welcome
+welcome   welcome.apps.workshop.osecloud.com             welcome
 NAME      LABELS    SELECTOR                   IP(S)           PORT(S)
 welcome   <none>    deploymentconfig=welcome   172.30.155.37   80/TCP
 NAME              READY     REASON    RESTARTS   AGE

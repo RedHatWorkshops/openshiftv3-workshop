@@ -108,15 +108,15 @@ scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 *Remember* to substitute the UserName.
 
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.{{APPS_ADDRESS}}
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.workshop.osecloud.com
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
-scm-web-hooks   scm-web-hooks.UserName.{{APPS_ADDRESS}}             scm-web-hooks   app=scm-web-hooks
+scm-web-hooks   scm-web-hooks.UserName.apps.workshop.osecloud.com             scm-web-hooks   app=scm-web-hooks
 ....
 
 *Step 5: Test the application*
 
 * Use the newly created route, in the above case
-`scm-web-hooks.UserName.{{APPS_ADDRESS}}` and paste it in your browser.
+`scm-web-hooks.UserName.apps.workshop.osecloud.com` and paste it in your browser.
 * You should see:
 
 image::images/green_deployment.png[image]
