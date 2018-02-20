@@ -94,14 +94,14 @@ Add to Project: consoleproject-UserName (this should be the same project as MySQ
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 
-image::images/images/php.png[image]
+image::images/php.png[image]
 
 
 Click onto the link `Advanced Options`
 Go to Deployment Configuration section and enter the
 following environment variables:
 
-image::images/images/dbtest_deployment_env.png[image]
+image::images/dbtest_deployment_env.png[image]
 
 In the Labels section add the following label if its not there:
 
