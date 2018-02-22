@@ -101,9 +101,9 @@ to have access to the projects `development-UserName` and
 full access to these projects.
 
 ....
-oc project jenkins-UserName
-oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n testing-UserName
-oc adm policy add-role-to-user admin system:serviceaccount:jenkins-UserName:jenkins -n development-UserName
+oc project pipeline-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n testing-UserName
+oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n development-UserName
 ....
 
 For reference the syntax is: `system:serviceaccount:PROJECTNAME:SERVICEACCOUNT`
