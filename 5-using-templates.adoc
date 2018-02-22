@@ -213,7 +213,7 @@ Click onto the link "Show advanced routing, build, and deployment
 options", go to Deployment Configuration section and enter the following
 environment variables:
 
-image::dbtest_deployment_env.png[image]
+image::dbtest_deployment_env.jpg[image]
 
 In the next section add a label:
 

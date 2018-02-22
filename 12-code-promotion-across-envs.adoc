@@ -30,7 +30,7 @@ $ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing
 *Step 3: Create an application in the development project*
 
 Switch over to the *development-userxx* project and deploy an
-application using `eap6-basic-sti` template. You can use web console or
+application using `eap64-basic-s2i` template. You can use web console or
 command line. The command line option is shown below.
 
 *Bonus points:* Clone this application to your own GitLab account and
