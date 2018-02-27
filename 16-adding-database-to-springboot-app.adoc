@@ -162,10 +162,10 @@ Now we will mount the ConfigMap so that the springboot application can
 use it. You can either edit from CLI or from WebConsole.
 
 * If using WebConsole, navigate to
-`Applications`->`Deployments`->`bootapp`. The screen should show
-Deployment Configuration details for the `bootapp` application. On the
+`Applications`->`Deployments`->`sampleapp`. The screen should show
+Deployment Configuration details for the `sampleapp` application. On the
 right top, choose `Actions` dropdown and `Edit YAML`.
-* If you are doing from CLI, you can run `oc edit dc bootapp`
+* If you are doing from CLI, you can run `oc edit dc sampleapp`
 
 Scroll down to container spec, that looks like this:
 
@@ -174,8 +174,8 @@ Scroll down to container spec, that looks like this:
     spec:
       containers:
         -
-          name: bootapp
-          image: '172.30.85.130:5000/spring-userxx/bootapp@sha256:79e188d712e1209b933870c7d064423af281f16b371fb5e5911dfb09a6867776'
+          name: sampleapp
+          image: '172.30.85.130:5000/spring-userxx/sampleapp@sha256:79e188d712e1209b933870c7d064423af281f16b371fb5e5911dfb09a6867776'
           ports:
             -
               containerPort: 8080
@@ -214,7 +214,7 @@ below.
 ----
       containers:
         -
-          name: bootapp
+          name: sampleapp
           volumeMounts:
           - name: app-props-volume
             mountPath: /opt/app-root/src/config
@@ -231,8 +231,8 @@ like this:
     metadata:
       creationTimestamp: null
       labels:
-        app: bootapp
-        deploymentconfig: bootapp
+        app: sampleapp
+        deploymentconfig: sampleapp
     spec:
       volumes:
         - name: app-props-volume
@@ -240,7 +240,7 @@ like this:
             name: app-props
       containers:
         -
-          name: bootapp
+          name: sampleapp
           volumeMounts:
           - name: app-props-volume
             mountPath: /opt/app-root/src/config
@@ -262,7 +262,7 @@ like this:
 deploymentConfig:
 
 ----
-$ oc set volumes dc/bootapp --add -m /opt/app-root/src/config --configmap-name=app-props
+$ oc set volumes dc/sampleapp --add -m /opt/app-root/src/config --configmap-name=app-props
 ----
 
 So what is this location `/opt/app-root/src/config`?
@@ -304,21 +304,21 @@ Note the contents of this file are what you added to the ConfigMap.
 
 Go back to the `Overview` page. Click on your application url which
 would be something like
-`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/`
+`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/`
 
 It will open a new tab and your running application will greet you
 
-`Hello from bootapp-2-06a4b`
+`Hello from sampleapp-2-06a4b`
 
 Now move back to your webconsole and watch the pod logs. You can also do
 this from CLI by running
 
 ----
-$ oc logs -f bootapp-2-06a4b
+$ oc logs -f sampleapp-2-06a4b
 ----
 
 Now access the application with the `/dbtest` extension -
-`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`
+`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`
 
 It should show the data from your MySQL database.
 
