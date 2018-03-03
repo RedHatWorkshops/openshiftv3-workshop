@@ -22,6 +22,10 @@ Red Hat Customer Portal via the following link:
 
 {{REDHAT_DOWNLOAD_OC_PORTAL_URL}}
 
+NOTE: The link above requires a Red Hat login id, if you do not
+have one you can download the Open Source binary from the OpenShift
+Origin site at {{ORIGIN_DOWNLOAD_OC_URL}}.
+
 *Installing the CLI tools*
 
 The CLI is provided as compressed files that can be decompressed to any
@@ -58,9 +62,9 @@ configuration file that is then used for subsequent commands.
 
 To login to a remote server use:
 
-[source,shell]
+
 ----
 $ oc login {{CONSOLE_ADDRESS}}
 ----
 
-NOTE: Username and password will be provided by your instructor.
+NOTE: Username will be provided by your instructor, the password is '{{DEFAULT_PASSWORD}}'
