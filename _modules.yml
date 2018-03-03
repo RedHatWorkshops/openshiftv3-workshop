@@ -1,0 +1,65 @@
+config:
+  vars:
+    - name: DEFAULT_PASSWORD
+      desc: Default password for users in the environment
+      value: Welcome1
+    - name: GIT_SERVER_URL
+      desc: Git server url
+      value: https://github.com
+    - name: CONSOLE_ADDRESS
+      desc: HTTP address of the OpenShift console
+      value: https://ocplab.com:8443
+    - name: APPS_ADDRESS
+      desc: HTTP address suffix of apps deployed on OpenShift
+      value: apps.ocplab.com
+    - name: GET_STARTED_CLI_URL
+      desc: URL to documentation to configure CLI
+      value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
+    - name: NEXUS_URL
+      desc: URL to Nexus repository
+      value: http://nexus.nexus.svc.cluster.local:8081/content/groups/public
+    - name: REDHAT_DOWNLOAD_OC_PORTAL_URL
+      desc: URL for Red Hat portal oc binary download
+      value: https://access.redhat.com/downloads/content/290
+
+modules:
+  0-setting-up-client-tools:
+    name: Setting up client tools
+  1-create-app-from-docker-image:
+    name: Create an App from a Docker image
+  2-create-app-using-docker-build:
+    name: Create an App using Docker build
+  3-using-web-console:
+    name: Using Web Console
+  4-create-app-using-jboss-builder-image:
+    name: Creating an application using JBoss EAP builder image
+  5-using-templates:
+    name: Using Templates
+  6-scaling-app-instances:
+    name: Scale up and Scale down and Idle the application instances
+  7-binary-deployment-war-file:
+    name: Binary Deployment of a war file
+  8-using-ssl-app:
+    name: Using SSL in your application
+  9-bluegreen-deployments:
+    name: Blue-Green Deployments
+  10-webhooks:
+    name: SCM Web Hooks
+  11-rollback-applications:
+    name: Rollback Applications
+  12-code-promotion-across-envs:
+    name: Code Promotion across Environments
+  13-using-jbds:
+    name: Installing the JBoss Developer Studio
+  14-deploy-springboot-app:
+    name: Deploy a SpringBoot Application
+  15-adding-springboot-sti-to-catalog:
+    name: Adding Spring Boot S2I Image to the Project Catalog
+  16-adding-database-to-springboot-app:
+    name: Adding a backend database to the SpringBoot application
+  17-dynamic-config-updates-using-configmaps:
+    name: Dynamic configuration updates using ConfigMap
+  18-changing-code-onthefly:
+    name: Changing code on the fly
+  20-deploy-dotnet-app:
+    name: Deploy .Net core application
