@@ -23,9 +23,9 @@ config:
       value: https://access.redhat.com/downloads/content/290
 
 modules:
-  0-setting-up-client-tools:
+  0-Setting-up-client-tools:
     name: Setting up client tools
-  1-create-app-from-docker-image:
+  1-Create-App-From-a-Docker-Image:
     name: Create an App from a Docker image
   2-create-app-using-docker-build:
     name: Create an App using Docker build
