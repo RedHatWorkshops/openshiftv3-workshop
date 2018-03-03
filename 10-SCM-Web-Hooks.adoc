@@ -17,6 +17,11 @@ In Part I of the Lab we will:
 * Create a route to expose the newly deployed application.
 
 *Step 1: Create new project*
+. Login into the git server at {{GIT_SERVER_URL}}.
+. Create your user account.
+. Fork this repository ({{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git) into your account by clicking the *Fork* button. In GitHub it is in the upper right corner, in GitLab it is right at the bottom of the repository name.
+
+NOTE: We will use the forked repository.
 
 IMPORTANT: Please replace *userXX* with the username assigned to you in
 the commands below.
@@ -32,7 +37,7 @@ $ oc new-project scm-web-hooks-userXX --display-name="Test WebHooks"
 *Remember* to substitute the userXX.
 
 ....
-$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_github_username/bluegreen.git --name=scm-web-hooks
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_git_username/bluegreen.git --name=scm-web-hooks
 ....
 
 *Step 3: Look at some of the created resources*
