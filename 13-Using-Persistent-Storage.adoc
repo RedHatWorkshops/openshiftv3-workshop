@@ -39,7 +39,7 @@ route "openshift-php-upload-demo" exposed
 
 Visit your application; it should look like this
 
-image::images/upload-app.png[image]
+image::upload-app.png[image]
 
 *Step 2: Test with ephemeral storage*
 
@@ -47,7 +47,7 @@ Pick a file to upload and upload it to the app. Once uploaded you can view
 a list of file when you click `List Uploaded Files`. It should look something
 like this
 
-image::images/list-uploaded-files.png[image]
+image::list-uploaded-files.png[image]
 
 You can see where the uploaded files are if you use `oc rsh`. They are uploaded
 under `/opt/app-root/src/uploaded`
@@ -92,12 +92,12 @@ and it's up to the backend adminsitrator to provide the solution
 On the webconsole on the left side navigation click on "Storage". It will bing
 you to the storage overview page.
 
-image::images/storage-overview.png[image]
+image::storage-overview.png[image]
 
 On the right hand side; click the "Create Storage" button. This will take you
 to the "Create Storage" page.
 
-image::images/create-storage.png[image]
+image::create-storage.png[image]
 
 Here you need to enter the following
 

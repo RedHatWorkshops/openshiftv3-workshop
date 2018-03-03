@@ -25,7 +25,7 @@ project that displays a green rectangle.
 * We will then switch the FQDN to from the first application (blue) to
 the second application (green).
 
-image::images/blue_green_deployment.png[image]
+image::blue_green_deployment.png[image]
 
 [[part-i]]
 Part I
@@ -136,7 +136,7 @@ $ oc get route
 Copy the HOST/PORT and paste it in your browser. You should see
 something similar to:
 
-image::images/blue_deployment.jpeg[image]
+image::blue_deployment.jpeg[image]
 
 At this point you have deployed an application that displays for
 illustration purposes a blue rectangle for version 1.
@@ -152,7 +152,7 @@ very small change)
 * Point the previously created FQDN (route) to the new service that will
 be created as part of the new application creation process.
 
-image::images/blue_green_active_green.png[image]
+image::blue_green_active_green.png[image]
 
 *Step 1: Create new version of the application*
 
@@ -224,26 +224,26 @@ You can route traffic to both services. This is also known as "cannary in a cole
 Using the lefthand side navigation; click on *Applications -> Routes*. This will
 bring you to the `Route` overview page.
 
-image::images/bg-routes-page.png[image]
+image::bg-routes-page.png[image]
 
 Here, click on the  `bluegreen` route. The page after will display the current configuration.
 On the upper right hand side, click on *Actions -> Edit*. You should see a page similar to
 this one.
 
-image::images/bg-edit-route.png[image]
+image::bg-edit-route.png[image]
 
 Next, tick on `Split traffic across multiple services`
 
-image::images/g-slipt-traffic.png[image]
+image::g-slipt-traffic.png[image]
 
 Here, set the weight to 50% on blue and 50% on green. This will make it to where half the
 traffic will go to the green application and half to the blue application.
 
-image::images/bg-5050-split.png[image]
+image::bg-5050-split.png[image]
 
 Once you click on *Save*; you should see this on the Route Overview page.
 
-image::images/bg-route-split-overview.png[image]
+image::bg-route-split-overview.png[image]
 
 *Step 2: Test Your Settings*
 
