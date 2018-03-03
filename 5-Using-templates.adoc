@@ -92,7 +92,6 @@ Select Languages -> PHP -> PHP
 
 Click *Next*
 
-****
 Add to Project: consoleproject-userXX (this should be the same project as MySQL Ephemeral)
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
