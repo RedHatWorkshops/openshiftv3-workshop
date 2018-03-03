@@ -116,7 +116,7 @@ can access it from the browser.
 NOTE: The `--hostname` attribute in the command below is not required properly as we are using
 a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
 ....
-$ oc expose service welcome --name=welcome --hostname=welcome.UserName..{{APPS_ADDRESS}}
+$ oc expose service welcome --name=welcome --hostname=welcome.UserName.{{APPS_ADDRESS}}
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
 welcome   welcome.UserName.{{APPS_ADDRESS}}             welcome
