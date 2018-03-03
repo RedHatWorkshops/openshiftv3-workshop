@@ -27,39 +27,39 @@ modules:
     name: Setting up client tools
   1-Create-App-From-a-Docker-Image:
     name: Create an App from a Docker image
-  2-create-app-using-docker-build:
+  2-Create-App-Using-Docker-Build:
     name: Create an App using Docker build
-  3-using-web-console:
+  3-Using-Web-Console:
     name: Using Web Console
-  4-create-app-using-jboss-builder-image:
+  4-Creating-an-application-using-JBoss-EAP-builder-image:
     name: Creating an application using JBoss EAP builder image
-  5-using-templates:
+  5-Using-templates:
     name: Using Templates
-  6-scaling-app-instances:
+  6-Scale-up-and-Scale-down-the-application-instances:
     name: Scale up and Scale down and Idle the application instances
-  7-binary-deployment-war-file:
+  7-Binary-Deployment-of-a-war-file:
     name: Binary Deployment of a war file
-  8-using-ssl-app:
+  8-Using-SSL-In-your-Application:
     name: Using SSL in your application
-  9-bluegreen-deployments:
+  9-Blue-Green-Deployments:
     name: Blue-Green Deployments
-  10-webhooks:
+  10-SCM-Web-Hooks:
     name: SCM Web Hooks
-  11-rollback-applications:
+  11-Rollback-Applications:
     name: Rollback Applications
-  12-code-promotion-across-envs:
+  12-Code-Promotion-Across-Environments:
     name: Code Promotion across Environments
-  13-using-jbds:
-    name: Installing the JBoss Developer Studio
-  14-deploy-springboot-app:
+  13-Using-Persistent-Storage:
+    name: Using persistent storage
+  14-Deploy-a-Spring-Boot-Application:
     name: Deploy a SpringBoot Application
-  15-adding-springboot-sti-to-catalog:
+  15-Adding-Spring-Boot-S2I-Image-to-the-Project-Catalog:
     name: Adding Spring Boot S2I Image to the Project Catalog
-  16-adding-database-to-springboot-app:
+  16-Adding-database-to-your-Spring-Boot-Application:
     name: Adding a backend database to the SpringBoot application
-  17-dynamic-config-updates-using-configmaps:
+  17-Dynamic-Configuration-Updates-using-ConfigMap:
     name: Dynamic configuration updates using ConfigMap
-  18-changing-code-onthefly:
+  18-Changing-code-on-the-fly:
     name: Changing code on the fly
-  20-deploy-dotnet-app:
-    name: Deploy .Net core application
+  19-Creating-a-Pipeline:
+    name: Creating a pipeline

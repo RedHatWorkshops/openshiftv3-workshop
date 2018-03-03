@@ -113,15 +113,13 @@ Now add a route to the service with the following command. `oc expose`
 command will allow you to expose your service to the world so that you
 can access it from the browser.
 
-*Note*: In this example, I am using a domain name of
-`apps.workshop.osecloud.com`. *Ask the instructor for the domain name suffix* for
-your setup an change it.
-
+NOTE: The `--hostname` attribute in the command below is not required properly as we are using
+a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
 ....
-$ oc expose service welcome --name=welcome --hostname=welcome.UserName.apps.workshop.osecloud.com
+$ oc expose service welcome --name=welcome --hostname=welcome.UserName..{{APPS_ADDRESS}}
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.UserName.apps.workshop.osecloud.com             welcome
+welcome   welcome.UserName.{{APPS_ADDRESS}}             welcome
 ....
 
 *Step 4: Try your application*
@@ -130,7 +128,7 @@ Access the application: Now access the application using curl (looking
 for 200 status code) or from the browser and see the result
 
 ....
-$ curl -Is http://welcome.UserName.apps.workshop.osecloud.com
+$ curl -Is http://welcome.UserName.{{APPS_ADDRESS}}
 ....
 
 Voila!! you created your first application using an existing docker
@@ -153,7 +151,7 @@ welcome   ConfigChange, ImageChange   1
 CONTROLLER   CONTAINER(S)   IMAGE(S)                             SELECTOR                                        REPLICAS
 welcome-1    welcome        redhatworkshops/welcome-php:latest   deployment=welcome-1,deploymentconfig=welcome   1
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.apps.workshop.osecloud.com             welcome
+welcome   welcome.{{APPS_ADDRESS}}             welcome
 NAME      LABELS    SELECTOR                   IP(S)           PORT(S)
 welcome   <none>    deploymentconfig=welcome   172.30.155.37   80/TCP
 NAME              READY     REASON    RESTARTS   AGE
@@ -180,5 +178,3 @@ You can run `oc get all` again to make sure the project is empty.
 Congratulations!! You now know how to create a project, an application
 using an external docker image and navigate around. Get ready for more
 fun stuff!
-
-link:0_toc.adoc[Table Of Contents]
