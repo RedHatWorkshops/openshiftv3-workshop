@@ -92,9 +92,11 @@ Select Languages -> PHP -> PHP
 
 Click *Next*
 
+
 Add to Project: consoleproject-userXX (this should be the same project as MySQL Ephemeral)
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
+
 
 image::php.png[image]
 
@@ -103,7 +105,9 @@ Click onto the link `Advanced Options`
 Go to Deployment Configuration section and enter the
 following environment variables:
 
+
 image::dbtest_deployment_env.png[image]
+
 
 In the Labels section add the following label if its not there:
 
