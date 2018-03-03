@@ -8,12 +8,15 @@ with the OpenShift Wildcard certificate.
 *Step 1: Switch to an existing project*
 
 For this exercise, we will use an application that we created before. We
-will be using the *myjbossapp-UserName* that you created in the previous
+will be using the *myjbossapp-userXX* that you created in the previous
 labs. Make sure you are switched to that project by using the *oc
-project* command. *Remember* to substitute UserName.
+project* command. 
+
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc project myjbossapp-UserName
+$ oc project myjbossapp-userXX
 ....
 
 *Step 2: View the routing config*
@@ -38,7 +41,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/myjbossapp-admin/routes/ks
   uid: 14cf078c-8b8e-11e6-ba5b-080027782cf7
 spec:
-  host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
+  host: ks-myjbossapp-userXX.{{APPS_ADDRESS}}
   port:
     targetPort: 8080-tcp
   to:
@@ -51,7 +54,7 @@ status:
     - lastTransitionTime: 2016-10-06T06:28:23Z
       status: "True"
       type: Admitted
-    host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
+    host: ks-myjbossapp-userXX.{{APPS_ADDRESS}}
     routerName: router
 ....
 
@@ -94,7 +97,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/myjbossapp-shchan/routes/ks
   uid: fba5d1e6-a85f-11e5-be21-fa163ec58dad
 spec:
-  host: ks-myjbossapp-UserName.{{APPS_ADDRESS}}
+  host: ks-myjbossapp-userXX.{{APPS_ADDRESS}}
   tls:
     termination: edge
   port:

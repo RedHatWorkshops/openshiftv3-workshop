@@ -11,10 +11,11 @@ If you want to, you can create a new project based on what you have
 learned in previous labs. Or you can create a new project for JBoss
 Applications.
 
-*Remember* to replace the username before running the command.
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project myjbossapp-UserName --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
+$ oc new-project myjbossapp-userXX --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
 ....
 
 *Step 2: Create an application that uses the JBoss EAP builder image*
@@ -321,7 +322,7 @@ Now access the application by using the route you got in the previous
 step. You can use either curl or your browser.
 
 ....
-$ curl ks-myjbossapp-UserName.{{APPS_ADDRESS}}
+$ curl ks-myjbossapp-userXX.{{APPS_ADDRESS}}
 
 <!--
     JBoss, Home of Professional Open Source

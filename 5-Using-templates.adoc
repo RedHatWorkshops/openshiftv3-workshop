@@ -13,8 +13,11 @@ application from a browser.
 Based on the experience gained from the previous exercise, log into the
 OpenShift Web Console. You will see the list of Projects.
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 Using the *Create Project* button, create a new project. We will call it
-*consoleproject-UserName*. Replace by your username to make this project
+*consoleproject-userXX*. Replace by your username to make this project
 unique. Type in a *Display Name* and *Description* of your choice.
 
 Press the *Create* button to complete the project creation from the Web
@@ -39,7 +42,7 @@ You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
 
 ....
-Add to Project: consoleproject-UserName
+Add to Project: consoleproject-userXX
 Database Service Name: mysql
 MySQL Connection Username: pricelist
 MySQL Connection Password: pricelist
@@ -90,7 +93,7 @@ Select Languages -> PHP -> PHP
 Click *Next*
 
 ****
-Add to Project: consoleproject-UserName (this should be the same project as MySQL Ephemeral)
+Add to Project: consoleproject-userXX (this should be the same project as MySQL Ephemeral)
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 

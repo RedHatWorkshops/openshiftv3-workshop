@@ -14,18 +14,19 @@ environments (development, qa, production).
 
 Using the knowledge you gained from the past create two projects.
 
-Name the first project *development-UserName*
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
+Name the first project *development-userXX*
 
 ....
-$ oc new-project development-UserName
+$ oc new-project development-userXX
 ....
 
-Name the second *testing-UserName*.
+Name the second *testing-userXX*.
 ....
-$ oc new-project testing-UserName
+$ oc new-project testing-userXX
 ....
-
-Also *remember* to substitute the username!
 
 *Step 2: Provide ImagePuller Access to the QA Project from Development
 Project*
@@ -34,12 +35,12 @@ The following command will allow the QA project to be able to pull the
 docker images from the Development project.
 
 ....
-$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-UserName -n development-UserName
+$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-userXX -n development-userXX
 ....
 
 *Step 3: Create an application in the development project*
 
-Switch over to the *development-UserName* project and deploy an
+Switch over to the *development-userXX* project and deploy an
 application using the `php` s2i builder. You can use webconsole or
 command line. The command line option is shown below.
 
@@ -47,7 +48,7 @@ command line. The command line option is shown below.
 deploy it so that you can redeploy with changes later.
 
 ....
-oc project development-UserName
+oc project development-userXX
 oc new-app openshift/php~https://github.com/RedHatWorkshops/welcome-php
 ....
 
@@ -62,7 +63,7 @@ short form for `imageStream`.
 ....
 $ oc get is
 NAME          DOCKER REPO                                                       TAGS      UPDATED
-welcome-php   docker-registry.default.svc:5000/development-UserName/welcome-php
+welcome-php   docker-registry.default.svc:5000/development-userXX/welcome-php
 ....
 
 Now describe this image stream to get the full image id:
@@ -70,19 +71,19 @@ Now describe this image stream to get the full image id:
 ....
 $ oc describe is welcome-php
 Name:			welcome-php
-Namespace:		development-UserName
+Namespace:		development-userXX
 Created:		7 minutes ago
 Labels:			app=welcome-php
 Annotations:		openshift.io/generated-by=OpenShiftNewApp
 			openshift.io/image.dockerRepositoryCheck=2017-08-21T23:24:26Z
-Docker Pull Spec:	docker-registry.default.svc:5000/development-UserName/welcome-php
+Docker Pull Spec:	docker-registry.default.svc:5000/development-userXX/welcome-php
 Unique Images:		1
 Tags:			1
 
 latest
   pushed image
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
       4 minutes ago
 
 ....
@@ -90,7 +91,7 @@ latest
 In this case, the full image Id is
 
 ....
-docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
 
 ....
 
@@ -100,40 +101,40 @@ to QA. Let us tag this docker image using the `oc tag` command.
 The format is
 
 ....
-oc tag FullImageId development-UserName/myapp:promote-qa
+oc tag FullImageId development-userXX/myapp:promote-qa
 ....
 
 Check the following commands and replace the values where needed:
 
 ....
 $ oc tag \
-docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf \
-development-UserName/welcome-php:promote-qa
+docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf \
+development-userXX/welcome-php:promote-qa
 
-Tag welcome-php:promote-qa set to docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf.
+Tag welcome-php:promote-qa set to docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf.
 
 
 $ oc describe is welcome-php
 Name:			welcome-php
-Namespace:		development-UserName
+Namespace:		development-userXX
 Created:		4 minutes ago
 Labels:			app=welcome-php
 Annotations:		openshift.io/generated-by=OpenShiftNewApp
 			openshift.io/image.dockerRepositoryCheck=2017-08-21T23:24:26Z
-Docker Pull Spec:	docker-registry.default.svc:5000/development-UserName/welcome-php
+Docker Pull Spec:	docker-registry.default.svc:5000/development-userXX/welcome-php
 Unique Images:		1
 Tags:			2
 
 latest
   pushed image
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
       2 minutes ago
 
 promote-qa
-  tagged from docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  tagged from docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
 
-  * docker-registry.default.svc:5000/development-UserName/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
+  * docker-registry.default.svc:5000/development-userXX/welcome-php@sha256:157334d73dfc8dfdf733257b05c3fecaee236d36f69afa207395715fbe882abf
 ....
 
 *Step 5: Deploy the application to QA*
@@ -143,8 +144,8 @@ that we tagged in development. Also expose service to create route for
 this project and *remember* to substitute username.
 
 ....
-oc project testing-UserName
-oc new-app development-UserName/welcome-php:promote-qa
+oc project testing-userXX
+oc new-app development-userXX/welcome-php:promote-qa
 oc expose service welcome-php
 ....
 

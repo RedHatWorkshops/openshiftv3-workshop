@@ -1,1 +1,28 @@
-0_toc.adoc
+[[openshift-v3-workshop-labs]]
+OpenShift V3 Workshop Labs
+--------------------------
+
+[[lab-exercises-table-of-contents]]
+Lab Exercises Table of Contents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Lab 0. link:0-Setting-up-client-tools.adoc[Setting up client tools]
+* Lab 1. link:1-Create-App-From-a-Docker-Image.adoc[Creating an application from an existing Docker Image using CLI]
+* Lab 2. link:2-Create-App-Using-Docker-Build.adoc[Create an application using Docker Build Strategy using CLI]
+* Lab 3. link:3-Using-Web-Console.adoc[Using Web Console]
+* Lab 4. link:4-Creating-an-application-using-JBoss-EAP-builder-image.adoc[Creating an application using JBoss EAP builder image]
+* Lab 5. link:5-Using-templates.adoc[Creating an application with frontend and backend database using templates]
+* Lab 6. link:6-Scale-up-and-Scale-down-the-application-instances.adoc[Scale Up Scale Down and Idle the application instances]
+* Lab 7. link:7-Binary-Deployment-of-a-war-file.adoc[Binary deployment of a war file]
+* Lab 8. link:8-Using-SSL-In-your-Application.adoc[Using SSL In your Application]
+* Lab 9. link:9-Blue-Green-Deployments.adoc[Blue-Green Deployments]
+* Lab 10. link:10-SCM-Web-Hooks.adoc[SCM - Web Hooks]
+* Lab 11. link:11-Rollback-Applications.adoc[Rollback Applications]
+* Lab 12. link:12-Code-Promotion-Across-Environments.adoc[Code Promotion Across Environments]
+* Lab 13. link:13-Using-Persistent-Storage.adoc[Using Persistent Storage]
+* Lab 14. link:14-Deploy-a-Spring-Boot-Application.adoc[Deploy Spring Boot Application]
+* Lab 15. link:15-Adding-Spring-Boot-S2I-Image-to-the-Project-Catalog.adoc[Adding Spring Boot to Project Catalog]
+* Lab 16. link:16-Adding-database-to-your-Spring-Boot-Application.adoc[Adding Database to your SpringBoot App]
+* Lab 17. link:17-Dynamic-Configuration-Updates-using-ConfigMap.adoc[Dynamic Configuration updates using ConfigMap]
+* Lab 18. link:18-Changing-code-on-the-fly.adoc[Changing code on the fly]
+* Lab 19. link:19-Creating-a-Pipeline.adoc[Creating a CI/CD Pipeline]

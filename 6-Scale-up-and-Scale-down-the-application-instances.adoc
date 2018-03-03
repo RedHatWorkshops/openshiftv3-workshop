@@ -8,13 +8,16 @@ instances are always running.
 
 *Step 1: Switch to an existing project*
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 For this exercise, we will be using an already running application. We
-will be using the `mycliproject-UserName` that you created in the
+will be using the `mycliproject-userXX` that you created in the
 previous labs. Make sure you are switched to that project by using the
-`oc project` command and *remember* to substitute UserName.
+`oc project` command.
 
 ....
-$ oc project mycliproject-UserName
+$ oc project mycliproject-userXX
 ....
 
 *Step 2: View the deployment config*

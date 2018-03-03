@@ -18,17 +18,18 @@ In Part I of the Lab we will:
 
 *Step 1: Create new project*
 
-*Remember* to substitute the UserName
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
+$ oc new-project scm-web-hooks-userXX --display-name="Test WebHooks"
 ....
 
 *Step 2: Create new application*
 
 * We will use the forked repository from the previous lab.
 
-*Remember* to substitute the UserName.
+*Remember* to substitute the userXX.
 
 ....
 $ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_github_username/bluegreen.git --name=scm-web-hooks
@@ -105,18 +106,18 @@ NAME            CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 ....
 
-*Remember* to substitute the UserName.
+*Remember* to substitute the userXX.
 
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.{{APPS_ADDRESS}}
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.userXX.{{APPS_ADDRESS}}
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
-scm-web-hooks   scm-web-hooks.UserName.{{APPS_ADDRESS}}             scm-web-hooks   app=scm-web-hooks
+scm-web-hooks   scm-web-hooks.userXX.{{APPS_ADDRESS}}             scm-web-hooks   app=scm-web-hooks
 ....
 
 *Step 5: Test the application*
 
 * Use the newly created route, in the above case
-`scm-web-hooks.UserName.{{APPS_ADDRESS}}` and paste it in your browser.
+`scm-web-hooks.userXX.{{APPS_ADDRESS}}` and paste it in your browser.
 * You should see:
 
 image::green_deployment.png[image]

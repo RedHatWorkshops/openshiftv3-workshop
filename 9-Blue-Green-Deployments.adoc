@@ -33,10 +33,11 @@ Part I
 
 *Step 1: Create a new project*
 
-*Remember* to substitute the username
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project bluegreen-UserName --display-name="Blue Green Project" --description="Blue Green Project"
+$ oc new-project bluegreen-userXX --display-name="Blue Green Project" --description="Blue Green Project"
 ....
 
 *Step 2: List existing image builder or image streams*
@@ -124,7 +125,7 @@ $ oc get service
 *Remember* to substitute the username. Expose the service:
 
 ....
-$ oc expose service blue --hostname=bluegreen.UserName.{{APPS_ADDRESS}} --name=bluegreen
+$ oc expose service blue --hostname=bluegreen.userXX.{{APPS_ADDRESS}} --name=bluegreen
 ....
 
 *Step 8: Test the application*
@@ -190,12 +191,12 @@ metadata:
   labels:
     app: green
   name: bluegreen
-  namespace: bluegreen-UserName
+  namespace: bluegreen-userXX
   resourceVersion: "2969408"
-  selfLink: /oapi/v1/namespaces/bluegreen-UserName/routes/bluegreen
+  selfLink: /oapi/v1/namespaces/bluegreen-userXX/routes/bluegreen
   uid: 80829b59-a8e0-11e5-be21-fa163ec58dad
 spec:
-  host: bluegreen.UserName.{{APPS_ADDRESS}}
+  host: bluegreen.userXX.{{APPS_ADDRESS}}
   port:
     targetPort: "8080"
   to:

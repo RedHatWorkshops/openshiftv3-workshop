@@ -20,10 +20,13 @@ In this Lab, we will be:
 
 *Step 1: Deploy Application*
 
-Create a project called `storage-UserName` and deploy the application
+Create a project called `storage-userXX` and deploy the application
+
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-oc new-project storage-UserName --description="My Storage-project" --display-name="Storage Project"
+oc new-project storage-userXX --description="My Storage-project" --display-name="Storage Project"
 oc new-app php~https://github.com/RedHatWorkshops/openshift-php-upload-demo
 ....
 
@@ -137,7 +140,7 @@ metadata:
     volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/glusterfs
   creationTimestamp: 2017-08-22T00:37:07Z
   name: myclaim
-  namespace: storage-UserName
+  namespace: storage-userXX
   resourceVersion: "48898"
   selfLink: /api/v1/namespaces/testing-user00/persistentvolumeclaims/myclaim
   uid: 071ee3ef-86d2-11e7-aec4-52540019c877

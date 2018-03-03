@@ -18,9 +18,12 @@ want to download the WAR file on your workstation.
 
 *Step 1: Create project & folder structure*
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 [source,sh]
 ----
-oc new-project binarydeploy-UserName
+oc new-project binarydeploy-userXX
 mkdir binarytest && cd binarytest
 mkdir deployments
 ----

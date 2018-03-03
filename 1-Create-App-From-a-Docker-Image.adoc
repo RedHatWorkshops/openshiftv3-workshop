@@ -7,11 +7,11 @@ how to create an application from an existing docker image.
 
 *Step 1: Add a new project from command line*
 
-*Note:* Please replace *UserName* with the username assigned to you in
+IMPORTANT: Please replace *userXX* with the username assigned to you in
 the commands below.
 
 ....
-$ oc new-project mycliproject-UserName --description="My CLI Project" --display-name="CLI Project"
+$ oc new-project mycliproject-userXX --description="My CLI Project" --display-name="CLI Project"
 ....
 
 Upon project creation, OpenShift will automatically switch to the newly
@@ -32,7 +32,7 @@ command. It says that the project is currently not running anything.
 ....
 $ oc status
 
-In project CLI Project (mycliproject-UserName)
+In project CLI Project (mycliproject-userXX)
 
 You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
@@ -116,10 +116,10 @@ can access it from the browser.
 NOTE: The `--hostname` attribute in the command below is not required properly as we are using
 a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
 ....
-$ oc expose service welcome --name=welcome --hostname=welcome.UserName.{{APPS_ADDRESS}}
+$ oc expose service welcome --name=welcome --hostname=welcome.userXX.{{APPS_ADDRESS}}
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.UserName.{{APPS_ADDRESS}}             welcome
+welcome   welcome.userXX.{{APPS_ADDRESS}}             welcome
 ....
 
 *Step 4: Try your application*
@@ -128,7 +128,7 @@ Access the application: Now access the application using curl (looking
 for 200 status code) or from the browser and see the result
 
 ....
-$ curl -Is http://welcome.UserName.{{APPS_ADDRESS}}
+$ curl -Is http://welcome.userXX.{{APPS_ADDRESS}}
 ....
 
 Voila!! you created your first application using an existing docker
