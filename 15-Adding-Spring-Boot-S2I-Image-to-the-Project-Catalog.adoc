@@ -114,5 +114,3 @@ colleague to do it ;). You are thinking right. All you need to do is
 tell your openshift cluster administrator. +
 *Answer* The cluster administrator will add the image to the `openshift`
 project and everyone will start seeing it.
-
-link:0_toc.adoc[Table Of Contents]

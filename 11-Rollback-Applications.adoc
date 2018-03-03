@@ -68,5 +68,3 @@ a new build configuration.
 * Reloading the application now displays:
 
 image::images/green_app.jpg[image]
-
-link:0_toc.adoc[Table Of Contents]

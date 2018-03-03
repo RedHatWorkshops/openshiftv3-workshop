@@ -169,5 +169,3 @@ route "myapp" exposed
 ....
 
 You can use the route to access the application using the URL.
-
-link:0_toc.adoc[Table Of Contents]

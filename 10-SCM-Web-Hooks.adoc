@@ -31,7 +31,7 @@ $ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
 *Remember* to substitute the UserName.
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/your_github_username/bluegreen.git --name=scm-web-hooks
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_github_username/bluegreen.git --name=scm-web-hooks
 ....
 
 *Step 3: Look at some of the created resources*
@@ -108,15 +108,15 @@ scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 *Remember* to substitute the UserName.
 
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.workshop.osecloud.com
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.{{APPS_ADDRESS}}
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
-scm-web-hooks   scm-web-hooks.UserName.apps.workshop.osecloud.com             scm-web-hooks   app=scm-web-hooks
+scm-web-hooks   scm-web-hooks.UserName.{{APPS_ADDRESS}}             scm-web-hooks   app=scm-web-hooks
 ....
 
 *Step 5: Test the application*
 
 * Use the newly created route, in the above case
-`scm-web-hooks.UserName.apps.workshop.osecloud.com` and paste it in your browser.
+`scm-web-hooks.UserName.{{APPS_ADDRESS}}` and paste it in your browser.
 * You should see:
 
 image::images/green_deployment.png[image]
@@ -194,5 +194,3 @@ We have shown in this Lab how simple it is to configure automatic
 deployments of applications using OpenShift and GitHub Web Hook
 triggers. It should be noted that OpenShift also supports Generic Web
 Hooks.
-
-link:0_toc.adoc[Table Of Contents]

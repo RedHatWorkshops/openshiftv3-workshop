@@ -231,5 +231,3 @@ the frontend code that was built using the OpenShift S2I process. You
 configured this frontend application to access the database using a
 service, in this case, the ``mysql'' service. The frontend is made
 accessible using a route for which you gave a URL.
-
-link:https://github.com/RedHatWorkshops/openshiftv3-workshop/blob/master/0_toc.adoc[Table Of Contents]

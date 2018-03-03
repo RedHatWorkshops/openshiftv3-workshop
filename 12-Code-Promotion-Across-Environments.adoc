@@ -164,5 +164,3 @@ for complete understanding.
 
 Congratulations!! you now know how to promote your application across
 environments in OpenShift 3.
-
-link:0_toc.adoc[Table Of Contents]

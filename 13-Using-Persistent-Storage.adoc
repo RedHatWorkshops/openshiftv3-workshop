@@ -212,5 +212,3 @@ Summary
 ^^^^^^^
 
 In this lab you learned how to request, attach, and test persistant storage.
-
-link:0_toc.adoc[Table Of Contents]

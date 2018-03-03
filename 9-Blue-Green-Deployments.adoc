@@ -55,14 +55,14 @@ php
 
 We will be using a sample application that displays a blue or green
 rectangle. The sample app can be browsed at
-https://github.com/RedHatWorkshops/bluegreen
+{{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen
 
 We will be using an env var in order to change the color of the box; but
 in practice you would use a different branch for each version of the
 code. (E.g. v1 branch and v2 branch)
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
 ....
 
 *Step 4: Monitor the application build*
@@ -124,7 +124,7 @@ $ oc get service
 *Remember* to substitute the username. Expose the service:
 
 ....
-$ oc expose service blue --hostname=bluegreen.UserName.apps.workshop.osecloud.com --name=bluegreen
+$ oc expose service blue --hostname=bluegreen.UserName.{{APPS_ADDRESS}} --name=bluegreen
 ....
 
 *Step 8: Test the application*
@@ -160,7 +160,7 @@ Create a new application the same way as you did above in Part I. Make
 sure to name the application as `green' this time.
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=green --name=green
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen --env COLOR=green --name=green
 ....
 
 * Wait until the application is built and deployed. You should now see
@@ -195,7 +195,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/bluegreen-UserName/routes/bluegreen
   uid: 80829b59-a8e0-11e5-be21-fa163ec58dad
 spec:
-  host: bluegreen.UserName.apps.workshop.osecloud.com
+  host: bluegreen.UserName.{{APPS_ADDRESS}}
   port:
     targetPort: "8080"
   to:
@@ -272,5 +272,3 @@ concurrently, each with a unique service.
 * All that is needed to expose any of the applications is to change the
 service being used by the route to publicly advertise the application.
 * You can split traffic accross two services
-
-link:0_toc.adoc[Table Of Contents]
