@@ -1,8 +1,5 @@
 config:
   vars:
-    - name: DEFAULT_PASSWORD
-      desc: Default password for users in the environment
-      value: Welcome1
     - name: GIT_SERVER_URL
       desc: Git server url
       value: https://github.com

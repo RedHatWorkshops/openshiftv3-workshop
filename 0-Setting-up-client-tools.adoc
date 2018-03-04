@@ -67,4 +67,4 @@ To login to a remote server use:
 $ oc login {{CONSOLE_ADDRESS}}
 ----
 
-NOTE: Username will be provided by your instructor, the password is '{{DEFAULT_PASSWORD}}'
+NOTE: Username and password will be provided by your instructor.
