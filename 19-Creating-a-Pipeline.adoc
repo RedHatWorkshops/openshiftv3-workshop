@@ -158,7 +158,7 @@ image::disable-triggers2.png[image]
 
 
 *Step 5:* Start pipeline
-Change Project to pipeline-Username
+Change Project to pipeline-userXX
 Build --> Pipelines
 Now click on the `Start Pipeline` button to start the pipeline.
 
