@@ -114,7 +114,7 @@ build "myapp-1" started
 You can check the build logs by executing:
 
 ....
-$ oc logs myapp-1-build
+$ oc logs build/myapp-1
 
 Receiving source from STDIN as archive ...
 

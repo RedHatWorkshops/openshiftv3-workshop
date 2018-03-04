@@ -33,7 +33,7 @@ $ oc new-project scm-web-hooks-userXX --display-name="Test WebHooks"
 
 *Step 2: Create new application*
 
-* We will use the forked repository from the previous lab.
+* We will use the forked repository we created previously.
 
 *Remember* to substitute the userXX.
 
