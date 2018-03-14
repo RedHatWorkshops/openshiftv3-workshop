@@ -99,7 +99,7 @@ Extra Credits
 ^^^^^^^^^^^^^
 
 Repeat lab 1
-link:1_Create_App_From_a_Docker_Image.adoc[creating an
+link:1_Create_App_From_a_Docker_Image.adoc[Creating an
 application from an existing Docker Image using CLI] using OpenShift Web
 Console.
 
