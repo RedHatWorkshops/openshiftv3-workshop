@@ -10,7 +10,7 @@ deployments on OpenShift.
 *Prerequisites:*
 
 * You need a github account if you want to make changes and test the pipeline kick-off.
-* You will be using the projects you created in the "Promiting Applications" lab.
+* You will be using the projects you created in the "Promoting Applications" lab.
 
 *Step 1:* Create a new project Create a new project with name
 `pipeline-UserName`. _Substitute UserName with your own user name._
@@ -132,7 +132,7 @@ Next, we will edit the `development-UserName` project to disable
 the deployment triggers.
 
 Using the left-side navigation; go to `Application` -> `Deployments`. On the overview
-page click on your build to see your deployment histroy page.
+page click on your build to see your deployment history page.
 
 Click on the `Actions` -> `Edit` on the upper right hand side to go into
 the `Configuration` page for your deployment.
@@ -169,7 +169,7 @@ Click on the `View log` link for the pipeline. It’ll take you to Jenkins
 and show the logs.
 
 In a couple of minutes, the `build` and `deploy` will complete, and your
-applicaiton will be deployed and scaled to 2 replicas. Now use the
+application will be deployed and scaled to 2 replicas. Now use the
 application to notice that the `blue` box is displayed.
 
 *Step 6:* Configure webhook and trigger with changes (optional)
@@ -177,7 +177,7 @@ application to notice that the `blue` box is displayed.
 Navigate back to the `configuration` tab for the pipeline as explained
 in Step 3. Copy the value for `Github webhook` url
 Since development-User uses git repo from https://github.com/RedHatWorkshops/welcome-php),
-you will need to fork this repo and update the developement configure to use the forked repo.
+you will need to fork this repo and update the development configure to use the forked repo.
 
 Based on what you learn in the past, go to your github repository that
 you cloned and set up a webhook pointing to this URL.
