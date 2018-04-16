@@ -75,7 +75,7 @@ spring.datasource.username=user
 spring.datasource.password=password
 ....
 
-But wait, that requires you to rebuild he code and deploy.
+But wait, that requires you to rebuild the code and deploy.
 
 So, is there another way?.. *Yes* Let’s use a `ConfigMap`.
 
@@ -104,7 +104,7 @@ spring.datasource.password=password
 ....
 
 You need to make sure that you substitute the correct values you noted
-in the last step when you wre creating the service. *Be extra-careful..
+in the last step when you are creating the service. *Be extra-careful..
 read instructions below.*
 
 Specifically note the datasource url. It is in the following format:
