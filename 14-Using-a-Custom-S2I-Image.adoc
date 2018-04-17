@@ -1,9 +1,10 @@
-[[deploy-a-springboot-application]]
-Deploy a SpringBoot Application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[using-a-custom-s2i-image]]
+Using Custom S2I Image to deploy a SpringBoot Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this exercise we will deploy a SpringBoot application using a custom
-source to image builder image.
+source to image builder image. You will learn how to use an s2i image that 
+is not on openshift to build your application.
 
 *Step 1:* Using the knowledge you gained from the earlier labs create a
 new project with name `spring-UserName`. *Remember* to substitute the
