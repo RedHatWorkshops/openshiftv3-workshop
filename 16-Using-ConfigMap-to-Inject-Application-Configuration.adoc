@@ -1,12 +1,12 @@
-[[adding-a-backend-database-to-the-springboot-application]]
-Adding a backend database to the SpringBoot application
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[using-configmap-to-inject-application-configuration]]
+Using ConfigMap to add a Backend Database configuration to the application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this exercise we will add a backend database to the previous deployed
-SpringBoot application.
+SpringBoot application using ConfigMaps.
 
 If you already created the SpringBoot application in the previous lab
-link:14.%20Deploy%20a%20Spring%20Boot%20Application.md[deploy a spring
+link:14-Using-a-Custom-S2I-Image.adoc[deploy a spring
 boot application], just test one more thing. Try your application url
 with `/dbtest`
 (http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest
