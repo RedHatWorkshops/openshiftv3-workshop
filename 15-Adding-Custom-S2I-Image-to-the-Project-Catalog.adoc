@@ -1,6 +1,6 @@
 [[adding-custom-s2i-image-to-the-project-catalog]]
 Adding Custom S2I Image to the Project Catalog
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the last lab to
 link:14-Using-a-Custom-S2I-Image.adoc[Using Custom S2I Image], we used 
