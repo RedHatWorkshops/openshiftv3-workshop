@@ -49,8 +49,6 @@ modules:
     name: Rollback Applications
   12-code-promotion-across-envs:
     name: Code Promotion across Environments
-  13-using-jbds:
-    name: Installing the JBoss Developer Studio
   14-deploy-springboot-app:
     name: Deploy a SpringBoot Application
   15-adding-springboot-sti-to-catalog:
