@@ -5,19 +5,19 @@ config:
       value: openshift
     - name: GIT_SERVER_URL
       desc: Git server url
-      value: http://gitlab-ci.apps.ocp.cloudvillage.in
+      value: http://gitlab.apps.bcbsnc.rht-labs.com
     - name: CONSOLE_ADDRESS
       desc: HTTP address of the OpenShift console
-      value: https://master.ocp.cloudvillage.in:8443
+      value: https://console.bcbsnc.rht-labs.com
     - name: APPS_ADDRESS
       desc: HTTP address suffix of apps deployed on OpenShift
-      value: apps.ocp.cloudvillage.in
+      value: apps.bcbsnc.rht-labs.com
     - name: GET_STARTED_CLI_URL
       desc: URL to documentation to configure CLI
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
     - name: NEXUS_URL
       desc: URL to Nexus repository
-      value: http://nexus.ci.svc.cluster.local:8081/repository/maven-public/
+      value: http://nexus.nexus.svc.cluster.local:8081/repository/maven-public/
     - name: REDHAT_DOWNLOAD_OC_PORTAL_URL
       desc: URL for Red Hat portal oc binary download
       value: https://access.redhat.com/downloads/content/290
@@ -49,8 +49,6 @@ modules:
     name: Rollback Applications
   12-code-promotion-across-envs:
     name: Code Promotion across Environments
-  13-using-jbds:
-    name: Installing the JBoss Developer Studio
   14-deploy-springboot-app:
     name: Deploy a SpringBoot Application
   15-adding-springboot-sti-to-catalog:
