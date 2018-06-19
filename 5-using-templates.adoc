@@ -48,14 +48,7 @@ MySQL Connection Username: mysqluser
 MySQL Connection Password: supersecret
 MySQL Database Name: sample
 ----
-
-In the next section you can add the label:
-
-[width="50%",options="header"]
-|=========================================================
-|Name |Value
-|name   |mysql
-|=========================================================
+ 
 
 Click the *Create* button.
 
@@ -188,7 +181,7 @@ Now `exit` MySQL client and `exit` out of the pod.
 
 In this step we will add a PHP frontend application that talks to
 recently create database. The code is available on github to use at
-https://github.com/VeerMuchandi/dbtest.
+https://github.com/rgupta1234/dbtest.
 
 Browse through the code in this repository. It has a simple php file
 (`dbtest.php`) that connects to the database and reads the values from
