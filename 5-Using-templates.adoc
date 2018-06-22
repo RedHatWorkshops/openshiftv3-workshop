@@ -13,8 +13,11 @@ application from a browser.
 Based on the experience gained from the previous exercise, log into the
 OpenShift Web Console. You will see the list of Projects.
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 Using the *Create Project* button, create a new project. We will call it
-*consoleproject-UserName*. Replace by your username to make this project
+*consoleproject-userXX*. Replace by your username to make this project
 unique. Type in a *Display Name* and *Description* of your choice.
 
 Press the *Create* button to complete the project creation from the Web
@@ -26,20 +29,20 @@ Click on *Add to Project -> Browse Catolog* button and you will be taken to sele
 image or template. You will see the application create screen as shown
 below:
 
-image::images/service_catalog2.png[image]
+image::service_catalog2.png[image]
 
 Click on *Databases* tab. Find *MySQL* then *MySQL (Ephemeral)*
 template from the list and click *Select*. You will also notice *MySQL
 (Persistent)* template. But we will address that in a different lab
 exercise.
 
-image::images/mysql_ephemeral_template.png[image]
+image::mysql_ephemeral_template.png[image]
 
 You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
 
 ....
-Add to Project: consoleproject-UserName
+Add to Project: consoleproject-userXX
 Database Service Name: mysql
 MySQL Connection Username: pricelist
 MySQL Connection Password: pricelist
@@ -47,13 +50,13 @@ MySQL root user Password: pricelist
 MySQL Database Name: pricelist
 ....
 
-image::images/mysql_ephemeral_creation.png[image]
+image::mysql_ephemeral_creation.png[image]
 
 Click the *Next* button.
 
 Click the checkbox to create the secret
 
-image::images/mysql_secret_binding.png[image]
+image::mysql_secret_binding.png[image]
 
 Click *Create*
 
@@ -62,7 +65,7 @@ Click *Continue to project overview*.
 It will take you back to the project overview page and soon you will see
 an image of a running pod.
 
-image::images/mysql_pod_on_proj_overview.png[image]
+image::mysql_pod_on_proj_overview.png[image]
 
 Please wait for the Bindings to complete. It may take few minutes.
 
@@ -89,19 +92,22 @@ Select Languages -> PHP -> PHP
 
 Click *Next*
 
-****
-Add to Project: consoleproject-UserName (this should be the same project as MySQL Ephemeral)
+
+Add to Project: consoleproject-userXX (this should be the same project as MySQL Ephemeral)
 Application Name: pricelist
 Git Repository: https://github.com/RedHatWorkshops/php-pricelist
 
-image::images/php.png[image]
+
+image::php.png[image]
 
 
 Click onto the link `Advanced Options`
 Go to Deployment Configuration section and enter the
 following environment variables:
 
-image::images/dbtest_deployment_env.png[image]
+
+image::dbtest_deployment_env.png[image]
+
 
 In the Labels section add the following label if its not there:
 
@@ -111,7 +117,7 @@ In the Labels section add the following label if its not there:
 
 Click *Create* to add this frontend application to talk to the database.
 
-image::images/cakephp_confirm.png[image]
+image::cakephp_confirm.png[image]
 
 Click *Continue to product overview*.
 
@@ -124,7 +130,7 @@ You will also notice that a build starts running very soon. Once the
 build completes, the application image created from the source code will
 be uploaded to the docker repository.
 
-image::images/console_project_overview.png[image]
+image::console_project_overview.png[image]
 
 You can check the build logs using the following command:
 
@@ -154,7 +160,7 @@ console.
 Now use `curl` to run the database `bootstrap` script
 ....
 $ oc project
-Using project "consoleproject-Username" on server "{{CONSOLE_ADDRESS}}".
+Using project "consoleproject-userXX" on server "{{CONSOLE_ADDRESS}}".
 
 $ curl -k http://$(oc get route/pricelist -o jsonpath='{.spec.host}')/create_database.php
 Array
@@ -171,14 +177,14 @@ Go ahead and open your application. The URL will be displayed by `oc get route`
 ....
 $ oc get route
 NAME        HOST/PORT                                                    PATH      SERVICES    PORT       TERMINATION   WILDCARD
-pricelist   pricelist-consoleproject-Username.apps.workshop.osecloud.com 	                   pricelist   8080-tcp                 None
+pricelist   pricelist-consoleproject-userXX.{{APPS_ADDRESS}} 	                   pricelist   8080-tcp                 None
 ....
 
 When you open your application, click on the "Create Record" button and create a record.
 Once you added a record, click on "Read Records". The page should look
 like this.
 
-image::images/application_create_screen.png[image]
+image::application_create_screen.png[image]
 
 You can verify this by logging into the database using `oc rsh`
 
@@ -231,5 +237,3 @@ the frontend code that was built using the OpenShift S2I process. You
 configured this frontend application to access the database using a
 service, in this case, the ``mysql'' service. The frontend is made
 accessible using a route for which you gave a URL.
-
-link:https://github.com/RedHatWorkshops/openshiftv3-workshop/blob/master/0_toc.adoc[Table Of Contents]

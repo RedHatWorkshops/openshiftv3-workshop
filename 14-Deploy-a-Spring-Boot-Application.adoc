@@ -5,9 +5,11 @@ Deploy a SpringBoot Application
 In this exercise we will deploy a SpringBoot application using a custom
 source to image builder image.
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 *Step 1:* Using the knowledge you gained from the earlier labs create a
-new project with name `spring-UserName`. *Remember* to substitute the
-`UserName` with your userid.
+new project with name `spring-userXX`. 
 
 *Step 2:* Create a new application using SpringBoot S2I Builder image.
 Here we will deploy sample code from a git repository
@@ -62,7 +64,7 @@ Check the route
 ....
 $ oc get route
 NAME      HOST/PORT                                      PATH      SERVICES   PORT       TERMINATION
-bootapp   bootapp-spring-UserName.apps.workshop.osecloud.com             bootapp    8080-tcp
+bootapp   bootapp-spring-userXX.{{APPS_ADDRESS}}             bootapp    8080-tcp
 ....
 
 Wait for your application to be built and deployed. Using the knowlege
@@ -75,5 +77,3 @@ Test your application by using the hostname assigned in the route.
 
 Congratulations!! You are now running a SpringBoot application on
 OpenShift.
-
-link:0_toc.adoc[Table Of Contents]

@@ -18,20 +18,27 @@ In Part I of the Lab we will:
 
 *Step 1: Create new project*
 
-*Remember* to substitute the UserName
+* Login into the git server at {{GIT_SERVER_URL}}.
+* Create your user account.
+* Fork this repository ({{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git) into your account by clicking the *Fork* button. In GitHub it is in the upper right corner, in GitLab it is right at the bottom of the repository name.
+
+NOTE: We will use the forked repository.
+
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
+$ oc new-project scm-web-hooks-userXX --display-name="Test WebHooks"
 ....
 
 *Step 2: Create new application*
 
-* We will use the forked repository from the previous lab.
+* We will use the forked repository we created previously.
 
-*Remember* to substitute the UserName.
+*Remember* to substitute the userXX.
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/your_github_username/bluegreen.git --name=scm-web-hooks
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/your_git_username/bluegreen.git --name=scm-web-hooks
 ....
 
 *Step 3: Look at some of the created resources*
@@ -105,21 +112,21 @@ NAME            CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 ....
 
-*Remember* to substitute the UserName.
+*Remember* to substitute the userXX.
 
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.workshop.osecloud.com
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.userXX.{{APPS_ADDRESS}}
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
-scm-web-hooks   scm-web-hooks.UserName.apps.workshop.osecloud.com             scm-web-hooks   app=scm-web-hooks
+scm-web-hooks   scm-web-hooks.userXX.{{APPS_ADDRESS}}             scm-web-hooks   app=scm-web-hooks
 ....
 
 *Step 5: Test the application*
 
 * Use the newly created route, in the above case
-`scm-web-hooks.UserName.apps.workshop.osecloud.com` and paste it in your browser.
+`scm-web-hooks.userXX.{{APPS_ADDRESS}}` and paste it in your browser.
 * You should see:
 
-image::images/green_deployment.png[image]
+image::green_deployment.png[image]
 
 [[part-ii]]
 Part II
@@ -147,7 +154,7 @@ this case.
 link.
 * Copy the *GitHub webhook URL*. You will need this URL for next step.
 
-image::images/github_show_url.png[image]
+image::github_show_url.png[image]
 
 *Step 2: Configure GitHub repository Web Hook*
 
@@ -162,7 +169,7 @@ image::images/github_show_url.png[image]
 * Confirm by adding the *Add Webhook* button in green at the bottom of
 the page.
 
-image::images/github_add_webhook.jpg[image]
+image::github_add_webhook.jpg[image]
 
 *Step 3: Redeploy the application*
 
@@ -194,5 +201,3 @@ We have shown in this Lab how simple it is to configure automatic
 deployments of applications using OpenShift and GitHub Web Hook
 triggers. It should be noted that OpenShift also supports Generic Web
 Hooks.
-
-link:0_toc.adoc[Table Of Contents]

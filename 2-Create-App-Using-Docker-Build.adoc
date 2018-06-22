@@ -10,11 +10,13 @@ application docker image for you.
 
 If you want to, you can create a new project based on what you have
 learned in the previous lab. Since we already have a project we will use
-it. Run the following command to make sure. *Remember* to substitute
-UserName with your username.
+it. Run the following command to make sure. 
+
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc project mycliproject-UserName
+$ oc project mycliproject-userXX
 ....
 
 *Step 2: Create an application that uses docker file*
@@ -392,7 +394,7 @@ And then we check the route exposed.
 $ oc get routes
 
 NAME      HOST/PORT                                           PATH      SERVICES   PORT       TERMINATION   WILDCARD
-time      time-mycliproject-UserName.apps.workshop.osecloud.com             time       8080-tcp                 None
+time      time-mycliproject-userXX.{{APPS_ADDRESS}}             time       8080-tcp                 None
 ....
 
 *Note:* Unlike in the previous lab, this time we did not use `--hostname`
@@ -407,11 +409,9 @@ time. *If you don’t provide time.php extension, it displays apache’s
 default index page.*
 
 ....
-$ curl time-mycliproject-UserName.apps.workshop.osecloud.com
+$ curl time-mycliproject-userXX.{{APPS_ADDRESS}}
 Wednesday 1st of July 2015 01:12:20 AM
 ....
 
 Congratulations!! In this exercise you have learnt how to create, build
 and deploy an application using OpenShift’s `Docker Build strategy`.
-
-link:0_toc.adoc[Table Of Contents]

@@ -5,12 +5,11 @@ Adding a backend database to the SpringBoot application
 In this exercise we will add a backend database to the previous deployed
 SpringBoot application.
 
-If you already created the SpringBoot application in the previous lab
-link:14.%20Deploy%20a%20Spring%20Boot%20Application.md[deploy a spring
-boot application], just test one more thing. Try your application url
-with `/dbtest`
-(http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest
-*substitute* UserName) extension and it should list you some data from
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
+If you already created the SpringBoot application in the previous lab, just test one more thing. Try your application url
+with `/dbtest` (http://bootapp-spring-userXX.{{APPS_ADDRESS}}/dbtest) extension and it should list you some data from
 the HSQLDB configured within the same app.
 
 Let’s take a moment to understand how this application is connecting to
@@ -47,7 +46,7 @@ MySQL database running as a separate pod.
 
 Based on what you learnt in the previous labs, you know what to do!!
 
-Make sure you are in the `spring-UserName` project where your springboot
+Make sure you are in the `spring-userXX` project where your springboot
 application is running. Click on `Add to project` on your webconsole,
 select `MySQL Ephemeral` from the catalog and deploy it. When you are
 deploying this database you will have to choose the following values:
@@ -70,7 +69,7 @@ you noted in the last step i.e.
 
 ....
 spring.datasource.platform=mysql
-spring.datasource.url= jdbc:mysql://mysql.spring-UserName:3306/sampledb?useSSL=false
+spring.datasource.url= jdbc:mysql://mysql.spring-userXX:3306/sampledb?useSSL=false
 spring.datasource.username=user
 spring.datasource.password=password
 ....
@@ -87,10 +86,10 @@ lab.
 
 Lets go to CLI.
 
-Change to `spring-UserName` project
+Change to `spring-userXX` project
 
 ....
-oc project spring-UserName
+oc project spring-userXX
 ....
 
 Create a new file with name `application.properties` with the following
@@ -98,7 +97,7 @@ content.
 
 ....
 spring.datasource.platform=mysql
-spring.datasource.url= jdbc:mysql://mysql.spring-UserName:3306/sampledb?useSSL=false
+spring.datasource.url= jdbc:mysql://mysql.spring-userXX:3306/sampledb?useSSL=false
 spring.datasource.username=user
 spring.datasource.password=password
 ....
@@ -130,7 +129,7 @@ Try a couple of more commands
 ....
 $ oc describe configmap app-props
 Name:       app-props
-Namespace:  spring-UserName
+Namespace:  spring-userXX
 Labels:     <none>
 Annotations:    <none>
 
@@ -292,7 +291,7 @@ Note the contents of this file are what you added to the ConfigMap.
 
 Go back to the `Overview` page. Click on your application url which
 would be something like
-`http://bootapp-spring-UserName.apps.workshop.osecloud.com/`
+`http://bootapp-spring-userXX.{{APPS_ADDRESS}}/`
 
 It will open a new tab and your running application will greet you
 
@@ -306,7 +305,7 @@ oc logs -f bootapp-2-06a4b
 ....
 
 Now access the application with the `/dbtest` extension -
-`http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest`
+`http://bootapp-spring-userXX.{{APPS_ADDRESS}}/dbtest`
 
 It should show the data from your MySQL database.
 
@@ -330,7 +329,7 @@ Also note that your logs show the connection url, just to verify which
 database you are connecting to.
 
 ....
-connection url: jdbc:mysql://mysql.spring-UserName:3306/sampledb?useSSL=false
+connection url: jdbc:mysql://mysql.spring-userXX:3306/sampledb?useSSL=false
 ....
 
 *Bonus Points:* Log into the MySQL instance and verify the data in the
@@ -340,5 +339,3 @@ In this lab exercise, you have learnt how to set up a multi-tiered
 application and also to pass configuration information using ConfigMaps.
 In the next lab, we will learn to use ConfigMaps to dynamically update
 the configuration without restarting the pod!!
-
-link:0_toc.adoc[Table Of Contents]

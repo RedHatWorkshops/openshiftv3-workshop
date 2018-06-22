@@ -13,8 +13,10 @@ we created a configuration to connect to the MySQL database by mounting
 
 *Step 1: Create PostgreSQL Pod*
 
-Ensure you are in the `spring-UserName` project. *Substitute UserName
-with your own userid*
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
+Ensure you are in the `spring-userXX` project. 
 
 Based on what you have learnt in the previous labs, create a new
 Postgresql database pod i.e. `Add to project`, search for `postgresql`,
@@ -97,7 +99,7 @@ Now let us update the ConfigMap to change the `application.properties`
 to point to `postgresql` datasource.
 
 Using CLI run the following command after you ensure you are in the
-`spring-UserName` project
+`spring-userXX` project
 
 ....
 $ oc edit configmap app-props
@@ -107,7 +109,7 @@ Edit the datasource parameters as below
 
 ....
     spring.datasource.platform=postgresql
-    spring.datasource.url= jdbc:postgresql://postgresql.spring-UserName:5432/sampledb
+    spring.datasource.url= jdbc:postgresql://postgresql.spring-userXX:5432/sampledb
     spring.datasource.username=user
     spring.datasource.password=password
 ....
@@ -147,7 +149,7 @@ spring.datasource.password=password
 *Step 4: Test the application connection*
 
 Click the application url now i.e
-`http://bootapp-spring-UserName.apps.workshop.osecloud.com/`. It will open
+`http://bootapp-spring-userXX.{{APPS_ADDRESS}}/`. It will open
 a new tab and greets you
 
 ....
@@ -159,7 +161,7 @@ example `oc logs -f bootapp-2-06a4b` Watch out for connection url in the
 output.
 
 Now try the `/dbtest` endpoint i.e.
-`http://bootapp-spring-veer.apps.workshop.osecloud.com/dbtest`.
+`http://bootapp-spring-userXX.{{APPS_ADDRESS}}/dbtest`.
 
 *Note* that the output is still from the MySQLDB.
 
@@ -185,7 +187,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ....
-$ curl -X POST http://bootapp-spring-veer.apps.workshop.osecloud.com/refresh
+$ curl -X POST http://bootapp-spring-userXX.{{APPS_ADDRESS}}/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ....
 
@@ -211,7 +213,7 @@ CustomerId: 3 Customer Name: Ann Psql Age: 32
 Also note the logs will show the connection url as
 
 ....
-connection url: jdbc:postgresql://postgresql.spring-UserName:5432/sampledb
+connection url: jdbc:postgresql://postgresql.spring-userXX:5432/sampledb
 ....
 
 *Note* in this exercise, the pod was never redeployed. The
@@ -219,5 +221,3 @@ application.properties were dynamically updated.
 
 *Summary:* In this lab, we have learnt the ConfigMap’s flexibility and
 how it allows dynamic updates to the pod configuration.
-
-link:0_toc.adoc[Table Of Contents]

@@ -25,7 +25,7 @@ project that displays a green rectangle.
 * We will then switch the FQDN to from the first application (blue) to
 the second application (green).
 
-image::images/blue_green_deployment.png[image]
+image::blue_green_deployment.png[image]
 
 [[part-i]]
 Part I
@@ -33,10 +33,11 @@ Part I
 
 *Step 1: Create a new project*
 
-*Remember* to substitute the username
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project bluegreen-UserName --display-name="Blue Green Project" --description="Blue Green Project"
+$ oc new-project bluegreen-userXX --display-name="Blue Green Project" --description="Blue Green Project"
 ....
 
 *Step 2: List existing image builder or image streams*
@@ -55,14 +56,14 @@ php
 
 We will be using a sample application that displays a blue or green
 rectangle. The sample app can be browsed at
-https://github.com/RedHatWorkshops/bluegreen
+{{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen
 
 We will be using an env var in order to change the color of the box; but
 in practice you would use a different branch for each version of the
 code. (E.g. v1 branch and v2 branch)
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
 ....
 
 *Step 4: Monitor the application build*
@@ -124,7 +125,7 @@ $ oc get service
 *Remember* to substitute the username. Expose the service:
 
 ....
-$ oc expose service blue --hostname=bluegreen.UserName.apps.workshop.osecloud.com --name=bluegreen
+$ oc expose service blue --hostname=bluegreen.userXX.{{APPS_ADDRESS}} --name=bluegreen
 ....
 
 *Step 8: Test the application*
@@ -136,7 +137,7 @@ $ oc get route
 Copy the HOST/PORT and paste it in your browser. You should see
 something similar to:
 
-image::images/blue_deployment.jpeg[image]
+image::blue_deployment.jpeg[image]
 
 At this point you have deployed an application that displays for
 illustration purposes a blue rectangle for version 1.
@@ -152,7 +153,7 @@ very small change)
 * Point the previously created FQDN (route) to the new service that will
 be created as part of the new application creation process.
 
-image::images/blue_green_active_green.png[image]
+image::blue_green_active_green.png[image]
 
 *Step 1: Create new version of the application*
 
@@ -160,7 +161,7 @@ Create a new application the same way as you did above in Part I. Make
 sure to name the application as `green' this time.
 
 ....
-$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen --env COLOR=green --name=green
+$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen --env COLOR=green --name=green
 ....
 
 * Wait until the application is built and deployed. You should now see
@@ -190,12 +191,12 @@ metadata:
   labels:
     app: green
   name: bluegreen
-  namespace: bluegreen-UserName
+  namespace: bluegreen-userXX
   resourceVersion: "2969408"
-  selfLink: /oapi/v1/namespaces/bluegreen-UserName/routes/bluegreen
+  selfLink: /oapi/v1/namespaces/bluegreen-userXX/routes/bluegreen
   uid: 80829b59-a8e0-11e5-be21-fa163ec58dad
 spec:
-  host: bluegreen.UserName.apps.workshop.osecloud.com
+  host: bluegreen.userXX.{{APPS_ADDRESS}}
   port:
     targetPort: "8080"
   to:
@@ -224,26 +225,26 @@ You can route traffic to both services. This is also known as "cannary in a cole
 Using the lefthand side navigation; click on *Applications -> Routes*. This will
 bring you to the `Route` overview page.
 
-image::images/bg-routes-page.png[image]
+image::bg-routes-page.png[image]
 
 Here, click on the  `bluegreen` route. The page after will display the current configuration.
 On the upper right hand side, click on *Actions -> Edit*. You should see a page similar to
 this one.
 
-image::images/bg-edit-route.png[image]
+image::bg-edit-route.png[image]
 
 Next, tick on `Split traffic across multiple services`
 
-image::images/g-slipt-traffic.png[image]
+image::g-slipt-traffic.png[image]
 
 Here, set the weight to 50% on blue and 50% on green. This will make it to where half the
 traffic will go to the green application and half to the blue application.
 
-image::images/bg-5050-split.png[image]
+image::bg-5050-split.png[image]
 
 Once you click on *Save*; you should see this on the Route Overview page.
 
-image::images/bg-route-split-overview.png[image]
+image::bg-route-split-overview.png[image]
 
 *Step 2: Test Your Settings*
 
@@ -272,5 +273,3 @@ concurrently, each with a unique service.
 * All that is needed to expose any of the applications is to change the
 service being used by the route to publicly advertise the application.
 * You can split traffic accross two services
-
-link:0_toc.adoc[Table Of Contents]

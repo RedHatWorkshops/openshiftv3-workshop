@@ -11,10 +11,11 @@ If you want to, you can create a new project based on what you have
 learned in previous labs. Or you can create a new project for JBoss
 Applications.
 
-*Remember* to replace the username before running the command.
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
 
 ....
-$ oc new-project myjbossapp-UserName --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
+$ oc new-project myjbossapp-userXX --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
 ....
 
 *Step 2: Create an application that uses the JBoss EAP builder image*
@@ -50,8 +51,8 @@ Maven mirror URL: {{NEXUS_URL}}
 *REMEMBER:* Check with your instructor the proper URL for the Nexus
 repository.
 
-image::images/jboss_wizard_configuration.png[image]
-image::images/jboss_wizard_configuration2.png[image]
+image::jboss_wizard_configuration.png[image]
+image::jboss_wizard_configuration2.png[image]
 
 Click Next
 Select `Create a secret in ... to be used later`
@@ -301,7 +302,7 @@ Route should be already created.
 $ oc get routes
 
 NAME      HOST/PORT                                                      PATH      SERVICES   PORT       TERMINATION
-ks        ks-myjbossapp-Username.apps.workshop.osecloud.com                                 ks         8080-tcp
+ks        ks-myjbossapp-userXX.{{APPS_ADDRESS}}                                 ks         8080-tcp
 ....
 
 If route does not show, we expose the service `ks` via the command
@@ -321,7 +322,7 @@ Now access the application by using the route you got in the previous
 step. You can use either curl or your browser.
 
 ....
-$ curl ks-myjbossapp-UserName.apps.workshop.osecloud.com
+$ curl ks-myjbossapp-userXX.{{APPS_ADDRESS}}
 
 <!--
     JBoss, Home of Professional Open Source
@@ -348,13 +349,11 @@ $ curl ks-myjbossapp-UserName.apps.workshop.osecloud.com
 </html>
 ....
 
-Go to https://ks-myjbossapp-Username.apps.workshop.osecloud.com via your browser.
+Go to https://ks-myjbossapp-userXX.{{APPS_ADDRESS}} via your browser.
 Please replace your username with yours.
 
-image::images/ks-myjbossapp.png[image]
+image::ks-myjbossapp.png[image]
 
 Congratulations! In this exercise you have learned how to create, build
 and deploy a JBoss EAP application using OpenShift’s JBoss EAP Builder
 Image.
-
-link:0_toc.adoc[Table Of Contents]

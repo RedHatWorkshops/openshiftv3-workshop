@@ -8,13 +8,16 @@ instances are always running.
 
 *Step 1: Switch to an existing project*
 
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 For this exercise, we will be using an already running application. We
-will be using the `mycliproject-UserName` that you created in the
+will be using the `mycliproject-userXX` that you created in the
 previous labs. Make sure you are switched to that project by using the
-`oc project` command and *remember* to substitute UserName.
+`oc project` command.
 
 ....
-$ oc project mycliproject-UserName
+$ oc project mycliproject-userXX
 ....
 
 *Step 2: View the deployment config*
@@ -151,7 +154,7 @@ To scale your application we will edit the `deploymentConfig` to 3.
 Open your browser to the Overview page and note you only have one
 instance running.
 
-image::images/scale_updown_overview.png[image]
+image::scale_updown_overview.png[image]
 
 Now scale your application using the `oc scale` command (remembering to
 specify the `dc`)
@@ -163,7 +166,7 @@ deploymentconfig "time" scaled
 
 If you look at the web console and you will see that there are 3
 instances running now
-image::images/scale_updown_overview_scaled.png[image]
+image::scale_updown_overview_scaled.png[image]
 
 *Note:* You can also scale up and down from the web console by going to
 the project overview page and clicking twice on
@@ -217,7 +220,7 @@ Idled DeploymentConfig mycliproject-veer/time (dry run)
 Go back to the webconsole. You will notice that the pods show up as
 idled.
 
-image::images/idled_pods.jpeg[image]
+image::idled_pods.jpeg[image]
 
 At this point the application is idled, the pods are not running and no
 resources are being used by the application. This doesn’t mean that the
@@ -251,5 +254,3 @@ image::scale_down.jpg[image] twice to remove 2 running pods.
 
 Congratulations!! In this exercise you have learned about scaling and
 how to scale up/down your application on OpenShift!
-
-link:0_toc.adoc[Table Of Contents]

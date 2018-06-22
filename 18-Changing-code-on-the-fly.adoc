@@ -9,9 +9,13 @@ machine and immediately sync it with the code running in a pod.
 
 *Prerequisite:* This lab assumes that you have git installed on your box
 
-*Step 1: Create a new project* +
+*Step 1: Create a new project*
+
+IMPORTANT: Please replace *userXX* with the username assigned to you in
+the commands below.
+
 Create a new project on the OpenShift cluster with name
-`synccode-UserName`. *Note* Substitute the `UserName` with your `userId`
+`synccode-userXX`. 
 
 *Step 2: Clone the git repository locally* Clone the following git
 repository to your workstation.
@@ -74,11 +78,11 @@ Wait for the build to complete and test the application
 ....
 $ oc get route
 NAME           HOST/PORT                                          PATH      SERVICES       PORT       TERMINATION
-nodejs-hello   nodejs-hello-rsync-UserName.apps.workshop.osecloud.com             nodejs-hello   8080-tcp
+nodejs-hello   nodejs-hello-rsync-userXX.{{APPS_ADDRESS}}             nodejs-hello   8080-tcp
 ....
 
 ....
-$ $ curl nodejs-hello-rsync-UserName.apps.workshop.osecloud.com
+$ $ curl nodejs-hello-rsync-userXX.{{APPS_ADDRESS}}
 Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
 ....
 
@@ -134,7 +138,7 @@ Now test the application again. This time it should show the output in
 two lines as below:
 
 ....
-$ curl nodejs-hello-rsync-veer.apps.workshop.osecloud.com
+$ curl nodejs-hello-rsync-userXX.{{APPS_ADDRESS}}
 Welcome to OpenShift!!
 My HostName is: nodejs-hello-1-8qigc
 ....
@@ -148,5 +152,3 @@ fly. When ready they can commit the changes to the source control
 repository.
 
 You can repeat a few more changes and enjoy the rsync!!!
-
-link:0_toc.adoc[Table Of Contents]
