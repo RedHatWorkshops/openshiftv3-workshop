@@ -14,7 +14,7 @@ config:
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
     - name: NEXUS_URL
       desc: URL to Nexus repository
-      value: http://nexus.ci.svc.cluster.local:8081/repository/maven-public/
+      value: http://nexus.nexus.svc.cluster.local:8081/repository/maven-all-public/'
     - name: REDHAT_DOWNLOAD_OC_PORTAL_URL
       desc: URL for Red Hat portal oc binary download
       value: https://access.redhat.com/downloads/content/290
