@@ -118,7 +118,7 @@ can access it from the browser.
 your setup an change it.
 
 ....
-$ oc expose service welcome --name=welcome --hostname=welcome.UserName.apps.workshop.osecloud.com
+$ oc expose service welcome --name=welcome  
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
 welcome   welcome.UserName.apps.workshop.osecloud.com             welcome
