@@ -244,7 +244,7 @@ command on the `time` application `dc` setting.
 oc scale --replicas=1 dc/time
 
 deploymentconfig "time" scaled
-....
+...
 
 Alternately, you can go to project overview page and click on
 image::scale_down.jpg[image] twice to remove 2 running pods.
