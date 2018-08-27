@@ -388,7 +388,7 @@ time                            time      app=time
 
 And then we check the route exposed.
 
-....
+.....
 $ oc get routes
 
 NAME      HOST/PORT                                           PATH      SERVICES   PORT       TERMINATION   WILDCARD
