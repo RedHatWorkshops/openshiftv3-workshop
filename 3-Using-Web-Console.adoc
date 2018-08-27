@@ -102,7 +102,7 @@ a different lab exercise.
 
 [[extra-credits]]
 Extra Credits
-^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
 Repeat lab 1
 link:1.%20Create%20App%20From%20a%20Docker%20Image.md[creating an
