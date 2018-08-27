@@ -130,7 +130,9 @@ Access the application: Now access the application using curl (looking
 for 200 status code) or from the browser and see the result
 
 ....
-$ curl -Is http://welcome.UserName.apps.workshop.osecloud.com
+$ oc get routes
+
+$ curl -Is <route>
 .....
 
 Voila!! you created your first application using an existing docker
