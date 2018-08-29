@@ -107,10 +107,12 @@ scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 
 *Remember* to substitute the UserName.
 
+*Remember* to substitute the masterurl (ask instructor).
+
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.workshop.osecloud.com
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.<masterurl>
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
-scm-web-hooks   scm-web-hooks.UserName.apps.workshop.osecloud.com             scm-web-hooks   app=scm-web-hooks
+scm-web-hooks   scm-web-hooks.UserName.apps.<masterurl>              scm-web-hooks   app=scm-web-hooks
 ....
 
 *Step 5: Test the application*
