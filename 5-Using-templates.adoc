@@ -38,7 +38,7 @@ image::images/mysql_ephemeral_template.png[image]
 You will be taken to the mysql ephemeral creation screen. Click *Next*
 parameters and edit the values to use the following values:
 
-....
+.....
 Add to Project: consoleproject-UserName
 Database Service Name: mysql
 MySQL Connection Username: pricelist
