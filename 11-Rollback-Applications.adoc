@@ -61,7 +61,7 @@ $ oc get dc
 
 NAME            REVISION   DESIRED   CURRENT   TRIGGERED BY
 scm-web-hooks   3          1         1         config,image(scm-web-hooks:latest)
-....
+.....
 
 * So OpenShift has rolled back the application to version 1 and created
 a new build configuration.
