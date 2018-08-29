@@ -122,6 +122,7 @@ $ oc get service
 *Step 7: Create a route for the application*
 
 *Remember* to substitute the username. Expose the service:
+
 *Remember* subsitute master url for masterurl (ask instructor)
 
 ....
