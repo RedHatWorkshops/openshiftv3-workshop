@@ -103,7 +103,7 @@ spec:
     kind: Service
     name: ks
 status: {}
-....
+.....
 
 *Step 4: Verify*
 
