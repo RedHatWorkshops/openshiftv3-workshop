@@ -110,7 +110,7 @@ scm-web-hooks   172.30.71.191   <none>        8080/TCP   4m
 *Remember* to substitute the masterurl (ask instructor).
 
 ....
-$ oc expose service scm-web-hooks --hostname=scm-web-hooks-scm-web-hooks-UserName.apps.<masterurl>
+$ oc expose service scm-web-hooks --hostname=scm-web-hooks.UserName.apps.<masterurl>
 NAME            HOST/PORT                                  PATH      SERVICE         LABELS              TLS TERMINATION
 scm-web-hooks   scm-web-hooks.UserName.apps.<masterurl>              scm-web-hooks   app=scm-web-hooks
 ....
