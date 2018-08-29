@@ -118,7 +118,7 @@ scm-web-hooks   scm-web-hooks.UserName.apps.<masterurl>              scm-web-hoo
 *Step 5: Test the application*
 
 * Use the newly created route, in the above case
-`scm-web-hooks.UserName.apps.workshop.osecloud.com` and paste it in your browser.
+`scm-web-hooks.UserName.apps.<masterurl>` and paste it in your browser.
 * You should see:
 
 image::images/green_deployment.png[image]
