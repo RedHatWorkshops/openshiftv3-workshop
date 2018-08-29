@@ -123,7 +123,7 @@ $ oc get service
 
 *Remember* to substitute the username. Expose the service:
 
-*Remember* subsitute master url for masterurl (ask instructor)
+*Remember* to substitute the masterurl (ask instructor).
 
 ....
 $ oc expose service blue --hostname=bluegreen.UserName.apps.<masterurl> --name=bluegreen
