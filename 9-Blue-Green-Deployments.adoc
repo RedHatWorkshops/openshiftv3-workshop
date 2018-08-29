@@ -122,9 +122,10 @@ $ oc get service
 *Step 7: Create a route for the application*
 
 *Remember* to substitute the username. Expose the service:
+*Remember* subsitute master url for masterurl (ask instructor)
 
 ....
-$ oc expose service blue --hostname=bluegreen.UserName.apps.workshop.osecloud.com --name=bluegreen
+$ oc expose service blue --hostname=bluegreen.UserName.apps.<masterurl> --name=bluegreen
 ....
 
 *Step 8: Test the application*
