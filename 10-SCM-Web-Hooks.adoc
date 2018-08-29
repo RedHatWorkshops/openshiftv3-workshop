@@ -190,7 +190,7 @@ $ oc logs build/the-new-build-process-name
 
 [[summary]]
 Summary
-~~~~~~~
+~~~~~~
 
 We have shown in this Lab how simple it is to configure automatic
 deployments of applications using OpenShift and GitHub Web Hook
