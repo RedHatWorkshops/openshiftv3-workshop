@@ -32,7 +32,7 @@ $ oc new-app veermuchandi/spring-mvn-base~https://github.com/RedHatWorkshops/spr
 
     Tags: builder, java, java8, maven, maven3, springboot
 
-    * An image stream will be created as "spring-mvn-base:latest" that will track the source image
+    *  An image stream will be created as "spring-mvn-base:latest" that will track the source image
     * A source build using source code from https://github.com/RedHatWorkshops/spring-sample-app will be created
       * The resulting image will be pushed to image stream "bootapp:latest"
       * Every time "spring-mvn-base:latest" changes a new build will be triggered
