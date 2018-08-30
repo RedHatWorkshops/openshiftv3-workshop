@@ -29,6 +29,8 @@ values.
 _Feel free to use your own values, but make a note of the same_ (write
 down..we will need these)
 
+Click Next->Create
+
 *Step 2: Add data to the database*
 
 While the code has `schema-postgresql.sql` and `data-postgresql.sql`
