@@ -144,7 +144,7 @@ this project and *remember* to substitute username.
 
 ....
 oc project testing-UserName
-oc new-app development-UserName/welcome-php:promote-qa
+oc new-app  --image-stream=="development-UserName/welcome-php:promote-qa"
 oc expose service welcome-php
 ....
 
