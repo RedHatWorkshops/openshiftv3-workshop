@@ -120,7 +120,7 @@ to have access to the projects `development-UserName` and
 `testing-UserName`. Just for testing; we will give jenkins
 full access to these projects.
 
-....
+.....
 oc project jenkins-UserName
 oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n testing-UserName
 oc adm policy add-role-to-user admin system:serviceaccount:pipeline-UserName:jenkins -n development-UserName
