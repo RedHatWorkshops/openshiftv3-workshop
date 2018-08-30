@@ -7,7 +7,7 @@ SpringBoot application using ConfigMaps.
 
 If you already created the SpringBoot application in the previous lab
 link:14-Using-a-Custom-S2I-Image.adoc[deploy a spring
-boot application], just test one more thing. Try your application url
+boot application], just test one more thing (you may have to create a route for this service). Try your application url
 with `/dbtest`
 (http://bootapp-spring-UserName.apps.workshop.osecloud.com/dbtest
 *substitute* UserName) extension and it should list you some data from
