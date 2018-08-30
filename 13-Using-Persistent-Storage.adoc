@@ -28,7 +28,7 @@ oc new-app php~https://github.com/RedHatWorkshops/openshift-php-upload-demo
 ....
 
 Once the application is deployed expose the route
-....
+.....
 $ oc get svc
 NAME                        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 openshift-php-upload-demo   172.30.212.62   <none>        8080/TCP   2m
@@ -102,7 +102,7 @@ image::images/create-storage.png[image]
 Here you need to enter the following
 
 ----
-* Storage Class: <provided by your instructor>
+* Storage Class: <provided by your instructor> (if not visible, disregard)
 * Name: myclaim
 * Access Mode: Shared Access (RWX)
 * Size: 1 GiB
