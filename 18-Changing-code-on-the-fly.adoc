@@ -35,7 +35,7 @@ $ cd nodejs-hello
 Now let us create an application using this code.
 
 ....
-$ oc new-app .
+$ oc new-app . --image-stream=nodejs:4
 --> Found image 448a51d (11 weeks old) in image stream "nodejs" in project "openshift" under tag "4" for "nodejs"
 
     Node.js 4
