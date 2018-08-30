@@ -201,7 +201,7 @@ refreshed.
 Now try the `/dbtest` endpoint again. Now the result will show the data
 from the postgresql database.
 
-....
+.....
 Customers List
 
 
