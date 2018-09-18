@@ -31,7 +31,7 @@ also a PHP version of the same project available in the php folder if
 you like to use that. The php version does exactly the same it has a
 `time.php` file that displays the time.
 
-*Docker Build*: When OpenShift finds a Dockerfile in the source, it uses
+*Docker Build*: When OpenShift finds a Dockerfile in the source,it uses
 this Dockerfile as the basis to create a docker image for your
 application. This strategy is called `Docker Build` strategy on
 OpenShift. We’ll see more about it when we look at the build
