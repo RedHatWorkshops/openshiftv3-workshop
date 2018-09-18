@@ -126,7 +126,7 @@ time-1-build   0/1       Completed   0          2h
 This shows that the build `time-1` is running in pod `45jtc`. Let us
 view the `rc` on this build.
 
-....
+.....
 $ oc get rc/time-1
 
 NAME      DESIRED   CURRENT   AGE
