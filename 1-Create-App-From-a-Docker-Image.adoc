@@ -133,7 +133,7 @@ for 200 status code) or from the browser and see the result
 $ oc get routes
 
 $ curl -Is <route>
-.....
+....
 
 Voila!! you created your first application using an existing docker
 image on OpenShift.
