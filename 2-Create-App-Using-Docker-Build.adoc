@@ -14,7 +14,7 @@ it. Run the following command to make sure. *Remember* to substitute
 UserName with your username.
 
 ....
-$ oc project mycliproject-UserName
+$ oc new-project mycliproject-UserName
 ....
 
 *Step 2: Create an application that uses docker file*
