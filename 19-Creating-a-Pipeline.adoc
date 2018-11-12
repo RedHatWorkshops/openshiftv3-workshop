@@ -2,6 +2,7 @@
 ### Creating a Pipeline
 
 
+
 In this lab, we will learn to create a build pipeline on OpenShift. This
 pipeline will be setup using Jenkins running as an application pod on
 OpenShift. The pipeline running on Jenkins will trigger builds and
