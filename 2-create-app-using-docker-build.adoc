@@ -23,15 +23,12 @@ $ oc project mycliproject-userxx
 
 This time we will use a project that has a Dockerfile in a source code
 repository. We will use a simple project on github
-(https://github.com/VeerMuchandi/time). "rhel" folder from this github
-project is built starting with rhel7 as the base image which is
+(https://github.com/RedHatWorkshops/s2i-workshop). "dockerfile/httpd" folder from this github
+project is built starting with httpd image pulled from `access.redhat.com/containers`  as the base image which is
 described in Dockerfile. Look at the Dockerfile for this project. It
-starts off with `registry.access.redhat.com/rhel7` image. It copies the
-source code which is a simple `init.sh` file and exposes port `8080`.
-Look at the `init.sh` that just displays the current datetime. There is
-also a PHP version of the same project available in the php folder if
-you like to use that. The php version does exactly the same it has a
-`time.php` file that displays the time.
+starts off with `registry.access.redhat.com/rhscl/httpd-24-rhel7` image. It copies the
+an index.html file to `/var/www/html`  file and exposes port `8080`.
+Its a simple welcome message.  
 
 NOTE: When OpenShift finds a Dockerfile in the source, it uses
 this Dockerfile as the basis to create a docker image for your
@@ -45,28 +42,35 @@ Now let's create an application using this approach. We will run
 `oc new-app` command by supplying the git uri as the parameter.
 
 ----
-$ oc new-app https://github.com/VeerMuchandi/time --context-dir=rhel
+oc new-app https://github.com/RedHatWorkshops/s2i-workshop  --context-dir=dockerfile/httpd --name=myhttpdapp
+--> Found Docker image f584e39 (2 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhscl/httpd-24-rhel7"
 
---> Found Docker image 1d309a6 (6 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhel7"
+    Apache httpd 2.4
+    ----------------
+    Apache httpd 2.4 available as container, is a powerful, efficient, and extensible web server. Apache supports a variety of features, many implemented as compiled modules which extend the core functionality. These can range from server-side programming language support to authentication schemes. Virtual hosting allows one Apache installation to serve many different Web sites.
 
-    * An image stream will be created as "rhel7:latest" that will track the source image
-    * A Docker build using source code from https://github.com/VeerMuchandi/time will be created
-      * The resulting image will be pushed to image stream "time:latest"
-      * Every time "rhel7:latest" changes a new build will be triggered
-    * This image will be deployed in deployment config "time"
-    * Port 8080 will be load balanced by service "time"
-      * Other containers can access this service through the hostname "time"
-    * WARNING: Image "registry.access.redhat.com/rhel7" runs as the 'root' user which may not be permitted by your cluster administrator
+    Tags: builder, httpd, httpd24
 
---> Creating resources with label app=time ...
-    imagestream "rhel7" created
-    imagestream "time" created
-    buildconfig "time" created
-    deploymentconfig "time" created
-    service "time" created
+    * An image stream tag will be created as "httpd-24-rhel7:latest" that will track the source image
+    * A Docker build using source code from https://github.com/RedHatWorkshops/s2i-workshop will be created
+      * The resulting image will be pushed to image stream tag "myhttpdapp:latest"
+      * Every time "httpd-24-rhel7:latest" changes a new build will be triggered
+    * This image will be deployed in deployment config "myhttpdapp"
+    * Port 8080/tcp will be load balanced by service "myhttpdapp"
+      * Other containers can access this service through the hostname "myhttpdapp"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "httpd-24-rhel7" created
+    imagestream.image.openshift.io "myhttpdapp" created
+    buildconfig.build.openshift.io "myhttpdapp" created
+    deploymentconfig.apps.openshift.io "myhttpdapp" created
+    service "myhttpdapp" created
 --> Success
-    Build scheduled, use 'oc logs -f bc/time' to track its progress.
+    Build scheduled, use 'oc logs -f bc/myhttpdapp' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/myhttpdapp'
     Run 'oc status' to view your app.
+
 ----
 
 You'll notice that OpenShift created a few things at this point. You
@@ -81,82 +85,59 @@ In the meanwhile lets have a look at the `buildconfig` by running the
 command shown below.
 
 ----
-$ oc get bc time -o json
+$ oc get bc myhttpdapp -o yaml
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: 2018-11-12T21:27:05Z
+  labels:
+    app: myhttpdapp
+  name: myhttpdapp
+  namespace: mycliproject-user1
+  resourceVersion: "39682"
+  selfLink: /apis/build.openshift.io/v1/namespaces/mycliproject-user1/buildconfigs/myhttpdapp
+  uid: b41dbd12-e6c1-11e8-b0ef-02cc00155950
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: myhttpdapp:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: dockerfile/httpd
+    git:
+      uri: https://github.com/RedHatWorkshops/s2i-workshop
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: httpd-24-rhel7:latest
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: 2hF5G9LlJyHHi2NnnFip
+    type: GitHub
+  - generic:
+      secret: IdpQ9jp7jEi_qXVgAcVX
+    type: Generic
+  - type: ConfigChange
+  - imageChange:
+      lastTriggeredImageID: registry.access.redhat.com/rhscl/httpd-24-rhel7@sha256:9b1f52e0405b30c4275e88a1109de42c2de0c98d63c9c46ab16ac76965aecdbc
+    type: ImageChange
+status:
+  lastVersion: 1
 
-{
-    "kind": "BuildConfig",
-    "apiVersion": "v1",
-    "metadata": {
-        "name": "time",
-        "namespace": "mycliproject-userxx",
-        "selfLink": "/oapi/v1/namespaces/mycliproject-admin/buildconfigs/time",
-        "uid": "ac4beccd-9569-11e6-ad4c-000d3af733e4",
-        "resourceVersion": "134692",
-        "creationTimestamp": "2016-10-18T19:32:57Z",
-        "labels": {
-            "app": "time"
-        },
-        "annotations": {
-            "openshift.io/generated-by": "OpenShiftNewApp"
-        }
-    },
-    "spec": {
-        "triggers": [
-            {
-                "type": "GitHub",
-                "github": {
-                    "secret": "1pOQJ1G5tr6M70CQ5779"
-                }
-            },
-            {
-                "type": "Generic",
-                "generic": {
-                    "secret": "Bge9C-De7rm9PPDG_EQR"
-                }
-            },
-            {
-                "type": "ConfigChange"
-            },
-            {
-                "type": "ImageChange",
-                "imageChange": {
-                    "lastTriggeredImageID": "registry.access.redhat.com/rhel7@sha256:eac2421be7a6844a5c83b8f394d1f5f121b18fa4e455c5f09be940e0384a1d97"
-                }
-            }
-        ],
-        "runPolicy": "Serial",
-        "source": {
-            "type": "Git",
-            "git": {
-                "uri": "https://github.com/VeerMuchandi/time"
-            },
-            "contextDir": "rhel"
-        },
-        "strategy": {
-            "type": "Docker",
-            "dockerStrategy": {
-                "from": {
-                    "kind": "ImageStreamTag",
-                    "name": "rhel7:latest"
-                }
-            }
-        },
-        "output": {
-            "to": {
-                "kind": "ImageStreamTag",
-                "name": "time:latest"
-            }
-        },
-        "resources": {},
-        "postCommit": {}
-    },
-    "status": {
-        "lastVersion": 1
-    }
-}
 ----
 
-Note the name of the `buildconfig` in metadata is set to "time", the git
+Note the name of the `buildconfig` in metadata is set to "myhttpdapp", the git
 uri pointing to the value you gave while creating the application. Also
 note the Strategy.type set to "Docker". This indicates that the build
 will use the instructions in this Dockerfile to do the docker build.
@@ -168,29 +149,50 @@ Build starts in a minute or so. You can view the list of builds using
 
 ----
 $ oc get builds
-NAME      TYPE      STATUS    POD
-time-1    Docker    Running   time-1-build
+NAME           TYPE      FROM          STATUS     STARTED          DURATION
+myhttpdapp-1   Docker    Git@ab60a03   Complete   11 minutes ago   9s
 ----
 
-Note the name of the build that is running i.e. `time-1`. We will use that
+Note the name of the build that is running i.e. `myhttpdapp-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
 at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
 pushing this to OpenShift internal docker registry.
 
 ----
-$ oc logs build/time-1
+$  oc logs build/myhttpdapp-1
+Cloning "https://github.com/RedHatWorkshops/s2i-workshop" ...
+	Commit:	ab60a037cf993448e86c4e49eb0cfbcf27ae160c (Update Dockerfile)
+	Author:	Robert Sandoval <rsandova@redhat.com>
+	Date:	Mon Nov 12 15:23:24 2018 -0600
+Replaced Dockerfile FROM image registry.access.redhat.com/rhscl/httpd-24-rhel7
+Step 1/6 : FROM registry.access.redhat.com/rhscl/httpd-24-rhel7@sha256:9b1f52e0405b30c4275e88a1109de42c2de0c98d63c9c46ab16ac76965aecdbc
+ ---> f584e3997022
+Step 2/6 : ADD ./index.html /var/www/html
+ ---> Using cache
+ ---> e5012cb76cce
+Step 3/6 : USER 1001
+ ---> Using cache
+ ---> 06fae3c039d1
+Step 4/6 : EXPOSE 8080
+ ---> Using cache
+ ---> 3661e9b0cbff
+Step 5/6 : ENV "OPENSHIFT_BUILD_NAME" "myhttpdapp-1" "OPENSHIFT_BUILD_NAMESPACE" "mycliproject-user1" "OPENSHIFT_BUILD_SOURCE" "https://github.com/RedHatWorkshops/s2i-workshop" "OPENSHIFT_BUILD_COMMIT" "ab60a037cf993448e86c4e49eb0cfbcf27ae160c"
+ ---> Running in ae792a365931
+ ---> be7fab75c573
+Removing intermediate container ae792a365931
+Step 6/6 : LABEL "io.openshift.build.commit.author" "Robert Sandoval \u003crsandova@redhat.com\u003e" "io.openshift.build.commit.date" "Mon Nov 12 15:23:24 2018 -0600" "io.openshift.build.commit.id" "ab60a037cf993448e86c4e49eb0cfbcf27ae160c" "io.openshift.build.commit.message" "Update Dockerfile" "io.openshift.build.commit.ref" "master" "io.openshift.build.name" "myhttpdapp-1" "io.openshift.build.namespace" "mycliproject-user1" "io.openshift.build.source-context-dir" "dockerfile/httpd" "io.openshift.build.source-location" "https://github.com/RedHatWorkshops/s2i-workshop"
+ ---> Running in b490c1b88bc1
+ ---> 0b83c56e707a
+Removing intermediate container b490c1b88bc1
+Successfully built 0b83c56e707a
 
-Successfully built 99563b872361
-I0701 01:00:01.954898       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
-I0701 01:00:01.955401       1 cfg.go:64] Using serviceaccount user for Docker authentication
-I0701 01:00:01.955426       1 docker.go:84] Using Docker authentication provided
-I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject-userxx/time image ...
-I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject-userxx/time
+Pushing image docker-registry.default.svc:5000/mycliproject-user1/myhttpdapp:latest ...
+Push successful
 ----
 
 In the above log note how the image is pushed to the local docker
-registry. The registry is running at `172.30.246.7` at port `5000`.
+registry. The registry is running at `docker-registry.default.svc` at port `5000`.
 
 *Step 4: Deployment*
 
@@ -200,108 +202,103 @@ configuration by running the following command. Note `dc` represents
 `deploymentconfig`.
 
 ----
-$ oc get dc -o json
+$ oc get dc myhttpdapp -o yaml
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: 2018-11-12T21:27:06Z
+  generation: 2
+  labels:
+    app: myhttpdapp
+  name: myhttpdapp
+  namespace: mycliproject-user1
+  resourceVersion: "39785"
+  selfLink: /apis/apps.openshift.io/v1/namespaces/mycliproject-user1/deploymentconfigs/myhttpdapp
+  uid: b426420b-e6c1-11e8-b0ef-02cc00155950
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: myhttpdapp
+    deploymentconfig: myhttpdapp
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        app: myhttpdapp
+        deploymentconfig: myhttpdapp
+    spec:
+      containers:
+      - image: docker-registry.default.svc:5000/mycliproject-user1/myhttpdapp@sha256:fc7eb1c2e420802dc7c0520cd418a564acd9303e2795eba8f83a0ecccbcdaa72
+        imagePullPolicy: Always
+        name: myhttpdapp
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - myhttpdapp
+      from:
+        kind: ImageStreamTag
+        name: myhttpdapp:latest
+        namespace: mycliproject-user1
+      lastTriggeredImage: docker-registry.default.svc:5000/mycliproject-user1/myhttpdapp@sha256:fc7eb1c2e420802dc7c0520cd418a564acd9303e2795eba8f83a0ecccbcdaa72
+    type: ImageChange
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-11-12T21:27:22Z
+    lastUpdateTime: 2018-11-12T21:27:22Z
+    message: Deployment config has minimum availability.
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2018-11-12T21:27:19Z
+    lastUpdateTime: 2018-11-12T21:27:23Z
+    message: replication controller "myhttpdapp-1" successfully rolled out
+    reason: NewReplicationControllerAvailable
+    status: "True"
+    type: Progressing
+  details:
+    causes:
+    - type: ConfigChange
+    message: config change
+  latestVersion: 1
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
 
-{
-    "kind": "List",
-    "apiVersion": "v1",
-    "metadata": {},
-    "items": [
-        {
-            "kind": "DeploymentConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "time",
-                "namespace": "mycliproject-userxx",
-                "selfLink": "/osapi/v1beta3/namespaces/mycliproject-userxx/deploymentconfigs/time",
-                "uid": "85a3d5c0-1fad-11e5-a792-fa163e91b409",
-                "resourceVersion": "12684",
-                "creationTimestamp": "2015-07-01T04:56:23Z"
-            },
-            "spec": {
-                "strategy": {
-                    "type": "Recreate",
-                    "resources": {}
-                },
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "time"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "name": "time:latest"
-                            },
-                            "lastTriggeredImage": "172.30.246.7:5000/mycliproject-userxx/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5"
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "selector": {
-                    "deploymentconfig": "time"
-                },
-                "template": {
-                    "metadata": {
-                        "creationTimestamp": null,
-                        "labels": {
-                            "deploymentconfig": "time"
-                        }
-                    },
-                    "spec": {
-                        "containers": [
-                            {
-                                "name": "time",
-                                "image": "172.30.246.7:5000/mycliproject-userxx/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5",
-                                "ports": [
-                                    {
-                                        "name": "time-tcp-80",
-                                        "containerPort": 80,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {},
-                                "terminationMessagePath": "/dev/termination-log",
-                                "imagePullPolicy": "Always",
-                                "securityContext": {
-                                    "capabilities": {},
-                                    "privileged": false
-                                }
-                            }
-                        ],
-                        "restartPolicy": "Always",
-                        "dnsPolicy": "ClusterFirst"
-                    }
-                }
-            },
-            "status": {
-                "latestVersion": 2,
-                "details": {
-                    "causes": [
-                        {
-                            "type": "ImageChange",
-                            "imageTrigger": {
-                                "from": {
-                                    "kind": "DockerImage",
-                                    "name": "172.30.246.7:5000/mycliproject-userxx/time:latest"
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-    ]
-}
 ----
 
 Note where the image is picked from. It shows that the deployment picks
-the image from the local registry (same ip address and port as in
+the image from the local registry (same service name and port as in
 `buildconfig`) and the image tag is same as what we built earlier. This
 means the deployment step deploys the application image what was built
 earlier during the build step.
@@ -311,10 +308,9 @@ deployed quickly and starts running in its own pod.
 
 ----
 $ oc get pods
-
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-build   0/1       Completed   0          2h
-time-1-rqa7c   1/1       Running     0          2h
+NAME                 READY     STATUS      RESTARTS   AGE
+myhttpdapp-1-76mrw   1/1       Running     0          15m
+myhttpdapp-1-build   0/1       Completed   0          15m
 ----
 
 *Step 5: Adding route*
@@ -325,17 +321,16 @@ We will check the service and add a route to expose that service.
 ----
 $ oc get services
 
-NAME      CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-time      172.30.xx.82   <none>        8080/TCP   2h
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+myhttpdapp   ClusterIP   172.30.5.159   <none>        8080/TCP   15m
 ----
 
 Here we expose the service as a route.
 
 ----
-$ oc expose service time
+$ oc expose service myhttpdapp
 
-NAME      HOST/PORT   PATH      SERVICE   LABELS     TLS TERMINATION
-time                            time      app=time
+route.route.openshift.io/myhttpdapp exposed
 ----
 
 And then we check the route exposed.
@@ -343,8 +338,8 @@ And then we check the route exposed.
 ----
 $ oc get routes
 
-NAME      HOST/PORT                                                          PATH      SERVICES   PORT       TERMINATION
-time      time-mycliproject-userxx.{{APPS_ADDRESS}}                       time       8080-tcp
+NAME         HOST/PORT                                                                  PATH      SERVICES     PORT       TERMINATION   WILDCARD
+myhttpdapp   myhttpdapp-mycliproject-user1.apps.sanantonio-bfa3.openshiftworkshop.com             myhttpdapp   8080-tcp                 None
 ----
 
 NOTE: Unlike in the previous lab, this time we did not use --hostname
@@ -361,8 +356,8 @@ NOTE: If you don't provide time.php extension, it displays apache's
 default index page.
 
 ----
-$ curl time-mycliproject-userxx.{{APPS_ADDRESS}}
-Wednesday 1st of July 2015 01:12:20 AM
+$ curl myhttpdapp-mycliproject-userxx.{{APPS_ADDRESS}}
+
 ----
 
 Congratulations!! In this exercise you have learnt how to create, build
