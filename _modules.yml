@@ -5,13 +5,13 @@ config:
       value: openshift
     - name: GIT_SERVER_URL
       desc: Git server url
-      value: http://gogs-ci.apps.st.osecloud.com
+      value: http://gogs-ci.apps.sanantonio-bfa3.openshiftworkshop.com
     - name: CONSOLE_ADDRESS
       desc: HTTP address of the OpenShift console
-      value: https://master.st.osecloud.com:8443
+      value: https://master.sanantonio-bfa3.openshiftworkshop.com
     - name: APPS_ADDRESS
       desc: HTTP address suffix of apps deployed on OpenShift
-      value: apps.st.osecloud.com
+      value: apps.sanantonio-bfa3.openshiftworkshop.com
     - name: GET_STARTED_CLI_URL
       desc: URL to documentation to configure CLI
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
