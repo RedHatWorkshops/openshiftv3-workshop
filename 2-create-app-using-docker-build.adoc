@@ -43,6 +43,7 @@ Now let's create an application using this approach. We will run
 
 ----
 oc new-app https://github.com/RedHatWorkshops/s2i-workshop  --context-dir=dockerfile/httpd --name=myhttpdapp
+
 --> Found Docker image f584e39 (2 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhscl/httpd-24-rhel7"
 
     Apache httpd 2.4
@@ -86,6 +87,7 @@ command shown below.
 
 ----
 $ oc get bc myhttpdapp -o yaml
+
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
@@ -149,6 +151,7 @@ Build starts in a minute or so. You can view the list of builds using
 
 ----
 $ oc get builds
+
 NAME           TYPE      FROM          STATUS     STARTED          DURATION
 myhttpdapp-1   Docker    Git@ab60a03   Complete   11 minutes ago   9s
 ----
@@ -161,6 +164,7 @@ pushing this to OpenShift internal docker registry.
 
 ----
 $  oc logs build/myhttpdapp-1
+
 Cloning "https://github.com/RedHatWorkshops/s2i-workshop" ...
 	Commit:	ab60a037cf993448e86c4e49eb0cfbcf27ae160c (Update Dockerfile)
 	Author:	Robert Sandoval <rsandova@redhat.com>
@@ -203,6 +207,7 @@ configuration by running the following command. Note `dc` represents
 
 ----
 $ oc get dc myhttpdapp -o yaml
+
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
@@ -308,6 +313,7 @@ deployed quickly and starts running in its own pod.
 
 ----
 $ oc get pods
+
 NAME                 READY     STATUS      RESTARTS   AGE
 myhttpdapp-1-76mrw   1/1       Running     0          15m
 myhttpdapp-1-build   0/1       Completed   0          15m
@@ -352,8 +358,8 @@ Now run the application by using the route you provided in the previous
 step. You can use either curl or your browser. The application displays
 time.
 
-NOTE: If you don't provide time.php extension, it displays apache's
-default index page.
+NOTE: UPDATE the url below with your user  !!!!!!!!  
+
 
 ----
 $ curl myhttpdapp-mycliproject-userxx.{{APPS_ADDRESS}}
