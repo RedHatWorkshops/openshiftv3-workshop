@@ -32,19 +32,10 @@ Click into *Add to Project* button.
 
 In the search text box type `dotnet` and select `.Net Core` template with
 latest version tag for this builder image (at the moment of creation
-this lab it is `.NET Core Builder Images`).
+this lab it is `.NET Core`).
 
-Fill the fields with the following information:
+Click `Next` and then `Try Sample Repository`
 
-....
-Name: dotnet20
-Git Repository URL: https://github.com/redhat-developer/s2i-dotnetcore-ex
-Branch: dotnetcore-2.0
-Context Dir: app
-....
-
-Click on the blue link that says: *Show advanced routing, build, and
-deployment options*.
 
 
 Click on *Create* and then on *Continue to overview*.
@@ -58,7 +49,7 @@ for you. You can view the list of builds using `oc get builds` command.
 $ oc get builds
 
 NAME            TYPE      FROM          STATUS     STARTED         DURATION
-dotnet11-1      Source    Git@50ea6f4   Complete   2 minutes ago   24s
+s-2-i-dotnetcore-ex      Source    Git@50ea6f4   Complete   2 minutes ago   24s
 ....
 
 Note the name of the build that is running i.e. `dotnet11-1`. We will use that
@@ -71,14 +62,14 @@ pushing this to OpenShift's internal docker registry.
 $oc get pods
 
 NAME               READY     STATUS    RESTARTS   AGE
-dotnet11-1-build   1/1       Running   0          11m
+s-2-i-dotnetcore-ex   1/1       Running   0          11m
 ....
 
 We can check the logs by executing the following command:
 
 [source,shell]
 ----
-$ oc logs pod/dotnet11-1-build
+$ oc logs pod/s-2-i-dotnetcore-ex-1-build
 
 
 log  : Installing Microsoft.VisualBasic 10.0.1.
@@ -186,7 +177,7 @@ configuration by running the following command. Note `dc` represents
 `deploymentconfig`.
 
 ....
-$ oc get dc dotnet11 -o json
+$ oc get dc s-2-i-dotnetcore-ex -o json
 
 {
     "apiVersion": "v1",
@@ -329,11 +320,11 @@ If you get the list of pods, you'll notice that the application gets
 deployed quickly and starts running in its own pod.
 
 ....
-$ oc get pods
+$ oc get pods  
 
-NAME                  READY     STATUS      RESTARTS   AGE
-dotnet11-1-544x6      1/1       Running     0          9h
-dotnet11-1-build      0/1       Completed   0          10h
+NAME                          READY     STATUS      RESTARTS   AGE
+s-2-i-dotnetcore-ex-1-build   0/1       Completed   0          2m
+s-2-i-dotnetcore-ex-1-h9vm8   1/1       Running     0          1m
 ....
 
 *Step 5: Adding route*
@@ -342,10 +333,11 @@ This step is very much the same as what we did in previous exercises. We
 will check the service and add a route to expose that service.
 
 ....
-$ oc get service dotnet11
+$ oc get service s-2-i-dotnetcore-ex
 
-NAME       CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
-dotnet11   172.30.179.140   <none>        8080/TCP   10h
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+s-2-i-dotnetcore-ex   ClusterIP   172.30.167.226   <none>        8080/TCP   3m
+
 ....
 
 Route should be already created.
@@ -353,17 +345,17 @@ Route should be already created.
 ....
 $ oc get routes
 
-NAME         HOST/PORT                                 PATH      SERVICES     PORT        TERMINATION
-dotnet11     dotnet11-ocp-dotnet.{{APPS_ADDRESS}}                dotnet11     8080-tcp    None
+NAME                  HOST/PORT                                                                          PATH      SERVICES              PORT       TERMINATION   WILDCARD
+s-2-i-dotnetcore-ex   s-2-i-dotnetcore-ex-mydotnetapp-user1.apps.sanantonio-bfa3.openshiftworkshop.com             s-2-i-dotnetcore-ex   8080-tcp                 None
 ....
 
 If route does not show, we expose the service `dotnet11` via the command
 below.
 
 ....
-$ oc expose service dotnet11
+$ oc expose service s-2-i-dotnetcore-ex
 
-route "dotnet11" exposed
+route "s-2-i-dotnetcore-ex" exposed
 ....
 
 And now we can check the route uri.
@@ -374,7 +366,7 @@ Now access the application by using the route you got in the previous
 step. You can use either curl or your browser.
 
 ....
-$ curl dotnet11-userxx.{{APPS_ADDRESS}}
+$ curl -s-2-i-dotnetcore-exuserxx.{{APPS_ADDRESS}}
 
 <!DOCTYPE html>
 <html>
@@ -410,5 +402,5 @@ $ curl dotnet11-userxx.{{APPS_ADDRESS}}
 ....
 
 Congratulations! In this exercise you have learned how to create, build
-and deploy a JBoss EAP application using OpenShift's JBoss EAP Builder
+and deploy a .NET Core application using OpenShift's .NET Core Builder
 Image.

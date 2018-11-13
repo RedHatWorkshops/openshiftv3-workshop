@@ -39,7 +39,7 @@ $ cd nodejs-hello
 Now let us create an application using this code.
 
 ----
-$ oc new-app .
+$ oc new-app . --image-stream=nodejs:4
 --> Found image 448a51d (11 weeks old) in image stream "nodejs" in project "openshift" under tag "4" for "nodejs"
 
     Node.js 4
@@ -82,7 +82,7 @@ nodejs-hello   nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}             nodejs-hel
 ----
 
 ----
-$ $ curl nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}
+$ curl nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}
 Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
 ----
 
