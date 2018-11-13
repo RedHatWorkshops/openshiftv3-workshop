@@ -23,6 +23,8 @@ config:
       value: https://access.redhat.com/downloads/content/290
 
 modules:
+  0-setting-up-client-tools:
+    name: Setting up client tools
   9-bluegreen-deployments:
     name: Blue-Green Deployments
   10-webhooks:
