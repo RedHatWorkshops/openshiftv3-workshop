@@ -224,14 +224,10 @@ In the next section add a label: (it may already be set)
 |=========================================================
 
 Click *Create* to add this frontend application to talk to the database.
-
-image::cakephp_confirm.png[image]
-
 Click *Continue to overview*.
 
 You will be taken back to the *Project Overview* page and you will start
 seeing that a new service is now available and exposed as a route.
-
 
 You can check the build logs using the following command:
 
