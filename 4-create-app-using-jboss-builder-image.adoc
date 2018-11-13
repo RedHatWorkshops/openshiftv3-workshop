@@ -45,17 +45,13 @@ image::kitchensink_details.png[image]
 |ks   |https://github.com/RedHatWorkshops/kitchensink
 |=========================================================
 
-Click on the blue link that says: *Show advanced routing, build, and
-deployment options*.
+NOTE: If you're instructor has set up a Nexus Repo please add the MAVEN_MIRROR_URL environment variable.  It will be on the same window farther down.  
 
-NOTE: If you're instructor has set up a Nexus Repo please add the MAVEN_MIRROR_URL environment variable.  
-
-On *Build Configuration* add a new _Environment Variable_.
 
 [width="50%",options="header"]
 |=========================================================
 |Name |Value
-|MAVEN_MIRROR_URL   |{{NEXUS_URL}}
+|MAVEN_MIRROR_URL   | 
 |=========================================================
 
 image::nexus_repo.png[image]

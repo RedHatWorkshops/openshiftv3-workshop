@@ -26,18 +26,17 @@ Console. This will accomplish the same job as `oc new-project` from CLI.
 
 *Step 2: Create a MYSQL database using the template*
 
-Click on *Add to Project* button and you will be taken to select an
+Click on *Browse Catalog* button and you will be taken to select an
 image or template. You will see the application create screen as shown
 below:
 
-image::application_create_screen.png[image]
 
-Scroll down and click on *Data Stores* session. Find *MySQL (Ephemeral)*
+Scroll down and click on *Databases* then *MySQL* session. Find *MySQL (Ephemeral)*
 template from the list and click *Select*. You will also notice *MySQL
 (Persistent)* template. But we will address that in a different lab
 exercise.
 
-image::mysql_ephemeral_template.png[MySQL Template,300,align="center"]
+image::application_create_screen.png[image]
 
 You will be taken to the mysql ephemeral creation screen. Click edit
 parameters and edit the values to use the following values:
@@ -46,15 +45,15 @@ parameters and edit the values to use the following values:
 Database Service Name: mysql
 MySQL Connection Username: mysqluser
 MySQL Connection Password: supersecret
-MySQL Database Name: sample
+MySQL Database Name: sampledb
 ----
  
 
-Click the *Create* button.
+Click the *Next* and then the *Create* button.
 
 image::mysql_ephemeral_creation.png[image]
 
-Click *Go to overview*.
+Click *Continue to Project Overview*.
 
 image::mysql_pod_on_proj_details.png[image]
 
@@ -137,7 +136,7 @@ mysql> show databases;
 | Database           |
 +--------------------+
 | information_schema |
-| sample             |
+| sampledb           |
 +--------------------+
 2 rows in set (0.00 sec)
 ----
@@ -146,7 +145,7 @@ Change over to use the `sample` database.
 
 [source,sh]
 ----
-mysql> use sample;
+mysql> use sampledb;
 Database changed
 ----
 
@@ -181,39 +180,47 @@ Now `exit` MySQL client and `exit` out of the pod.
 
 In this step we will add a PHP frontend application that talks to
 recently create database. The code is available on github to use at
-https://github.com/rgupta1234/dbtest.
+https://github.com/RedHatWorkshops/dbtest  
+
 
 Browse through the code in this repository. It has a simple php file
 (`dbtest.php`) that connects to the database and reads the values from
 the users table and displays them.
 
-To add a frontend again click on *Add to Project* to spin up a frontend
+To add a frontend again click on *Add to Project* -> *Browse Catalog*  to spin up a frontend
 application in the same *consoleproject-userxx*. It takes you to
-select image or template page and choose the *PHP* template under PHP
-apps.
+select *Languages* then *PHP*   
 
 image::php.png[PHP Template,300,align="center"]
 
-Enter the following values for each parameters:
+Select *Advanced Options*
+
+image::php2.png[PHP Template,300,align="center"]
+
+
+Go to Deployment Configuration section and enter the following
+environment variables:
 
 [width="50%",options="header"]
 |=========================================================
 |Name |Git Repository URL
-|dbtest   |https://github.com/VeerMuchandi/dbtest
+|dbtest   | https://github.com/RedHatWorkshops/dbtest
+|DB_USER  | mysqluser
+|DB_PASSWORD | supersecret
+|DB_NAME | sampledb
+|DB_HOST | mysql
+|DB_PORT | 3306
 |=========================================================
 
-Click onto the link "Show advanced routing, build, and deployment
-options", go to Deployment Configuration section and enter the following
-environment variables:
+image::php_dc_env_variables.png[PHP Template,300,align="center"]  
 
-image::dbtest_deployment_env.jpg[image]
 
-In the next section add a label:
+In the next section add a label: (it may already be set)  
 
 [width="50%",options="header"]
 |=========================================================
 |Name |Value
-|name   |dbtest
+|app   |dbtest
 |=========================================================
 
 Click *Create* to add this frontend application to talk to the database.
@@ -225,31 +232,18 @@ Click *Continue to overview*.
 You will be taken back to the *Project Overview* page and you will start
 seeing that a new service is now available and exposed as a route.
 
-image::dbtest_build.png[image]
 
 You can check the build logs using the following command:
 
 ----
 $ oc logs build/dbtest-1
 
-Cloning "https://github.com/VeerMuchandi/dbtest.git" ...
-    Commit: 1bb0515221459a11ca2e7563dca903bb93d8150e (small change)
-    Author: VeerMuchandi <veer.muchandi@gmail.com>
-    Date:   Tue Jan 26 12:53:35 2016 -0500
-
----> Installing application source...
-
-
-Pushing image 172.30.89.28:5000/consoleproject-userxx/dbtest:latest ...
-Pushed 0/5 layers, 7% complete
-Pushed 1/5 layers, 21% complete
-Pushed 2/5 layers, 41% complete
-Pushed 3/5 layers, 70% complete
-Pushed 3/5 layers, 99% complete
-Pushed 4/5 layers, 100% complete
-Pushed 5/5 layers, 100% complete
-Push successful
 ----
+
+Or by watching it in the web console  
+
+image::dbtest_build.png[image]
+
 
 Once the build completes, OpenShift initiates a deploy process. Once the
 deployment is complete, the frontend pod starts running. You will find
