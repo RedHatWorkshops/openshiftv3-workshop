@@ -27,28 +27,30 @@ Take a look at the `deploymentConfig` (or `dc`) of the `time`
 application:
 
 ----
-$ oc get deploymentConfig/time -o yaml
+$ oc get dc/myhttpdapp -o yaml
 
-apiVersion: v1
+apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
     openshift.io/generated-by: OpenShiftNewApp
-  creationTimestamp: 2016-10-06T05:47:52Z
+  creationTimestamp: 2018-11-12T22:28:00Z
   generation: 2
   labels:
-    app: time
-  name: time
-  namespace: mycliproject-userxx
-  resourceVersion: "32084"
-  selfLink: /oapi/v1/namespaces/mycliproject-userxx/deploymentconfigs/time
-  uid: 6bb299e0-8b88-11e6-ba5b-080027782cf7
+    app: myhttpdapp
+  name: myhttpdapp
+  namespace: mycliproject-user1
+  resourceVersion: "48261"
+  selfLink: /apis/apps.openshift.io/v1/namespaces/mycliproject-user1/deploymentconfigs/myhttpdapp
+  uid: 363c797c-e6ca-11e8-b0ef-02cc00155950
 spec:
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
-    app: time
-    deploymentconfig: time
+    app: myhttpdapp
+    deploymentconfig: myhttpdapp
   strategy:
+    activeDeadlineSeconds: 21600
     resources: {}
     rollingParams:
       intervalSeconds: 1
@@ -60,24 +62,25 @@ spec:
   template:
     metadata:
       annotations:
-        openshift.io/container.time.image.entrypoint: '["sh"]'
         openshift.io/generated-by: OpenShiftNewApp
       creationTimestamp: null
       labels:
-        app: time
-        deploymentconfig: time
+        app: myhttpdapp
+        deploymentconfig: myhttpdapp
     spec:
       containers:
-      - image: 172.30.89.28:5000/mycliproject-userxx/time@sha256:c490ea632c5362be3a3985285c623e674e58b876e70d9e3f94a151785b2ee87c
+      - image: docker-registry.default.svc:5000/mycliproject-user1/myhttpdapp@sha256:fc7eb1c2e420802dc7c0520cd418a564acd9303e2795eba8f83a0ecccbcdaa72
         imagePullPolicy: Always
-        name: time
+        name: myhttpdapp
         ports:
         - containerPort: 8080
           protocol: TCP
         resources: {}
         terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+      schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
   test: false
@@ -86,27 +89,36 @@ spec:
   - imageChangeParams:
       automatic: true
       containerNames:
-      - time
+      - myhttpdapp
       from:
         kind: ImageStreamTag
-        name: time:latest
-        namespace: mycliproject-userxx
-      lastTriggeredImage: 172.30.89.28:5000/mycliproject-userxx/time@sha256:c490ea632c5362be3a3985285c623e674e58b876e70d9e3f94a151785b2ee87c
+        name: myhttpdapp:latest
+        namespace: mycliproject-user1
+      lastTriggeredImage: docker-registry.default.svc:5000/mycliproject-user1/myhttpdapp@sha256:fc7eb1c2e420802dc7c0520cd418a564acd9303e2795eba8f83a0ecccbcdaa72
     type: ImageChange
 status:
   availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-11-12T22:28:15Z
+    lastUpdateTime: 2018-11-12T22:28:15Z
+    message: Deployment config has minimum availability.
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2018-11-12T22:28:12Z
+    lastUpdateTime: 2018-11-12T22:28:16Z
+    message: replication controller "myhttpdapp-1" successfully rolled out
+    reason: NewReplicationControllerAvailable
+    status: "True"
+    type: Progressing
   details:
     causes:
-    - imageTrigger:
-        from:
-          kind: ImageStreamTag
-          name: time:latest
-          namespace: mycliproject-userxx
-      type: ImageChange
-    message: caused by an image change
+    - type: ConfigChange
+    message: config change
   latestVersion: 1
   observedGeneration: 2
+  readyReplicas: 1
   replicas: 1
+  unavailableReplicas: 0
   updatedReplicas: 1
 ----
 
@@ -122,19 +134,20 @@ To view the `rc` for your application first get the current pod running.
 ----
 $ oc get pods
 
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-45jtc   1/1       Running     0          2h
-time-1-build   0/1       Completed   0          2h
+NAME                 READY     STATUS      RESTARTS   AGE
+myhttpdapp-1-build   0/1       Completed   0          21h
+myhttpdapp-1-cc4s2   1/1       Running     0          21h
 ----
 
-This shows that the build `time-1` is running in pod `45jtc`. Let us
+This shows that the build `myhttpdapp-1` is running in pod `cc4s2`. Let us
 view the `rc` on this build.
 
 ----
-$ oc get rc/time-1
+$  oc get rc/myhttpdapp-1
 
-NAME      DESIRED   CURRENT   AGE
-time-1    1         1         2h
+NAME           DESIRED   CURRENT   READY     AGE
+myhttpdapp-1   1         1         1         21h
+
 ----
 
 NOTE: You can change the number of replicas in `DeploymentConfig` or
@@ -161,13 +174,15 @@ Now scale your application using the `oc scale` command (remembering to
 specify the `dc`)
 
 ----
-$ oc scale --replicas=3 dc/time
+$ oc scale --replicas=3 dc/myhttpdapp
 
-deploymentconfig "time" scaled
+deploymentconfig.apps.openshift.io/myhttpdapp scaled
+
 ----
 
 If you look at the web console and you will see that there are 3
-instances running now
+instances running now  
+
 image::scale_updown_overview_scaled.png[image]
 
 *Note:* You can also scale up and down from the web console by going to
@@ -180,11 +195,12 @@ On the command line, see how many pods you are running now:
 ----
 $ oc get pods
 
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-33wyq   1/1       Running     0          10m
-time-1-45jtc   1/1       Running     0          2h
-time-1-5ekuk   1/1       Running     0          10m
-time-1-build   0/1       Completed   0          2h
+NAME                 READY     STATUS      RESTARTS   AGE
+myhttpdapp-1-build   0/1       Completed   0          21h
+myhttpdapp-1-cc4s2   1/1       Running     0          21h
+myhttpdapp-1-csl7f   1/1       Running     0          1m
+myhttpdapp-1-f7mp7   1/1       Running     0          1m
+
 ----
 
 You now have 3 instances of `time-1` running (each with a different
@@ -192,10 +208,11 @@ pod-id). If you check the `rc` of the `time-1` build you will see that
 it has been updated by the `dc`.
 
 ----
-$ oc get rc/time-1
+$ oc get rc/myhttpdapp-1
 
-NAME      DESIRED   CURRENT   AGE
-time-1    3         3         3h
+NAME           DESIRED   CURRENT   READY     AGE
+myhttpdapp-1   3         3         3         21h
+
 ----
 
 *Step 4: Idling the application*
@@ -205,26 +222,29 @@ Run the following command to find the available endpoints
 ----
 $ oc get endpoints
 
-NAME      ENDPOINTS                                            AGE
-time      10.128.0.33:8080,10.129.0.30:8080,10.129.2.27:8080   15m
+NAME         ENDPOINTS                                        AGE
+myhttpdapp   10.1.4.123:8080,10.1.4.124:8080,10.1.4.60:8080   21h
+
 ----
 
-Note that the name of the endpoints is `time` and there are three ips
+Note that the name of the endpoints is `myhttpdapp` and there are three ips
 addresses for the three pods.
 
-Run the `oc idle endpoints/time` command to idle the application
+Run the `oc idle endpoints/myhttpdapp` command to idle the application
 
 ----
-$ oc idle endpoints/time
+$ oc idle endpoints/myhttpdapp
 
-Marked service mycliproject-userxx/time to unidle resource DeploymentConfig mycliproject-userxx/time (unidle to 3 replicas)
-Idled DeploymentConfig mycliproject-userxx/time (dry run)
+The service "mycliproject-user1/myhttpdapp" has been marked as idled
+The service will unidle DeploymentConfig "mycliproject-user1/myhttpdapp" to 3 replicas once it receives traffic
+DeploymentConfig "mycliproject-user1/myhttpdapp" has been idled
+
 ----
 
 Go back to the webconsole. You will notice that the pods show up as
 idled.
 
-image::idled_pods.jpeg[Idle Pods,300,align="center"]
+image::idled_pods.png[Idle Pods,300,align="center"]
 
 At this point the application is idled, the pods are not running and no
 resources are being used by the application. This doesn't mean that the
@@ -246,12 +266,13 @@ So, as soon as the user accesses the application, it comes up!!!
 *Step 7: Scaling Down*
 
 Scaling down is the same procedure as scaling up. Use the `oc scale`
-command on the `time` application `dc` setting.
+command on the `myhttpdapp` application `dc` setting.
 
 ----
-$ oc scale --replicas=1 dc/time
+$ oc scale --replicas=1 dc/myhttpdapp
 
-deploymentconfig "time" scaled
+deploymentconfig.apps.openshift.io/myhttpdapp scaled
+
 ----
 
 Alternately, you can go to project overview page and click on
