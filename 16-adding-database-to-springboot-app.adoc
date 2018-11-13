@@ -162,10 +162,10 @@ Now we will mount the ConfigMap so that the springboot application can
 use it. You can either edit from CLI or from WebConsole.
 
 * If using WebConsole, navigate to
-`Applications`->`Deployments`->`sampleapp`. The screen should show
+`Applications`->`Deployments`->`spring-sample-app`. The screen should show
 Deployment Configuration details for the `sampleapp` application. On the
 right top, choose `Actions` dropdown and `Edit YAML`.
-* If you are doing from CLI, you can run `oc edit dc sampleapp`
+* If you are doing from CLI, you can run `oc edit dc spring-sample-app`
 
 Scroll down to container spec, that looks like this:
 
@@ -191,9 +191,18 @@ Scroll down to container spec, that looks like this:
 
 Note there could be multiple `spec`s in your DC.
 
-We will now add a volume that points to our ConfigMap right under
-`spec`. It is explained here
+We will now add a volume that points to our ConfigMap. 
+You can edit the yaml directly paying close attention to the YAML format or you can add the ConfigMap using the oc tool
+
+----
+ oc set volumes dc/spring-sample-app --add -m /opt/app-root/src/config --configmap-name=app-props
+
+----
+
 https://docs.openshift.com/container-platform/latest/dev_guide/configmaps.html#configmaps-use-case-consuming-in-volumes
+
+
+If you look at the YAML file again you will see a volume and volumemount section were added. 
 
 [source,yaml]
 ----
@@ -204,66 +213,18 @@ spec:
         name: app-props
 ----
 
-WARNING: Be super-careful with indentation.
-
-We will now add `volumeMount` to mount the `volume` that we just added
-into the pod. It should be right under the container `name:` as shown
-below.
 
 [source,yaml]
 ----
       containers:
         -
-          name: sampleapp
+          name: spring-sample-app
           volumeMounts:
           - name: app-props-volume
             mountPath: /opt/app-root/src/config
 ----
 
-WARNING: Be super-careful with indentation
 
-After the changes, the `template` section in the `dc`, should now look
-like this:
-
-[source,yaml]
-----
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: sampleapp
-        deploymentconfig: sampleapp
-    spec:
-      volumes:
-        - name: app-props-volume
-          configMap:
-            name: app-props
-      containers:
-        -
-          name: sampleapp
-          volumeMounts:
-          - name: app-props-volume
-            mountPath: /opt/app-root/src/config
-          image: '172.30.85.130:5000/spring-userxx/bootapp@sha256:79e188d712e1209b933870c7d064423af281f16b371fb5e5911dfb09a6867776'
-          ports:
-            -
-              containerPort: 8080
-              protocol: TCP
-          resources:
-          terminationMessagePath: /dev/termination-log
-          imagePullPolicy: Always
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      securityContext:
-----
-
-*Optional:* you can run the following to do the update on the
-deploymentConfig:
-
-----
-$ oc set volumes dc/sampleapp --add -m /opt/app-root/src/config --configmap-name=app-props
-----
 
 So what is this location `/opt/app-root/src/config`?
 

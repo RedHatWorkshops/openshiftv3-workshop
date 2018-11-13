@@ -190,7 +190,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ----
-$ curl -X POST http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/refresh
+$ curl -X POST http://spring-sample-app-spring-userxx.{{APPS_ADDRESS}}/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ----
 
