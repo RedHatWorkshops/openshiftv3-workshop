@@ -1,4 +1,5 @@
 [[creating-an-application-using-jboss-eap-builder-image]]
+
 ### Creating an application using JBoss EAP builder image
 
 
@@ -31,11 +32,11 @@ Open the browser and select your new project *My JBoss Applications*.
 
 Click into *Add to Project* button.
 
-In the search text box type `jboss-eap64-openshift` and select the
-latest version tag for this builder image (at the moment of creation
-this lab it is `jboss-eap64-openshift:1.5`).
+Select `Browse` ->  `Languages` -> `Java` -> `JBoss EAP 6.4 (no https)`  
 
 Fill the fields with the following information:
+image::kitchensink_details.png[image]
+
 
 [width="50%",options="header"]
 |=========================================================
@@ -45,6 +46,8 @@ Fill the fields with the following information:
 
 Click on the blue link that says: *Show advanced routing, build, and
 deployment options*.
+
+NOTE: If you're instructor has set up a Nexus Repo please add the MAVEN_MIRROR_URL environment variable.  
 
 On *Build Configuration* add a new _Environment Variable_.
 
