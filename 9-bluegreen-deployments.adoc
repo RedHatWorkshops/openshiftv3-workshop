@@ -45,10 +45,10 @@ $ oc new-project bluegreen-userxx --display-name="Blue Green Project" --descript
 $ oc new-app -S --image-stream=php
 
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
------
 php
   Project: openshift
-  Tags:    5.5, 5.6, latest
+  Tags:    7.0, 7.1, latest
+
 ----
 
 *Step 3: Create an application*
@@ -61,7 +61,33 @@ in practice you would use a different branch for each version of the
 code. (E.g. v1 branch and v2 branch)
 
 ----
-$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git --env COLOR=blue --name=blue
+$ oc new-app php~{{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git/RedHatWorkshops/bluegreen --env COLOR=blue --name=blue
+
+--> Found image b3deb14 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
+
+    Apache 2.4 with PHP 7.1
+    -----------------------
+    PHP 7.1 available as container is a base platform for building and running various PHP 7.1 applications and frameworks. PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers to write dynamically generated web pages. PHP also offers built-in database integration for several commercial and non-commercial database management systems, so writing a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding is probably as a replacement for CGI scripts.
+
+    Tags: builder, php, php71, rh-php71
+
+    * A source build using source code from https://github.com/RedHatWorkshops/bluegreen will be created
+      * The resulting image will be pushed to image stream tag "blue:latest"
+      * Use 'start-build' to trigger a new build
+    * This image will be deployed in deployment config "blue"
+    * Ports 8080/tcp, 8443/tcp will be load balanced by service "blue"
+      * Other containers can access this service through the hostname "blue"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "blue" created
+    buildconfig.build.openshift.io "blue" created
+    deploymentconfig.apps.openshift.io "blue" created
+    service "blue" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/blue' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/blue'
+    Run 'oc status' to view your app.
 ----
 
 *Step 4: Monitor the application build*
@@ -125,7 +151,7 @@ IMPORTANT: Remember to substitute the username.
 Expose the service:
 
 ----
-$ oc expose service blue --hostname=bluegreen.userxx.{{APPS_ADDRESS}} --name=bluegreen
+$ oc expose service blue --name=bluegreen
 ----
 
 *Step 8: Test the application*
@@ -157,10 +183,39 @@ image::blue_green_active_green.png[image]
 *Step 1: Create new version of the application*
 
 Create a new application the same way as you did above in Part I. Make
-sure to name the application as `green` this time.
+sure to name the application as `green` this time. Notice we built it a slightly different way.  
+
+Using --image-stream and --code. This way and the previous are equivalent. 
 
 ----
-$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git --env COLOR=green --name=green
+oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git/RedHatWorkshops/bluegreen.git --env COLOR=green --name=green
+
+--> Found image b3deb14 (2 weeks old) in image stream "openshift/php" under tag "7.1" for "php"
+
+    Apache 2.4 with PHP 7.1
+    -----------------------
+    PHP 7.1 available as container is a base platform for building and running various PHP 7.1 applications and frameworks. PHP is an HTML-embedded scripting language. PHP attempts to make it easy for developers to write dynamically generated web pages. PHP also offers built-in database integration for several commercial and non-commercial database management systems, so writing a database-enabled webpage with PHP is fairly simple. The most common use of PHP coding is probably as a replacement for CGI scripts.
+
+    Tags: builder, php, php71, rh-php71
+
+    * The source repository appears to match: php
+    * A source build using source code from http://github.com/RedHatWorkshops/bluegreen.git will be created
+      * The resulting image will be pushed to image stream tag "green:latest"
+      * Use 'start-build' to trigger a new build
+    * This image will be deployed in deployment config "green"
+    * Ports 8080/tcp, 8443/tcp will be load balanced by service "green"
+      * Other containers can access this service through the hostname "green"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "green" created
+    buildconfig.build.openshift.io "green" created
+    deploymentconfig.apps.openshift.io "green" created
+    service "green" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/green' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/green'
+    Run 'oc status' to view your app.
 ----
 
 Wait until the application is built and deployed. You should now see

@@ -23,8 +23,8 @@ the commands below.
 
 ----
 $ oc new-project binarydeploy-userxx
-mkdir binarytest && cd binarytest
-mkdir deployments
+$ mkdir binarytest && cd binarytest
+$ mkdir deployments && cd deployments
 ----
 
 *Step 2: Create war file*
@@ -37,7 +37,6 @@ download this example WAR file
 https://raw.githubusercontent.com/VeerMuchandi/ps/master/deployments/ROOT.war[here]).
 
 ----
-$ cd deployments
 $ wget https://raw.githubusercontent.com/VeerMuchandi/ps/master/deployments/ROOT.war
 ----
 
@@ -64,9 +63,9 @@ Now we will name the application as *myapp*. So all the artifacts will
 get the name *myapp*.
 
 ----
-$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --name=myapp
+$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift:1.3 --binary=true --name=myapp
 
---> Found image 58272fb (11 weeks old) in image stream "jboss-webserver30-tomcat8-openshift" in project "openshift" under tag "latest" for "jboss-webserver30-tomcat8-openshift"
+--> Found image decb6b8 (12 months old) in image stream "openshift/jboss-webserver30-tomcat8-openshift" under tag "1.3" for "jboss-webserver30-tomcat8-openshift:1.3"
 
     JBoss Web Server 3.0
     --------------------
@@ -75,13 +74,12 @@ $ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true 
     Tags: builder, java, tomcat8
 
     * A source build using binary input will be created
-      * The resulting image will be pushed to image stream "myapp:latest"
-      * Use 'start-build --from-dir=DIR|--from-repo=DIR|--from-file=FILE' to trigger a new build
-      * WARNING: a binary build was created, you must specify one of --from-dir|--from-file|--from-repo when starting builds
+      * The resulting image will be pushed to image stream tag "myapp:latest"
+      * A binary build was created, use 'start-build --from-dir' to trigger a new build
 
 --> Creating resources with label build=myapp ...
-    imagestream "myapp" created
-    buildconfig "myapp" created
+    imagestream.image.openshift.io "myapp" created
+    buildconfig.build.openshift.io "myapp" created
 --> Success
 ----
 
@@ -122,6 +120,19 @@ Pushed 6/6 layers, 100% complete
 Push successful
 ----
 
+
+This builds the app into a container and stores that image in the registry.  
+An imagestream is created that references the image and all associated tags. In this case only `latest`
+
+----
+oc get is
+
+NAME      DOCKER REPO                                                 TAGS      UPDATED
+myapp     docker-registry.default.svc:5000/binarydeploy-user1/myapp   latest    About a minute ago
+
+----
+
+
 *Step 5: Create the application*
 
 Now create the application with the same name as what you gave for the
@@ -132,12 +143,12 @@ as deployment configuration and service are created with the same name
 and refer to the `imagestream` created earlier.
 
 ----
-$ oc new-app myapp --allow-missing-imagestream-tags
+$  oc new-app myapp
 
---> Found image d4954db (4 minutes old) in image stream myapp under tag "latest" for "myapp"
+--> Found image ce92ab2 (4 minutes old) in image stream "binarydeploy-user1/myapp" under tag "latest" for "myapp"
 
-    mycliproject-admin/myapp-1:cd51ae53
-    -----------------------------------
+    temp.builder.openshift.io/binarydeploy-user1/myapp-1:451ebe2f
+    -------------------------------------------------------------
     Platform for building and running web applications on JBoss Web Server 3.0 - Tomcat v8
 
     Tags: builder, java, tomcat8
@@ -146,10 +157,12 @@ $ oc new-app myapp --allow-missing-imagestream-tags
     * Ports 8080/tcp, 8443/tcp, 8778/tcp will be load balanced by service "myapp"
       * Other containers can access this service through the hostname "myapp"
 
---> Creating resources with label app=myapp ...
-    deploymentconfig "myapp" created
+--> Creating resources ...
+    deploymentconfig.apps.openshift.io "myapp" created
     service "myapp" created
 --> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/myapp'
     Run 'oc status' to view your app.
 ----
 

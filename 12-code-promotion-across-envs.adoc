@@ -17,6 +17,12 @@ the commands below.
 
 Using the knowledge you gained from the past create two projects. Name
 them *development-userxx* and *testing-userxx*.
+----
+$ oc new-project development-userxx
+
+$ oc new-project testing-userxx
+
+----
 
 *Step 2: Provide ImagePuller Access to the QA Project from Development Project*
 
@@ -24,7 +30,7 @@ The following command will allow the QA project to be able to pull the
 docker images from the Development project.
 
 ....
-$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-userxx -n development-Userxx
+$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-userxx -n development-userxx
 ....
 
 *Step 3: Create an application in the development project*
@@ -33,12 +39,17 @@ Switch over to the *development-userxx* project and deploy an
 application using `eap64-basic-s2i` template. You can use web console or
 command line. The command line option is shown below.
 
+----
+$ oc project development-userxx  
+
+----
+
 *Bonus points:* Clone this application to your own GitLab account and
 deploy it so that you can redeploy with changes later.
 
 ....
 oc project development-userxx
-oc new-app --template=eap64-basic-s2i -p APPLICATION_NAME=myapp -p SOURCE_REPOSITORY_URL=https://github.com/VeerMuchandi/kitchensink.git -p SOURCE_REPOSITORY_REF="" -p CONTEXT_DIR="" -l name=myapp
+oc new-app openshift/php~https://github.com/RedHatWorkshops/welcome-php
 ....
 
 *Step 4: Tag the docker image*
@@ -50,28 +61,35 @@ Now find the `imagestream` name using the following command. "is" is the
 short form for `imagestream`.
 
 ----
-$ oc get is
-NAME     DOCKER REPO                                     TAGS      UPDATED
-myapp    172.30.47.239:5000/development-userxx/myapp   latest    12 seconds ago
+oc get is
+NAME          DOCKER REPO                                                      TAGS      UPDATED
+welcome-php   docker-registry.default.svc:5000/development-user1/welcome-php   latest    About a minute ago
 ----
 
 Now describe this image stream to get the full image id:
 
 ----
-$ oc describe is myapp
-Name:               myapp
-Created:            13 minutes ago
-Labels:             application=myapp,name=myapp,template=eap64-basic-s2i,xpaas=1.1.0
-Annotations:        openshift.io/generated-by=OpenShiftNewApp
-                    openshift.io/image.dockerRepositoryCheck=tag "latest" has not been set on                   repository "development-UserName/myapp"
-Docker Pull Spec:   172.30.226.0:5000/development-userxx/myapp
+$ oc describe is welcome-php
 
-Tag Spec        Created     PullSpec                                                        Image
-latest  <pushed>    9 minutes ago   172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
+Name:			welcome-php
+Namespace:		development-user1
+Created:		2 minutes ago
+Labels:			app=welcome-php
+Annotations:		openshift.io/generated-by=OpenShiftNewApp
+Docker Pull Spec:	docker-registry.default.svc:5000/development-user1/welcome-php
+Image Lookup:		local=false
+Unique Images:		1
+Tags:			1
+
+latest
+  no spec tag
+
+  * docker-registry.default.svc:5000/development-user1/welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c
+      About a minute ago
 ----
 
 In this case, the full image Id is
-`172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4`
+`docker-registry.default.svc:5000/development-user1/welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c`
 
 Now let us assume that this docker image is good and is ready to promote
 to QA. Let us tag this docker image using the `oc tag` command.
@@ -83,22 +101,38 @@ $ oc tag <IMAGE ID> development-userxx/myapp:promote-qa
 ----
 
 Check the following commands and replace the values as your needs:
+Dont forget to update below with your username  
 
 ----
-$ oc tag development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4 development-UserName/myapp:promote-qa
+$ oc tag \
+development-UserName/welcome-php:latest \
+development-UserName/welcome-php:promote-qa
 
-$ oc describe is myapp
+Tag welcome-php:promote-qa set to development-user1/welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c.
 
-Name:               myapp
-Created:            16 minutes ago
-Labels:             application=myapp,name=myapp,template=eap64-basic-s2i,xpaas=1.1.0
-Annotations:        openshift.io/generated-by=OpenShiftNewApp
-                    openshift.io/image.dockerRepositoryCheck=tag "latest" has not been set on repository "development-userxx/myapp"
-Docker Pull Spec:   172.30.226.0:5000/development-userxx/myapp
+$ oc describe is welcome-php
 
-Tag     Spec                                        Created     PullSpec                                            Image
-latest      <pushed>                                    12 minutes ago  172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
-promote-qa  myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4   58 seconds ago  172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
+Name:			welcome-php
+Namespace:		development-user1
+Created:		5 minutes ago
+Labels:			app=welcome-php
+Annotations:		openshift.io/generated-by=OpenShiftNewApp
+Docker Pull Spec:	docker-registry.default.svc:5000/development-user1/welcome-php
+Image Lookup:		local=false
+Unique Images:		1
+Tags:			2
+
+latest
+  no spec tag
+
+  * docker-registry.default.svc:5000/development-user1/welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c
+      5 minutes ago
+
+promote-qa
+  tagged from welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c
+
+  * docker-registry.default.svc:5000/development-user1/welcome-php@sha256:d6d55481339b9a929222827f132604438398c2ee085a86d02011602c9a96678c
+      27 seconds ago
 ----
 
 *Step 5: Deploy the application to QA*
@@ -112,18 +146,17 @@ the commands below.
 
 ----
 oc project testing-userxx
-oc new-app development-userxx/myapp:promote-qa
-oc expose service myapp
+oc new-app development-userxx/welcome-php:promote-qa
+oc expose service welcome-php
 ----
 
 Test this application in the QA project. Note that we deployed the
 docker image from the development project without rebuilding the code.
 
-*Bonus points*: Make changes to your git repo (to
-`src/main/webapp/index.xhtml`) and deploy it to development first.
-Notice that your changes are seen only in development project. Repeat
-the changes a couple of times. Now find the latest `imagestream` and tag
-it as `promote-qa`. Watch out that the QA project gets redeployed when you
+*Bonus points*: 
+Go do your development project and execute a new build through the web-ui. 
+Now find the latest `imagestream` that is pointing at your newly built image  and tag
+it as `promote-qa`. Watch out that the testing project gets redeployed when you
 update the new tag.
 
 Watch this
