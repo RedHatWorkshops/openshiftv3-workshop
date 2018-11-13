@@ -141,7 +141,7 @@ mysql> show databases;
 2 rows in set (0.00 sec)
 ----
 
-Change over to use the `sample` database.
+Change over to use the `sampledb` database.
 
 [source,sh]
 ----
@@ -191,11 +191,11 @@ To add a frontend again click on *Add to Project* -> *Browse Catalog*  to spin u
 application in the same *consoleproject-userxx*. It takes you to
 select *Languages* then *PHP*   
 
-image::php.png[PHP Template,300,align="center"]
+image::php.png[image]
 
 Select *Advanced Options*
 
-image::php2.png[PHP Template,300,align="center"]
+image::php2.png[image]
 
 
 Go to Deployment Configuration section and enter the following
@@ -212,7 +212,7 @@ environment variables:
 |DB_PORT | 3306
 |=========================================================
 
-image::php_dc_env_variables.png[PHP Template,300,align="center"]  
+image::php_dc_env_variables.png[image]  
 
 
 In the next section add a label: (it may already be set)  
