@@ -34,7 +34,8 @@ Click into *Add to Project* button.
 
 Select `Browse` ->  `Languages` -> `Java` -> `JBoss EAP 6.4 (no https)`  
 
-Fill the fields with the following information:
+Fill the fields with the following information:  
+
 image::kitchensink_details.png[image]
 
 
