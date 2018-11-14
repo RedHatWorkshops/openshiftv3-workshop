@@ -19,7 +19,7 @@
 * Lab 16. [Adding Database to your SpringBoot App](16-adding-database-to-springboot-app.adoc)
 * Lab 17. [Dynamic Configuration updates using ConfigMap](17-dynamic-config-updates-using-configmaps.adoc)
 * Lab 18. [Changing code on the fly](18-changing-code-onthefly.adoc)
-* Lab 19. [Creating a Pipeline](19-creating-a-pipeline.adoc)
+* Lab 19. [Creating a Pipeline](19-creating-pipeline.adoc)
 * Lab 20. [Deploy a .NET application](20-deploy-dotnet-app.adoc)
 
 <!--
