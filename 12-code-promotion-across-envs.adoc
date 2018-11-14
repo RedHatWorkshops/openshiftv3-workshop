@@ -24,7 +24,7 @@ The following command will allow the QA project to be able to pull the
 docker images from the Development project.
 
 ....
-$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-userxx -n development-Userxx
+$ oc policy add-role-to-group system:image-puller system:serviceaccounts:testing-userxx -n development-userxx
 ....
 
 *Step 3: Create an application in the development project*
@@ -52,7 +52,7 @@ short form for `imagestream`.
 ----
 $ oc get is
 NAME     DOCKER REPO                                     TAGS      UPDATED
-myapp    172.30.47.239:5000/development-userxx/myapp   latest    12 seconds ago
+myapp    docker-registry.default.svc:5000/development-userxx/myapp   latest    12 seconds ago
 ----
 
 Now describe this image stream to get the full image id:
@@ -64,14 +64,14 @@ Created:            13 minutes ago
 Labels:             application=myapp,name=myapp,template=eap64-basic-s2i,xpaas=1.1.0
 Annotations:        openshift.io/generated-by=OpenShiftNewApp
                     openshift.io/image.dockerRepositoryCheck=tag "latest" has not been set on                   repository "development-UserName/myapp"
-Docker Pull Spec:   172.30.226.0:5000/development-userxx/myapp
+Docker Pull Spec:   docker-registry.default.svc:5000/development-userxx/myapp
 
 Tag Spec        Created     PullSpec                                                        Image
-latest  <pushed>    9 minutes ago   172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
+latest  <pushed>    9 minutes ago   docker-registry.default.svc:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
 ----
 
 In this case, the full image Id is
-`172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4`
+`docker-registry.default.svc:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4`
 
 Now let us assume that this docker image is good and is ready to promote
 to QA. Let us tag this docker image using the `oc tag` command.
@@ -85,7 +85,7 @@ $ oc tag <IMAGE ID> development-userxx/myapp:promote-qa
 Check the following commands and replace the values as your needs:
 
 ----
-$ oc tag development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4 development-UserName/myapp:promote-qa
+$ oc tag development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4 development-userxx/myapp:promote-qa
 
 $ oc describe is myapp
 
@@ -94,10 +94,10 @@ Created:            16 minutes ago
 Labels:             application=myapp,name=myapp,template=eap64-basic-s2i,xpaas=1.1.0
 Annotations:        openshift.io/generated-by=OpenShiftNewApp
                     openshift.io/image.dockerRepositoryCheck=tag "latest" has not been set on repository "development-userxx/myapp"
-Docker Pull Spec:   172.30.226.0:5000/development-userxx/myapp
+Docker Pull Spec:   docker-registry.default.svc:5000/development-userxx/myapp
 
 Tag     Spec                                        Created     PullSpec                                            Image
-latest      <pushed>                                    12 minutes ago  172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
+latest      <pushed>                                    12 minutes ago  docker-registry.default.svc:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
 promote-qa  myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4   58 seconds ago  172.30.226.0:5000/development-userxx/myapp@sha256:7d0a5e0bbb0be497db86e2cac4f3ba47b5a6fa0d1a4e1529724ec1b21042e1f4
 ----
 
