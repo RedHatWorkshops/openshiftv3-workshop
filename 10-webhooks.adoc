@@ -160,8 +160,8 @@ image::github_show_url.png[image]
 * Navigate to the forked repository you used to create the application.
 * Click on *Settings -> Integrations*.
 * Add the recently copied Web Hook URL from OpenShift to URL.
-* Change the Content-type as "application/json"
-* Checked *Push events*
+* Check *Push events* and add "master" to the text field
+* Check *Tag push events*
 * Unchecked *Enable SSL verification*
 * Confirm by adding the *Add Webhook* button in green at the bottom of
 the page.
