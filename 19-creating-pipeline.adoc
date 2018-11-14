@@ -108,17 +108,15 @@ configuration so that we can trigger it using this Jenkins pipeline.
 
 *Step 4:* Create an application
 
-Clone the following application into your github account
-https://github.com/VeerMuchandi/bluegreen if you haven't already done it
-in a previous lab.
+Click on `Add to Project` -> `Browse Catalog` -> `Languages` and then look for `PHP`.
 
-Click on `Add to Project` on the project and select `PHP` latest image.
+image::images/php_builder_image.png[]
+
 We will use `myphp` as the application name.
 
 NOTE: Same name will be used for BuildConfig and DeployConfig by default.
 
-Use your own github url if you want to test by pushing changes to code.
-Otherwise you can use https://github.com/VeerMuchandi/bluegreen.
+You can use link:https://github.com/VeerMuchandi/bluegreen[] application to test the pipeline.
 
 Now click on the link `Advanced Options`. It will open up a bunch of
 options and we will edit those. Under the section `Build Configuration`,
