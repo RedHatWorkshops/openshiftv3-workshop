@@ -33,7 +33,7 @@ down..we will need these)
 
 While the code has `schema-postgresql.sql` and `data-postgresql.sql`
 files, these scripts will only be executed if the pod restarts. Since we
-are going to use this database without restarting the sampleapp pod, we
+are going to use this database without restarting the bootapp pod, we
 will add the data manually.
 
 Select the `postgresql` pod and navigate to the `terminal`.
@@ -136,7 +136,7 @@ SkyDNS. +
 NOTE: This change does not redeploy the pod. You can check the pod
 details to see how long the pod has been running for.
 
-Now verify the `application.properties` inside the pod (Go to sampleapp
+Now verify the `application.properties` inside the pod (Go to bootapp
 pod terminal on the Web Console or use `oc rsh`). You will note that the
 `application.properties` file is now updated as a result of updating the
 ConfigMap.
@@ -152,19 +152,19 @@ spring.datasource.password=password
 *Step 4: Test the application connection*
 
 Click the application url now i.e
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/`. It will open
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/`. It will open
 a new tab and greets you:
 
 ----
-Hello from sampleapp-2-06a4b
+Hello from bootapp-2-06a4b
 ----
 
 Also watch the pod logs either using web console or using CLI. For
-example `oc logs -f sampleapp-2-06a4b` Watch out for connection url in the
+example `oc logs -f bootapp-2-06a4b` Watch out for connection url in the
 output.
 
 Now try the `/dbtest` endpoint i.e.
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`.
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`.
 
 NOTE: the output is still from the MySQLDB.
 
@@ -190,7 +190,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ----
-$ curl -X POST http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/refresh
+$ curl -X POST http://bootapp-spring-userxx.{{APPS_ADDRESS}}/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ----
 

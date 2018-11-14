@@ -11,7 +11,9 @@ deployments on OpenShift.
 and test the pipeline kick-off.
 
 *Step 1:* Create a new project Create a new project with name
-`pipeline-UserName`. _Substitute UserName with your own user name._
+`pipeline-UserName`.
+
+NOTE: _Substitute UserName with your own user name._
 
 *Step 2:* Deploy your CI/CD tool (Jenkins)
 
@@ -63,9 +65,10 @@ to download and deploy jenkins. You will also see the URL assigned to
 your Jenkins. It would be something like
 `https://jenkins-pipeline-UserName.{{APPS_ADDRESS}}`
 
-If you click on that URL, you will be taken to Jenkins Console. *Note:*
-The browser may complain that the URL is insecure. Click on advanced and
-proceed to url.
+If you click on that URL, you will be taken to Jenkins Console.
+
+NOTE: The browser may complain that the URL is insecure. Click on advanced and
+proceed to url and accept the certificate.
 
 At the next step, choose `Login with OpenShift` and enter your openshift
 credentials to login.
@@ -83,13 +86,16 @@ Since we haven't run the pipeline yet, the `History` tab shows nothing.
 If you click on the `Configuration` tab, you will see the build
 configuration details.
 
-*Note* There are webhook urls on this page. We will come back to this
+NOTE: There are webhook urls on this page. We will come back to this
 and use after a couple of steps.
 
-Review the `Jenkinsfile` on this page. +
-* It has two stages `build` and `deploy` +
+Review the `Jenkinsfile` on this page.
+
+* It has two stages `build` and `deploy`.
+
 * In the `build` stage the `openshiftBuild` plugin is used to trigger a
-build named `myphp` +
+build named `myphp`.
+
 * In the `deploy` stage the `openshiftDeploy` plugin invokes a
 deployment configuration `myphp` and then invokes `openshiftScale`
 plugin to scale up the same deployment configuration to 2 replicas.
@@ -107,27 +113,30 @@ https://github.com/VeerMuchandi/bluegreen if you haven't already done it
 in a previous lab.
 
 Click on `Add to Project` on the project and select `PHP` latest image.
-We will use `myphp` as the application name. *Note* same name will be
-used for buildConfig and deployConfig by default.
+We will use `myphp` as the application name.
+
+NOTE: Same name will be used for BuildConfig and DeployConfig by default.
 
 Use your own github url if you want to test by pushing changes to code.
 Otherwise you can use https://github.com/VeerMuchandi/bluegreen.
 
-Now click on the link `advanced options`. It will open up a bunch of
+Now click on the link `Advanced Options`. It will open up a bunch of
 options and we will edit those. Under the section `Build Configuration`,
-*uncheck* all the three check boxes for the following options +
-* Configure a webhook build trigger * Automatically build a new image
-when the builder image changes * Launch the first build when the build
-configuration is created
+*uncheck* all the three check boxes for the following options:
+
+* Configure a webhook build trigger.
+* Automatically build a new image when the builder image changes.
+* Launch the first build when the build configuration is created.
 
 By unchecking these, we are disabling the start of the builds as we want
 to control those using pipeline.
 
-In the section `Deployment Configuration`, *uncheck* the two auto-deploy
-options * New image is available * Deployment configuration changes
+In the section `Deployment Configuration`, *uncheck* the two auto-deploy options:
 
-By unchecking these, we are disabling the start of the deployments as we
-want to control those using pipeline.
+* New image is available
+* Deployment configuration changes
+
+By unchecking these, we are disabling the start of the deployments as we want to control those using pipeline.
 
 image::pipeline1.jpeg[image]
 
@@ -152,37 +161,6 @@ and show the logs.
 In a couple of minutes, the `build` and `deploy` will complete, and your
 applicaiton will be deployed and scaled to 2 replicas. Now use the
 application to notice that the `blue` box is displayed.
-
-*Step 6:* Configure webhook and trigger with changes (optional)
-
-Navigate back to the `configuration` tab for the pipeline as explained
-in Step 3. Copy the value for `Github webhook` url.
-
-Based on what you learn in the past, go to your github repository that
-you cloned and set up a webhook pointing to this URL.
-
-*Tips*
-
-* Navigate to `Settings` -> `Webhooks` on your project in github
-* Set the`Payload URL` to `Github Webhook` URL noted above
-* Make sure the `Content Type` is set to `application/json`
-* Press on `Disable SSL`
-* Press on `Add Webhook`
-
-Now edit the `image.php` file to uncomment the green box and comment the
-blue box as shown below
-
-....
-// Draw a filled rectangle
-//imagefilledrectangle($im, 0, 0, 199, 199, $blue);
-imagefilledrectangle($im, 0, 0, 199, 199, $green);
-....
-
-and `Commit` changes.
-
-Come back and watch the Web Console, you will notice that a new build
-has just started. Once the build completes, you will also see the
-rolling deployment of the pods.
 
 *Bonus Points*: Watch the videos here
 https://blog.openshift.com/create-build-pipelines-openshift-3-3/ and
