@@ -161,108 +161,11 @@ application does not know how to use it.
 Now we will mount the ConfigMap so that the springboot application can
 use it. You can either edit from CLI or from WebConsole.
 
-* If using WebConsole, navigate to
-`Applications`->`Deployments`->`sampleapp`. The screen should show
-Deployment Configuration details for the `sampleapp` application. On the
-right top, choose `Actions` dropdown and `Edit YAML`.
-* If you are doing from CLI, you can run `oc edit dc sampleapp`
-
-Scroll down to container spec, that looks like this:
-
-[source,yaml]
-----
-    spec:
-      containers:
-        -
-          name: sampleapp
-          image: '172.30.85.130:5000/spring-userxx/sampleapp@sha256:79e188d712e1209b933870c7d064423af281f16b371fb5e5911dfb09a6867776'
-          ports:
-            -
-              containerPort: 8080
-              protocol: TCP
-          resources:
-          terminationMessagePath: /dev/termination-log
-          imagePullPolicy: Always
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      securityContext:
-----
-
-Note there could be multiple `spec`s in your DC.
-
-We will now add a volume that points to our ConfigMap right under
-`spec`. It is explained here
-https://docs.openshift.com/container-platform/latest/dev_guide/configmaps.html#configmaps-use-case-consuming-in-volumes
-
-[source,yaml]
-----
-spec:
-  volumes:
-    - name: app-props-volume
-      configMap:
-        name: app-props
-----
-
-WARNING: Be super-careful with indentation.
-
-We will now add `volumeMount` to mount the `volume` that we just added
-into the pod. It should be right under the container `name:` as shown
-below.
-
-[source,yaml]
-----
-      containers:
-        -
-          name: sampleapp
-          volumeMounts:
-          - name: app-props-volume
-            mountPath: /opt/app-root/src/config
-----
-
-WARNING: Be super-careful with indentation
-
-After the changes, the `template` section in the `dc`, should now look
-like this:
-
-[source,yaml]
-----
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: sampleapp
-        deploymentconfig: sampleapp
-    spec:
-      volumes:
-        - name: app-props-volume
-          configMap:
-            name: app-props
-      containers:
-        -
-          name: sampleapp
-          volumeMounts:
-          - name: app-props-volume
-            mountPath: /opt/app-root/src/config
-          image: '172.30.85.130:5000/spring-userxx/bootapp@sha256:79e188d712e1209b933870c7d064423af281f16b371fb5e5911dfb09a6867776'
-          ports:
-            -
-              containerPort: 8080
-              protocol: TCP
-          resources:
-          terminationMessagePath: /dev/termination-log
-          imagePullPolicy: Always
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      securityContext:
-----
-
-*Optional:* you can run the following to do the update on the
-deploymentConfig:
+To deploy using the CLI you can run the following to do the update on the
+DeploymentConfig:
 
 ----
-$ oc set volumes dc/sampleapp --add -m /opt/app-root/src/config --configmap-name=app-props
+$ oc set volumes dc/bootapp --add -m /opt/app-root/src/config --configmap-name=app-props
 ----
 
 So what is this location `/opt/app-root/src/config`?
@@ -304,21 +207,21 @@ Note the contents of this file are what you added to the ConfigMap.
 
 Go back to the `Overview` page. Click on your application url which
 would be something like
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/`
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/`
 
 It will open a new tab and your running application will greet you
 
-`Hello from sampleapp-2-06a4b`
+`Hello from bootapp-2-06a4b`
 
 Now move back to your webconsole and watch the pod logs. You can also do
 this from CLI by running
 
 ----
-$ oc logs -f sampleapp-2-06a4b
+$ oc logs -f bootapp-2-06a4b
 ----
 
 Now access the application with the `/dbtest` extension -
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`
 
 It should show the data from your MySQL database.
 
@@ -331,15 +234,13 @@ CustomerId: 3 Customer Name: Jack Mysql Age: 54
 CustomerId: 4 Customer Name: Ann Mysql Age: 32
 ----
 
-Where did this data come from? Look at *
-https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/schema-mysql.sql
-was used to initialize the MySQL database *
-https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/data-mysql.sql
-was used to populate data. I added 'Mysql' as part of the names to make
-it easy ;)
+Where did this data come from?
 
-Also note that your logs show the connection url, just to verify which
-database you are connecting to.
+* Look at https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/schema-mysql.sql was used to initialize the MySQL database
+and https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/data-mysql.sql
+was used to populate data.
+
+Also note that your logs show the connection url, just to verify which database you are connecting to.
 
 ----
 connection url: jdbc:mysql://mysql.spring-userxx:3306/sampledb?useSSL=false
