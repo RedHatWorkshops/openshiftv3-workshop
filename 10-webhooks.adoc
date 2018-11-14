@@ -171,8 +171,8 @@ image::github_add_webhook.jpg[image]
 *Step 3: Redeploy the application*
 
 * Edit in your GitLab account the `image.php` file.
-* Line 17 should be commented.
-* Commit the file.
+* Remove the line 16: `REMOVE ME TO TRIGGER THE WEBHOOK`.
+* Commit the file to trigger a new build on OpenShift which will end up generating a new image and then a new deployment.
 
 *Step 4: Monitor new deployment process*
 
