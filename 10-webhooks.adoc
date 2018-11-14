@@ -171,9 +171,7 @@ image::github_add_webhook.jpg[image]
 *Step 3: Redeploy the application*
 
 * Edit in your GitLab account the `image.php` file.
-* One of the lines in line 20 or 21 should be commented out. Make a
-change so that the line that was previously commented out becomes active
-and pound the other one.
+* Line 17 should be commented.
 * Commit the file.
 
 *Step 4: Monitor new deployment process*

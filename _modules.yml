@@ -5,7 +5,7 @@ config:
       value: openshift
     - name: GIT_SERVER_URL
       desc: Git server url
-      value: http://gogs-ci.apps.atlanta-41e2.openshiftworkshop.com
+      value: http://gitlab.apps.atlanta-41e2.openshiftworkshop.com
     - name: CONSOLE_ADDRESS
       desc: HTTP address of the OpenShift console
       value: https://master.atlanta-41e2.openshiftworkshop.com
