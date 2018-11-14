@@ -110,7 +110,7 @@ configuration so that we can trigger it using this Jenkins pipeline.
 
 Click on `Add to Project` -> `Browse Catalog` -> `Languages` and then look for `PHP`.
 
-image::images/php_builder_image.png[]
+image::php_builder_image.png[]
 
 We will use `myphp` as the application name.
 
