@@ -168,7 +168,7 @@ To scale your application we will edit the `deploymentConfig` to 3.
 Open your browser to the Overview page and note you only have one
 instance running.
 
-image::scale_updown_overview.png[image]
+image::images/scale_updown_overview.png[image]
 
 Now scale your application using the `oc scale` command (remembering to
 specify the `dc`)
@@ -244,7 +244,7 @@ DeploymentConfig "mycliproject-user1/myhttpdapp" has been idled
 Go back to the webconsole. You will notice that the pods show up as
 idled.
 
-image::idled_pods.png[Idle Pods,300,align="center"]
+image::images/idled_pods.png[Idle Pods,300,align="center"]
 
 At this point the application is idled, the pods are not running and no
 resources are being used by the application. This doesn't mean that the
@@ -276,7 +276,7 @@ deploymentconfig.apps.openshift.io/myhttpdapp scaled
 ----
 
 Alternately, you can go to project overview page and click on
-image:scale_down.jpg[width="10%"] twice to remove 2 running pods.
+image:images/scale_down.jpg[width="10%"] twice to remove 2 running pods.
 
 Congratulations!! In this exercise you have learned about scaling and
 how to scale up/down your application on OpenShift!
