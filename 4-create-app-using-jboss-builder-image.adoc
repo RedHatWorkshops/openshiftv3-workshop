@@ -36,7 +36,7 @@ Select `Browse` ->  `Languages` -> `Java` -> `JBoss EAP 6.4 (no https)`
 
 Fill the fields with the following information:  
 
-image::kitchensink_details.png[image]
+image::images/kitchensink_details.png[image]
 
 
 [width="50%",options="header"]
@@ -54,7 +54,7 @@ NOTE: If you're instructor has set up a Nexus Repo please add the MAVEN_MIRROR_U
 |MAVEN_MIRROR_URL   | 
 |=========================================================
 
-image::nexus_repo.png[image]
+image::images/nexus_repo.png[image]
 
 Click on *Create* and then on *Continue to overview*.
 
