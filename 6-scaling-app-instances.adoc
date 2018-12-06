@@ -183,11 +183,11 @@ deploymentconfig.apps.openshift.io/myhttpdapp scaled
 If you look at the web console and you will see that there are 3
 instances running now  
 
-image::scale_updown_overview_scaled.png[image]
+image::images/scale_updown_overview_scaled.png[image]
 
 *Note:* You can also scale up and down from the web console by going to
 the project overview page and clicking twice on
-image:scale_up.jpg[width="10%"] right next to the pod count circle to
+image:images/scale_up.jpg[width="10%"] right next to the pod count circle to
 add 2 more pods.
 
 On the command line, see how many pods you are running now:
