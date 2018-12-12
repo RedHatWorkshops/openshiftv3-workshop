@@ -11,7 +11,7 @@ config:
       value: https://master.visa-austin-5c25.openshiftworkshop.com
     - name: APPS_ADDRESS
       desc: HTTP address suffix of apps deployed on OpenShift
-      value: apps.visa-austin-5c25.openshiftworkshop.com 
+      value: apps.visa-austin-5c25.openshiftworkshop.com
     - name: GET_STARTED_CLI_URL
       desc: URL to documentation to configure CLI
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
@@ -25,22 +25,6 @@ config:
 modules:
   0-setting-up-client-tools:
     name: Setting up client tools
-  1-create-app-from-docker-image:
-    name: Create an App from a Docker image
-  2-create-app-using-docker-build:
-    name: Create an App using Docker build
-  3-using-web-console:
-    name: Using Web Console
-  4-create-app-using-jboss-builder-image:
-    name: Creating an application using JBoss EAP builder image
-  5-using-templates:
-    name: Using Templates
-  6-scaling-app-instances:
-    name: Scale up and Scale down and Idle the application instances
-  7-binary-deployment-war-file:
-    name: Binary Deployment of a war file
-  8-using-ssl-app:
-    name: Using SSL in your application
   9-bluegreen-deployments:
     name: Blue-Green Deployments
   10-webhooks:
@@ -51,13 +35,9 @@ modules:
     name: Code Promotion across Environments
   14-deploy-springboot-app:
     name: Deploy a SpringBoot Application
-  15-adding-springboot-sti-to-catalog:
-    name: Adding Spring Boot S2I Image to the Project Catalog
   16-adding-database-to-springboot-app:
     name: Adding a backend database to the SpringBoot application
   17-dynamic-config-updates-using-configmaps:
     name: Dynamic configuration updates using ConfigMap
-  18-changing-code-onthefly:
-    name: Changing code on the fly
-  20-deploy-dotnet-app:
-    name: Deploy .Net core application
+  19-creating-pipeline:
+    name: Creating a Pipeline
