@@ -5,19 +5,19 @@ config:
       value: openshift
     - name: GIT_SERVER_URL
       desc: Git server url
-      value: http://gogs-ci.apps.st.osecloud.com
+      value: http://gogs-starter.apps.visa-austin-5c25.openshiftworkshop.com
     - name: CONSOLE_ADDRESS
       desc: HTTP address of the OpenShift console
-      value: https://master.st.osecloud.com:8443
+      value: https://master.visa-austin-5c25.openshiftworkshop.com
     - name: APPS_ADDRESS
       desc: HTTP address suffix of apps deployed on OpenShift
-      value: apps.st.osecloud.com
+      value: apps.visa-austin-5c25.openshiftworkshop.com 
     - name: GET_STARTED_CLI_URL
       desc: URL to documentation to configure CLI
       value: https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html
     - name: NEXUS_URL
       desc: URL to Nexus repository
-      value: http://nexus.ci.svc.cluster.local:8081/repository/maven-public/
+      value: http://nexus.nexus.ci.svc.cluster.local:8081/repository/maven-public/
     - name: REDHAT_DOWNLOAD_OC_PORTAL_URL
       desc: URL for Red Hat portal oc binary download
       value: https://access.redhat.com/downloads/content/290
