@@ -137,7 +137,7 @@ mysql> show databases;
 | Database           |
 +--------------------+
 | information_schema |
-| sample             |
+| sampledb             |
 +--------------------+
 2 rows in set (0.00 sec)
 ----
