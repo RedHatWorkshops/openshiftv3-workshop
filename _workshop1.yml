@@ -20,22 +20,22 @@ vars:
 
 modules:
   activate:
-  - lab0
-  - lab1
-  - lab2
-  - lab3
-  - lab4
-  - lab5
-  - lab6
-  - lab7
-  - lab8
-  - lab9
-  - lab10
-  - lab11
-  - lab12
-  - lab13
-  - lab14
-  - lab15
-  - lab16
-  - lab17
-  - lab18
+  - 0-setting-up-client-tools
+  - 1-create-app-from-docker-image
+  - 2-create-app-using-docker-build
+  - 3-using-web-console
+  - 4-create-app-using-jboss-builder-image
+  - 5-using-templates
+  - 6-scaling-app-instances
+  - 7-binary-deployment-war-file
+  - 8-using-ssl-app
+  - 9-bluegreen-deployments
+  - 10-webhooks
+  - 11-rollback-applications
+  - 12-code-promotion-across-envs
+  - 14-deploy-springboot-app
+  - 15-adding-springboot-sti-to-catalog
+  - 16-adding-database-to-springboot-app
+  - 17-dynamic-config-updates-using-configmaps
+  - 18-changing-code-onthefly
+  - 20-deploy-dotnet-app

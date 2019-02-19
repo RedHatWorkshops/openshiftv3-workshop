@@ -1,45 +1,45 @@
 config:
-    renderer: asciidoc
+    renderer: markdown
 
 modules:
-  lab0:
+  0-setting-up-client-tools:
     name: Setting up client tools
-  lab1:
+  1-create-app-from-docker-image:
     name: Create an App from a Docker image
-  lab2:
+  2-create-app-using-docker-build:
     name: Create an App using Docker build
-  lab3:
+  3-using-web-console:
     name: Using Web Console
-  lab4:
+  4-create-app-using-jboss-builder-image:
     name: Creating an application using JBoss EAP builder image
-  lab5:
+  5-using-templates:
     name: Using Templates
-  lab6:
+  6-scaling-app-instances:
     name: Scale up and Scale down and Idle the application instances
-  lab7:
+  7-binary-deployment-war-file:
     name: Binary Deployment of a war file
-  lab8:
+  8-using-ssl-app:
     name: Using SSL in your application
-  lab9:
+  9-bluegreen-deployments:
     name: Blue-Green Deployments
-  lab10:
+  10-webhooks:
     name: SCM Web Hooks
-  lab11:
+  11-rollback-applications:
     name: Rollback Applications
-  lab12:
+  12-code-promotion-across-envs:
     name: Code Promotion across Environments
-  lab13:
+  14-deploy-springboot-app:
     name: Deploy a SpringBoot Application
-  lab14:
+  15-adding-springboot-sti-to-catalog:
     name: Adding Spring Boot S2I Image to the Project Catalog
-  lab15:
+  16-adding-database-to-springboot-app:
     name: Adding a backend database to the SpringBoot application
     requires:
-      - lab13
-      - lab14
-  lab16:
+      - 14-deploy-springboot-app
+      - 15-adding-springboot-sti-to-catalog
+  17-dynamic-config-updates-using-configmaps:
     name: Dynamic configuration updates using ConfigMap
-  lab17:
+  18-changing-code-onthefly:
     name: Changing code on the fly
-  lab18:
+  20-deploy-dotnet-app:
     name: Deploy .Net core application
