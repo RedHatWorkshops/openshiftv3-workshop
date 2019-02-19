@@ -7,12 +7,14 @@ content:
 
 vars:
   DEFAULT_PASSWORD: "openshift"
-  GIT_SERVER_URL: "http://gogs-infra.apps.st.osecloud.com"
+  GIT_SERVER_URL: "http://gogs-infra.apps.verizon-e346.openshiftworkshop.com"
   CONSOLE_ADDRESS: "https://master.verizon-e346.openshiftworkshop.com"
-  APPS_ADDRESS: "apps.st.osecloud.com"
+  APPS_ADDRESS: "apps.verizon-e346.openshiftworkshop.com"
   GET_STARTED_CLI_URL: "https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html"
   NEXUS_URL: "http://nexus.infra.svc.cluster.local:8081/repository/maven-public/"
   REDHAT_DOWNLOAD_OC_PORTAL_URL: "https://access.redhat.com/downloads/content/290"
+  TERMINAL_URL: "https://terminal-infra.apps.verizon-e346.openshiftworkshop.com"
+  ETHERPAD_USERS_LIST: "http://etherpad-infra.apps.boston-c9ae.openshiftworkshop.com/p/users" 
   JAVA_APP: true
 
 
