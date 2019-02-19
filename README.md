@@ -1,4 +1,4 @@
-# Lab Exercises - Table of Contents
+# Exercises - Table of Contents
 
 * Lab 0. [Setting up client tools](0-setting-up-client-tools.adoc)
 * Lab 1. [Creating an application from an existing Docker Image using CLI](1-create-app-from-docker-image.adoc)
@@ -21,6 +21,10 @@
 * Lab 18. [Changing code on the fly](18-changing-code-onthefly.adoc)
 * Lab 19. [Creating a Pipeline](19-creating-pipeline.adoc)
 * Lab 20. [Deploy a .NET application](20-deploy-dotnet-app.adoc)
+
+## Provisioning
+
+If you are looking for how to use and deploy these labs please check the [instructions](instructor_instructions.md).
 
 <!--
 ########################################
