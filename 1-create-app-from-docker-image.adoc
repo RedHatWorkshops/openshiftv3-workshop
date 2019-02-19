@@ -1,10 +1,10 @@
 [[create-an-app-from-a-docker-image]]
-### Create an App from a Docker image
+## Create an App from a Docker image
 
 In this lab you will learn how to create a new project on OpenShift and
 how to create an application from an existing docker image.
 
-*Step 1: Add a new project from command line*
+### Add a new project from command line
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
@@ -37,7 +37,7 @@ You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
 ----
 
-*Step 2: Create an application from a Docker Image*
+### Create an application from a Docker Image
 
 Next we will create an application inside the above project using an
 existing docker image. We will be using a very simple docker image on
@@ -50,19 +50,26 @@ First create a new application using the docker image using the
 ----
 $ oc new-app redhatworkshops/welcome-php --name=welcome
 
---> Found Docker image f001b13 (8 months old) from Docker Hub for "redhatworkshops/welcome-php"
+--> Found Docker image 3e73433 (2 years old) from Docker Hub for "redhatworkshops/welcome-php"
 
-    * An image stream will be created as "welcome:latest" that will track this image
+    chx/welcome-php-1:b68a2d86
+    --------------------------
+    Platform for building and running PHP 5.6 applications
+
+    Tags: builder, php, php56, rh-php56
+
+    * An image stream tag will be created as "welcome:latest" that will track this image
     * This image will be deployed in deployment config "welcome"
     * Port 8080/tcp will be load balanced by service "welcome"
       * Other containers can access this service through the hostname "welcome"
-    * WARNING: Image "redhatworkshops/welcome-php" runs as the 'root' user which may not be permitted by your cluster administrator
 
---> Creating resources with label app=welcome ...
-    imagestream "welcome" created
-    deploymentconfig "welcome" created
+--> Creating resources ...
+    imagestream.image.openshift.io "welcome" created
+    deploymentconfig.apps.openshift.io "welcome" created
     service "welcome" created
 --> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/welcome'
     Run 'oc status' to view your app.
 ----
 
@@ -90,7 +97,7 @@ NAME              READY     STATUS    RESTARTS   AGE
 welcome-1-dkyyq   1/1       Running   0          56s
 ----
 
-*Step 3: Add a Route for your application*
+### Add a Route for your application
 
 OpenShift also spins up a service for this application. Run the
 following command to view the list of services in the project.
@@ -115,24 +122,24 @@ NOTE: The `--hostname` attribute in the command below is not required properly a
 a wildcard dns in our cluster, in our case it is `*.{{APPS_ADDRESS}}`, so if you skip using it, your route is going to be defined by OpenShift.
 
 ----
-$ oc expose service welcome --name=welcome --hostname=welcome.userxx.{{APPS_ADDRESS}}
+$ oc expose service welcome --name=welcome --hostname=welcome-userxx.{{APPS_ADDRESS}}
 
 NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.userxx.{{APPS_ADDRESS}}             welcome
+welcome   welcome-userxx.{{APPS_ADDRESS}}             welcome
 ----
 
-*Step 4: Try your application*
+### Try your application
 
 Now access the application using curl (looking for 200 status code) or from the browser and see the result.
 
 ----
-$ curl -Is http://welcome.userxx.{{APPS_ADDRESS}}
+$ curl -Is http://welcome-userxx.{{APPS_ADDRESS}}
 ----
 
 Voila!! you created your first application using an existing docker
 image on OpenShift.
 
-*Step 5: Clean up*
+### Clean up
 
 Run the `oc get all` command to view all the components that were
 created in your project.
@@ -140,20 +147,23 @@ created in your project.
 ----
 $ oc get all
 
-NAME      TYPE      SOURCE
-NAME      TYPE      STATUS    POD
-NAME      DOCKER REPO                   TAGS      UPDATED
-welcome   redhatworkshops/welcome-php   latest    5 hours ago
-NAME      TRIGGERS                    LATEST VERSION
-welcome   ConfigChange, ImageChange   1
-CONTROLLER   CONTAINER(S)   IMAGE(S)                             SELECTOR                                        REPLICAS
-welcome-1    welcome        redhatworkshops/welcome-php:latest   deployment=welcome-1,deploymentconfig=welcome   1
-NAME      HOST/PORT                     PATH      SERVICE   LABELS
-welcome   welcome.userxx.{{APPS_ADDRESS}}             welcome
-NAME      LABELS    SELECTOR                   IP(S)           PORT(S)
-welcome   <none>    deploymentconfig=welcome   172.30.155.37   80/TCP
-NAME              READY     REASON    RESTARTS   AGE
-welcome-1-8d7nk   1/1       Running   0          4h
+NAME                  READY     STATUS    RESTARTS   AGE
+pod/welcome-1-hkhr6   1/1       Running   0          2m
+
+NAME                              DESIRED   CURRENT   READY     AGE
+replicationcontroller/welcome-1   1         1         1         2m
+
+NAME              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+service/welcome   ClusterIP   172.30.55.73   <none>        8080/TCP   2m
+
+NAME                                         REVISION   DESIRED   CURRENT   TRIGGERED BY
+deploymentconfig.apps.openshift.io/welcome   1          1         1         config,image(welcome:latest)
+
+NAME                                     DOCKER REPO                                         TAGS      UPDATED
+imagestream.image.openshift.io/welcome   docker-registry.default.svc:5000/testlabs/welcome   latest    2 minutes ago
+
+NAME                               HOST/PORT                                                PATH      SERVICES   PORT       TERMINATION   WILDCARD
+route.route.openshift.io/welcome   welcome-userxx.apps.verizon-e346.openshiftworkshop.com             welcome    8080-tcp                 None
 ----
 
 Now you can delete all these components by running one command.
@@ -161,11 +171,12 @@ Now you can delete all these components by running one command.
 ----
 $ oc delete all --all
 
-imagestream "welcome" deleted
-deploymentconfig "welcome" deleted
-route "welcome" deleted
+pod "welcome-1-hkhr6" deleted
+replicationcontroller "welcome-1" deleted
 service "welcome" deleted
-pod "welcome-1-ynedb" deleted
+deploymentconfig.apps.openshift.io "welcome" deleted
+imagestream.image.openshift.io "welcome" deleted
+route.route.openshift.io "welcome" deleted
 ----
 
 You will notice that it has deleted the `imagestream` for the application,
