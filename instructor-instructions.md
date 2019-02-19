@@ -18,6 +18,7 @@ You can deploy Workshopper as a container image anywhere but most conveniently, 
 ```
 $ oc new-app quay.io/osevg/workshopper --name=myworkshop \
       -e WORKSHOPS_URLS="https://raw.githubusercontent.com/RedHatWorkshops/openshiftv3-workshop/asciidoc/_workshop1.yml" \
+      -e ISSUES_URL="https://github.com/RedHatWorkshops/openshiftv3-workshop/issues" \
       -e JAVA_APP=false
 $ oc expose svc/myworkshop
 ```

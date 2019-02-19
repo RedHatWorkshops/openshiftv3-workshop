@@ -24,7 +24,7 @@
 
 ## Provisioning
 
-If you are looking for how to use and deploy these labs please check the [instructions](instructor_instructions.md).
+If you are looking for how to use and deploy these labs please check the [instructions](instructor-instructions.md).
 
 <!--
 ########################################
