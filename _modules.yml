@@ -1,5 +1,5 @@
 config:
-    renderer: markdown
+    renderer: asciidoc
 
 modules:
   0-setting-up-client-tools:
