@@ -7,8 +7,8 @@ content:
 
 vars:
   DEFAULT_PASSWORD: "openshift"
-  GIT_SERVER_URL: "http://gogs-ci.apps.st.osecloud.com"
-  CONSOLE_ADDRESS: "https://master.st.osecloud.com:8443"
+  GIT_SERVER_URL: "http://gogs-infra.apps.st.osecloud.com"
+  CONSOLE_ADDRESS: "https://master.verizon-e346.openshiftworkshop.com"
   APPS_ADDRESS: "apps.st.osecloud.com"
   GET_STARTED_CLI_URL: "https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html"
   NEXUS_URL: "http://nexus.infra.svc.cluster.local:8081/repository/maven-public/"
