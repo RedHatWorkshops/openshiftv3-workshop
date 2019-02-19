@@ -1,0 +1,41 @@
+id: "devday"
+name: "OpenShift Developer Day Workshop"
+
+content:
+  url: https://raw.githubusercontent.com/redhatworkshops/openshiftv3-workshop/asciidoc
+
+
+vars:
+  DEFAULT_PASSWORD: "openshift"
+  GIT_SERVER_URL: "http://gogs-ci.apps.st.osecloud.com"
+  CONSOLE_ADDRESS: "https://master.st.osecloud.com:8443"
+  APPS_ADDRESS: "apps.st.osecloud.com"
+  GET_STARTED_CLI_URL: "https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html"
+  NEXUS_URL: "http://nexus.infra.svc.cluster.local:8081/repository/maven-public/"
+  REDHAT_DOWNLOAD_OC_PORTAL_URL: "https://access.redhat.com/downloads/content/290"
+  JAVA_APP: true
+
+
+# We are deploying ALL the labs in this workshop config, if you want customize please create another _workshop.yml file
+
+modules:
+  activate:
+  - lab0
+  - lab1
+  - lab2
+  - lab3
+  - lab4
+  - lab5
+  - lab6
+  - lab7
+  - lab8
+  - lab9
+  - lab10
+  - lab11
+  - lab12
+  - lab13
+  - lab14
+  - lab15
+  - lab16
+  - lab17
+  - lab18
