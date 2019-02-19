@@ -17,15 +17,15 @@ the commands below.
 Create a new project on the OpenShift cluster with name
 `synccode-userxx`.
 
-*Step 2: Clone the git repository locally* Clone the following git
-repository to your workstation.
-https://github.com/VeerMuchandi/nodejs-hello using the command:
+*Step 2: Clone the git repository locally*
+
+Clone the following git repository:name: value
 
 ----
-$ git clone https://github.com/VeerMuchandi/nodejs-hello
+$ git clone https://github.com/RedHatWorkshops/nodejs-hello
 ----
 
-This is a very simple nodejs application. Feel free to understand the
+This is a very simple NodeJS application. Feel free to understand the
 code.
 
 *Step 3: Create the application*
@@ -40,29 +40,31 @@ Now let us create an application using this code.
 
 ----
 $ oc new-app .
---> Found image 448a51d (11 weeks old) in image stream "nodejs" in project "openshift" under tag "4" for "nodejs"
+--> Found image e4590c6 (7 days old) in image stream "openshift/nodejs" under tag "10" for "nodejs"
 
-    Node.js 4
-    ---------
-    Platform for building and running Node.js 4 applications
+    Node.js 10.15.1
+    ---------------
+    Node.js 10.15.1 available as a container is a base platform for building and running various Node.js 10.15.1 applications and frameworks. Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
 
-    Tags: builder, nodejs, nodejs4
+    Tags: builder, nodejs, nodejs-10.15.1
 
     * The source repository appears to match: nodejs
-    * A source build using source code from https://github.com/VeerMuchandi/nodejs-hello.git#master will be created
-      * The resulting image will be pushed to image stream "nodejs-hello:latest"
+    * A source build using source code from https://github.com/RedHatWorkshops/nodejs-hello#master will be created
+      * The resulting image will be pushed to image stream tag "nodejs-hello:latest"
       * Use 'start-build' to trigger a new build
     * This image will be deployed in deployment config "nodejs-hello"
     * Port 8080/tcp will be load balanced by service "nodejs-hello"
       * Other containers can access this service through the hostname "nodejs-hello"
 
---> Creating resources with label app=nodejs-hello ...
-    imagestream "nodejs-hello" created
-    buildconfig "nodejs-hello" created
-    deploymentconfig "nodejs-hello" created
+--> Creating resources ...
+    imagestream.image.openshift.io "nodejs-hello" created
+    buildconfig.build.openshift.io "nodejs-hello" created
+    deploymentconfig.apps.openshift.io "nodejs-hello" created
     service "nodejs-hello" created
 --> Success
     Build scheduled, use 'oc logs -f bc/nodejs-hello' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/nodejs-hello'
     Run 'oc status' to view your app.
 ----
 
@@ -78,11 +80,11 @@ Wait for the build to complete and test the application:
 ----
 $ oc get route
 NAME           HOST/PORT                                          PATH      SERVICES       PORT       TERMINATION
-nodejs-hello   nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}             nodejs-hello   8080-tcp
+nodejs-hello   nodejs-hello-synccode-userxx.{{APPS_ADDRESS}}             nodejs-hello   8080-tcp
 ----
 
 ----
-$ $ curl nodejs-hello-rsync-userxx.{{APPS_ADDRESS}}
+$ curl nodejs-hello-synccode-userxx.{{APPS_ADDRESS}}
 Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
 ----
 
@@ -90,7 +92,7 @@ Welcome to OpenShift!! My HostName is: nodejs-hello-1-8qigc
 
 Let us now make a small change to the application on your workstation.
 
-Edit `server.js` file using your favorite text editor (I use vi). The
+Edit `server.js` file using your favorite text editor (Vi is handy). The
 code snippet below displays the welcome message:
 
 [source,javascript]
