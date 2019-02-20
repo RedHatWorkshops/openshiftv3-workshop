@@ -1,5 +1,5 @@
 [[scale-up-and-scale-down-and-idle-the-application-instances]]
-### Scale up and Scale down and Idle the application instances
+## Scale up, Scale down and Idle the application instances
 
 :data-uri:
 
@@ -7,7 +7,7 @@ In this exercise we will learn how to scale our application. OpenShift
 has the capability to scale your application and make sure that many
 instances are always running.
 
-*Step 1: Switch to an existing project*
+### Switch to an existing project
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
@@ -21,34 +21,36 @@ previous labs. Make sure you are switched to that project by using the
 $ oc project mycliproject-userxx
 ----
 
-*Step 2: View the deployment config*
+### View the deployment config
 
 Take a look at the `deploymentConfig` (or `dc`) of the `time`
 application:
 
 ----
-$ oc get deploymentConfig/time -o yaml
+$ oc get deploymentConfig/dockerbuildapp -o yaml
 
-apiVersion: v1
+apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
     openshift.io/generated-by: OpenShiftNewApp
-  creationTimestamp: 2016-10-06T05:47:52Z
+  creationTimestamp: 2019-02-20T03:56:35Z
   generation: 2
   labels:
-    app: time
-  name: time
+    app: dockerbuildapp
+  name: dockerbuildapp
   namespace: mycliproject-userxx
-  resourceVersion: "32084"
-  selfLink: /oapi/v1/namespaces/mycliproject-userxx/deploymentconfigs/time
-  uid: 6bb299e0-8b88-11e6-ba5b-080027782cf7
+  resourceVersion: "326246"
+  selfLink: /apis/apps.openshift.io/v1/namespaces/mycliproject-userxx/deploymentconfigs/dockerbuildapp
+  uid: 84892e1f-34c3-11e9-acdb-0a0eee487cae
 spec:
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
-    app: time
-    deploymentconfig: time
+    app: dockerbuildapp
+    deploymentconfig: dockerbuildapp
   strategy:
+    activeDeadlineSeconds: 21600
     resources: {}
     rollingParams:
       intervalSeconds: 1
@@ -60,24 +62,27 @@ spec:
   template:
     metadata:
       annotations:
-        openshift.io/container.time.image.entrypoint: '["sh"]'
         openshift.io/generated-by: OpenShiftNewApp
       creationTimestamp: null
       labels:
-        app: time
-        deploymentconfig: time
+        app: dockerbuildapp
+        deploymentconfig: dockerbuildapp
     spec:
       containers:
-      - image: 172.30.89.28:5000/mycliproject-userxx/time@sha256:c490ea632c5362be3a3985285c623e674e58b876e70d9e3f94a151785b2ee87c
+      - image: docker-registry.default.svc:5000/mycliproject-userxx/dockerbuildapp@sha256:5a9172defd7841b2d524969c718d57a9561642672dc32c7dd2f64b2c0d522ef4
         imagePullPolicy: Always
-        name: time
+        name: dockerbuildapp
         ports:
         - containerPort: 8080
           protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
         resources: {}
         terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+      schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
   test: false
@@ -86,27 +91,36 @@ spec:
   - imageChangeParams:
       automatic: true
       containerNames:
-      - time
+      - dockerbuildapp
       from:
         kind: ImageStreamTag
-        name: time:latest
+        name: dockerbuildapp:latest
         namespace: mycliproject-userxx
-      lastTriggeredImage: 172.30.89.28:5000/mycliproject-userxx/time@sha256:c490ea632c5362be3a3985285c623e674e58b876e70d9e3f94a151785b2ee87c
+      lastTriggeredImage: docker-registry.default.svc:5000/mycliproject-userxx/dockerbuildapp@sha256:5a9172defd7841b2d524969c718d57a9561642672dc32c7dd2f64b2c0d522ef4
     type: ImageChange
 status:
   availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2019-02-20T03:57:09Z
+    lastUpdateTime: 2019-02-20T03:57:09Z
+    message: Deployment config has minimum availability.
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2019-02-20T03:57:06Z
+    lastUpdateTime: 2019-02-20T03:57:09Z
+    message: replication controller "dockerbuildapp-1" successfully rolled out
+    reason: NewReplicationControllerAvailable
+    status: "True"
+    type: Progressing
   details:
     causes:
-    - imageTrigger:
-        from:
-          kind: ImageStreamTag
-          name: time:latest
-          namespace: mycliproject-userxx
-      type: ImageChange
-    message: caused by an image change
+    - type: ConfigChange
+    message: config change
   latestVersion: 1
   observedGeneration: 2
+  readyReplicas: 1
   replicas: 1
+  unavailableReplicas: 0
   updatedReplicas: 1
 ----
 
@@ -122,19 +136,19 @@ To view the `rc` for your application first get the current pod running.
 ----
 $ oc get pods
 
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-45jtc   1/1       Running     0          2h
-time-1-build   0/1       Completed   0          2h
+NAME                     READY     STATUS      RESTARTS   AGE
+dockerbuildapp-1-9b2kc   1/1       Running     0          1h
+dockerbuildapp-1-build   0/1       Completed   0          1h
 ----
 
-This shows that the build `time-1` is running in pod `45jtc`. Let us
+This shows that the build `dockerbuildapp-1` is running in pod `9b2kc`. Let's
 view the `rc` on this build.
 
 ----
-$ oc get rc/time-1
+$ oc get rc/dockerbuildapp-1
 
-NAME      DESIRED   CURRENT   AGE
-time-1    1         1         2h
+NAME               DESIRED   CURRENT   READY     AGE
+dockerbuildapp-1   1         1         1         1h
 ----
 
 NOTE: You can change the number of replicas in `DeploymentConfig` or
@@ -148,7 +162,7 @@ Controller, the application will scale up. But if you happen to delete
 the current replication controller for some reason, you will loose that
 setting.
 
-*Step 3: Scale Application*
+### Scale Application
 
 To scale your application we will edit the `deploymentConfig` to 3.
 
@@ -161,18 +175,17 @@ Now scale your application using the `oc scale` command (remembering to
 specify the `dc`)
 
 ----
-$ oc scale --replicas=3 dc/time
+$ oc scale --replicas=3 dc/dockerbuildapp
 
-deploymentconfig "time" scaled
+deploymentconfig "dockerbuildapp" scaled
 ----
 
 If you look at the web console and you will see that there are 3
 instances running now
 image::scale_updown_overview_scaled.png[image]
 
-*Note:* You can also scale up and down from the web console by going to
-the project overview page and clicking twice on
-image:scale_up.jpg[width="10%"] right next to the pod count circle to
+NOTE: You can also scale up and down from the web console by going to
+the project overview page and clicking twice on up arrow right next to the pod count circle to
 add 2 more pods.
 
 On the command line, see how many pods you are running now:
@@ -180,59 +193,60 @@ On the command line, see how many pods you are running now:
 ----
 $ oc get pods
 
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-33wyq   1/1       Running     0          10m
-time-1-45jtc   1/1       Running     0          2h
-time-1-5ekuk   1/1       Running     0          10m
-time-1-build   0/1       Completed   0          2h
+NAME                     READY     STATUS      RESTARTS   AGE
+dockerbuildapp-1-4pqf7   1/1       Running     0          2m
+dockerbuildapp-1-9b2kc   1/1       Running     0          15m
+dockerbuildapp-1-build   0/1       Completed   0          15m
+dockerbuildapp-1-krpbq   1/1       Running     0          2m
 ----
 
-You now have 3 instances of `time-1` running (each with a different
-pod-id). If you check the `rc` of the `time-1` build you will see that
+You now have 3 instances of `dockerbuildapp-1` running (each with a different
+pod-id). If you check the `rc` of the `dockerbuildapp-1` build you will see that
 it has been updated by the `dc`.
 
 ----
-$ oc get rc/time-1
+$ oc get rc/dockerbuildapp-1
 
-NAME      DESIRED   CURRENT   AGE
-time-1    3         3         3h
+NAME               DESIRED   CURRENT   READY     AGE
+dockerbuildapp-1   3         3         3         15m
 ----
 
-*Step 4: Idling the application*
+### Idling the application
 
-Run the following command to find the available endpoints
+Run the following command to find the available endpoints:
 
 ----
 $ oc get endpoints
 
-NAME      ENDPOINTS                                            AGE
-time      10.128.0.33:8080,10.129.0.30:8080,10.129.2.27:8080   15m
+NAME             ENDPOINTS                                                   AGE
+dockerbuildapp   10.1.10.36:8443,10.1.2.38:8443,10.1.4.33:8443 + 3 more...   16m
 ----
 
-Note that the name of the endpoints is `time` and there are three ips
+Note that the name of the endpoints is `dockerbuildapp` and there are three IP
 addresses for the three pods.
 
-Run the `oc idle endpoints/time` command to idle the application
+Run the following command to idle the application:
 
 ----
-$ oc idle endpoints/time
+$ oc idle endpoints/dockerbuildapp
 
-Marked service mycliproject-userxx/time to unidle resource DeploymentConfig mycliproject-userxx/time (unidle to 3 replicas)
-Idled DeploymentConfig mycliproject-userxx/time (dry run)
+The service "mycliproject-userxx/dockerbuildapp" has been marked as idled
+The service will unidle DeploymentConfig "mycliproject-userxx/dockerbuildapp" to 3 replicas once it receives traffic
+DeploymentConfig "mycliproject-userxx/dockerbuildapp" has been idled
 ----
 
-Go back to the webconsole. You will notice that the pods show up as
+Go back to the Web Console. You will notice that the pods show up as
 idled.
 
-image::idled_pods.jpeg[Idle Pods,300,align="center"]
+image::idled_pods.png[image]
 
 At this point the application is idled, the pods are not running and no
 resources are being used by the application. This doesn't mean that the
 application is deleted. The current state is just saved that's all.
 
-*Step 6: Reactivate your application*
+### Reactivate your application
 
-Now click on the application route URL or access the application via curl.
+Click on the application route URL or access the application via curl.
 
 Note that it takes a little while for the application to respond. This
 is because pods are spinning up again. You can notice that in the web
@@ -249,13 +263,13 @@ Scaling down is the same procedure as scaling up. Use the `oc scale`
 command on the `time` application `dc` setting.
 
 ----
-$ oc scale --replicas=1 dc/time
+$ oc scale --replicas=1 dc/dockerbuildapp
 
-deploymentconfig "time" scaled
+deploymentconfig "dockerbuildapp" scaled
 ----
 
 Alternately, you can go to project overview page and click on
-image:scale_down.jpg[width="10%"] twice to remove 2 running pods.
+down arrow twice to remove 2 running pods.
 
 Congratulations!! In this exercise you have learned about scaling and
 how to scale up/down your application on OpenShift!
