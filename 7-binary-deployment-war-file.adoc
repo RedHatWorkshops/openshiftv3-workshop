@@ -1,5 +1,5 @@
 [[binary-deployment-of-a-war-file]]
-### Binary Deployment of a war file
+## Binary Deployment of a war file
 
 
 In the past you have seen how OpenShift can take your existing java
@@ -16,18 +16,20 @@ In this exercise you will learn to deploy a war file. We will assume
 that you built your source code outside of OpenShift build process and
 want to download the WAR file on your workstation.
 
-*Step 1: Create project & folder structure*
+### Create project & folder structure
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
 ----
 $ oc new-project binarydeploy-userxx
-mkdir binarytest && cd binarytest
-mkdir deployments
+
+$ mkdir binarytest && cd binarytest
+
+$ mkdir deployments
 ----
 
-*Step 2: Create war file*
+### Create war file
 
 Create a war file and place it in deployments directory.
 
@@ -39,21 +41,21 @@ https://raw.githubusercontent.com/VeerMuchandi/ps/master/deployments/ROOT.war[he
 ----
 $ cd deployments
 $ wget https://raw.githubusercontent.com/VeerMuchandi/ps/master/deployments/ROOT.war
+$ cd ..
 ----
 
 ----
 $ ls -lR
 
 total 0
-drwxr-xr-x 3 veer staff 102 Jul 5 2015 deployments
+drwxr-xr-x  3 samuel  wheel  96 Feb 19 23:24 deployments
 
 ./deployments:
-
 total 12024
--rwxr-xr-x 1 veer staff 6155452 Jul 5 2015 ROOT.war
+-rw-r--r--@ 1 samuel  wheel  6155452 Feb 19 23:24 ROOT.war
 ----
 
-*Step 3: Using builder image*
+### Using builder image
 
 Create a new build using the builder image of your choice. Here we are
 using JBoss EWS (tomcat 8) image. The flag `binary=true` indicates that
@@ -64,28 +66,27 @@ Now we will name the application as *myapp*. So all the artifacts will
 get the name *myapp*.
 
 ----
-$ oc new-build --image-stream=jboss-webserver30-tomcat8-openshift --binary=true --name=myapp
+$ oc new-build --image-stream=jboss-webserver31-tomcat8-openshift:1.2 --binary=true --name=myapp
 
---> Found image 58272fb (11 weeks old) in image stream "jboss-webserver30-tomcat8-openshift" in project "openshift" under tag "latest" for "jboss-webserver30-tomcat8-openshift"
+--> Found image 48ba94f (4 months old) in image stream "openshift/jboss-webserver31-tomcat8-openshift" under tag "1.2" for "jboss-webserver31-tomcat8-openshift:1.2"
 
-    JBoss Web Server 3.0
+    JBoss Web Server 3.1
     --------------------
-    Platform for building and running web applications on JBoss Web Server 3.0 - Tomcat v8
+    Platform for building and running web applications on JBoss Web Server 3.1 - Tomcat v8
 
     Tags: builder, java, tomcat8
 
     * A source build using binary input will be created
-      * The resulting image will be pushed to image stream "myapp:latest"
-      * Use 'start-build --from-dir=DIR|--from-repo=DIR|--from-file=FILE' to trigger a new build
-      * WARNING: a binary build was created, you must specify one of --from-dir|--from-file|--from-repo when starting builds
+      * The resulting image will be pushed to image stream tag "myapp:latest"
+      * A binary build was created, use 'start-build --from-dir' to trigger a new build
 
 --> Creating resources with label build=myapp ...
-    imagestream "myapp" created
-    buildconfig "myapp" created
+    imagestream.image.openshift.io "myapp" created
+    buildconfig.build.openshift.io "myapp" created
 --> Success
 ----
 
-*Step 4: Executing the build*
+### Executing the build
 
 Start the build by uploading the contents of your `deployments`
 directory. Make sure you are in the parent folder where you created the
@@ -98,7 +99,9 @@ then builds the application image.
 $ oc start-build myapp --from-dir=.
 
 Uploading directory "." as binary input for the build ...
-build "myapp-1" started
+.
+Uploading finished
+build.build.openshift.io/myapp-1 started
 ----
 
 You can check the build logs by executing:
@@ -106,23 +109,18 @@ You can check the build logs by executing:
 ----
 $ oc logs myapp-1-build
 
-Receiving source from STDIN as archive ...
+Using docker-registry.default.svc:5000/openshift/jboss-webserver31-tomcat8-openshift@sha256:4485c46c9a044f819827e9049b33ee8cec28329c00b2a9e022c451f2f01d14ad as the s2i builder image
+Copying all war artifacts from /tmp/src directory into /opt/webserver/webapps for later deployment...
+Copying all war artifacts from /tmp/src/deployments directory into /opt/webserver/webapps for later deployment...
+'/tmp/src/deployments/ROOT.war' -> '/opt/webserver/webapps/ROOT.war'
 
-Copying all deployments war artifacts from /home/jboss/source/deployments directory into /opt/webserver/webapps for later deployment...
-'/home/jboss/source/deployments/ROOT.war' -> '/opt/webserver/webapps/ROOT.war'
-
-Pushing image 172.30.89.28:5000/mycliproject-userxx/myapp:latest ...
-Pushed 0/6 layers, 2% complete
-Pushed 1/6 layers, 18% complete
-Pushed 2/6 layers, 40% complete
-Pushed 3/6 layers, 54% complete
-Pushed 4/6 layers, 83% complete
-Pushed 5/6 layers, 93% complete
-Pushed 6/6 layers, 100% complete
+Pushing image docker-registry.default.svc:5000/binarydeploy-userxx/myapp:latest ...
+Pushed 0/7 layers, 2% complete
+Pushed 1/7 layers, 14% complete
 Push successful
 ----
 
-*Step 5: Create the application*
+### Create the application
 
 Now create the application with the same name as what you gave for the
 build.
@@ -134,11 +132,11 @@ and refer to the `imagestream` created earlier.
 ----
 $ oc new-app myapp --allow-missing-imagestream-tags
 
---> Found image d4954db (4 minutes old) in image stream myapp under tag "latest" for "myapp"
+--> Found image 4df05f5 (2 minutes old) in image stream "binarydeploy-userxx/myapp" under tag "latest" for "myapp"
 
-    mycliproject-admin/myapp-1:cd51ae53
-    -----------------------------------
-    Platform for building and running web applications on JBoss Web Server 3.0 - Tomcat v8
+    temp.builder.openshift.io/binarydeploy-userxx/myapp-1:54e93d8d
+    --------------------------------------------------------------
+    Platform for building and running web applications on JBoss Web Server 3.1 - Tomcat v8
 
     Tags: builder, java, tomcat8
 
@@ -146,10 +144,12 @@ $ oc new-app myapp --allow-missing-imagestream-tags
     * Ports 8080/tcp, 8443/tcp, 8778/tcp will be load balanced by service "myapp"
       * Other containers can access this service through the hostname "myapp"
 
---> Creating resources with label app=myapp ...
-    deploymentconfig "myapp" created
+--> Creating resources ...
+    deploymentconfig.apps.openshift.io "myapp" created
     service "myapp" created
 --> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/myapp'
     Run 'oc status' to view your app.
 ----
 
