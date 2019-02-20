@@ -14,7 +14,7 @@ the master URL.
 
 image::login.png[image]
 
-Use the username and password provided by the instructor. You will
+Use the same credentials you used in the CLI to login. You will
 see the list of projects now. Note the project you created in the last
 lab exercise is shown here.
 
