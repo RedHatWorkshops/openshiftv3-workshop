@@ -1,5 +1,5 @@
 [[blue-green-deployments]]
-### Blue-Green Deployments
+## Blue-Green Deployments
 
 :data-uri:
 
@@ -26,11 +26,7 @@ the second application (green).
 
 image::blue_green_deployment.png[image]
 
-[[part-i]]
-#### Part I
-
-
-*Step 1: Create a new project*
+### Create a new project
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
@@ -39,32 +35,32 @@ the commands below.
 $ oc new-project bluegreen-userxx --display-name="Blue Green Project" --description="Blue Green Project"
 ----
 
-*Step 2: List existing image builder or image streams*
+### List existing image builder or image streams
 
 ----
 $ oc new-app -S --image-stream=php
 
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
------
+
 php
   Project: openshift
-  Tags:    5.5, 5.6, latest
+  Tags:    7.0, 7.1, latest
 ----
 
-*Step 3: Create an application*
+### Create an application
 
 We will be using a sample application that displays a blue or green
-rectangle. The sample app can be browsed at {{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git
+rectangle. The sample app can be browsed at https://github.com/RedHatWorkshops/bluegreen.git
 
 We will be using an env var in order to change the color of the box, but
 in practice you would use a different branch for each version of the
 code. (E.g. v1 branch and v2 branch)
 
 ----
-$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git --env COLOR=blue --name=blue
+$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen.git --env COLOR=blue --name=blue
 ----
 
-*Step 4: Monitor the application build*
+### Monitor the application build
 
 ----
 $ oc get builds
@@ -97,7 +93,7 @@ Pushed 5/5 layers, 100% complete
 Push successful
 ----
 
-*Step 5: Check application deployment status*
+### Check application deployment status
 
 ----
 $ oc get pods
@@ -112,29 +108,24 @@ of the application running under one single pod.
 
 This application displays a blue square.
 
-*Step 6: List the service*
 
-----
-$ oc get service
-----
-
-*Step 7: Create a route for the application*
+### Create a route for the application
 
 IMPORTANT: Remember to substitute the username.
 
 Expose the service:
 
 ----
-$ oc expose service blue --hostname=bluegreen.userxx.{{APPS_ADDRESS}} --name=bluegreen
+$ oc expose service blue --hostname=bluegreen-userxx.{{APPS_ADDRESS}} --name=bluegreen
 ----
 
-*Step 8: Test the application*
+### Test the application
 
 ----
 $ oc get route
 ----
 
-Copy the HOST/PORT and paste it in your browser. You should see
+Copy the HOST and paste it in your browser. You should see
 something similar to:
 
 image::blue_deployment.jpeg[image]
@@ -142,10 +133,7 @@ image::blue_deployment.jpeg[image]
 At this point you have deployed an application that displays for
 illustration purposes a blue rectangle for version 1.
 
-[[part-ii]]
-#### Part II
-
-In this part, we will:
+Now in this section we will:
 
 * Deploy a new version of this application (Same one as before with a
 very small change)
@@ -154,13 +142,13 @@ be created as part of the new application creation process.
 
 image::blue_green_active_green.png[image]
 
-*Step 1: Create new version of the application*
+### Create new version of the application
 
 Create a new application the same way as you did above in Part I. Make
 sure to name the application as `green` this time.
 
 ----
-$ oc new-app --image-stream=php --code={{GIT_SERVER_URL}}/RedHatWorkshops/bluegreen.git --env COLOR=green --name=green
+$ oc new-app --image-stream=php --code=https://github.com/RedHatWorkshops/bluegreen.git --env COLOR=green --name=green
 ----
 
 Wait until the application is built and deployed. You should now see
@@ -169,9 +157,9 @@ two services if you run:
 ----
 $ oc get service
 
-NAME      CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-blue      172.30.2.161     <none>        8080/TCP   24m
-green     172.30.136.184   <none>        8080/TCP   1m
+NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+blue      ClusterIP   172.30.182.135   <none>        8080/TCP,8443/TCP   7m
+green     ClusterIP   172.30.43.94     <none>        8080/TCP,8443/TCP   15s
 ----
 
 Edit the previously created route and change the `service` name (from
@@ -183,40 +171,40 @@ previously created. However, that route will now point to a different
 ----
 $ oc edit route bluegreen
 
-apiVersion: v1
-kind: Route
-metadata:
-  creationTimestamp: 2015-12-22T19:16:28Z
-  labels:
-    app: green
-  name: bluegreen
-  namespace: bluegreen-userxx
-  resourceVersion: "2969408"
-  selfLink: /oapi/v1/namespaces/bluegreen-userxx/routes/bluegreen
-  uid: 80829b59-a8e0-11e5-be21-fa163ec58dad
-spec:
-  host: bluegreen.userxx.{{APPS_ADDRESS}}
-  port:
-    targetPort: "8080"
-  to:
-    kind: Service
-    name: green
-status: {}
+  apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    creationTimestamp: 2019-02-20T04:56:39Z
+    labels:
+      app: blue
+    name: bluegreen
+    namespace: bluegreen-userxx
+    resourceVersion: "336941"
+    selfLink: /apis/route.openshift.io/v1/namespaces/bluegreen-userxx/routes/bluegreen
+    uid: e842c838-34cb-11e9-acdb-0a0eee487cae
+  spec:
+    host: bluegreen-userxx.{{APPS_ADDRESS}}
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: green
+      weight: 100
+    wildcardPolicy: None
+  status: {}
 ----
 
-*Step 2: Test the application*
+### Test the application
 
 ----
 $ oc get route
 ----
 
-* Copy the HOST/PORT and paste it in your browser.
+* Copy the HOST and paste it in your browser.
 * You should now see the new version of the recently deployed
 application with a green rectangle.
 
-[[summary]]
-#### Summary
-
+### Summary
 
 * Blue-Green deployments can be easily accomplished in OpenShift v3.
 * We have shown multiple versions of an application; all running
