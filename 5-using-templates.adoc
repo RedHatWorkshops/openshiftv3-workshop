@@ -1,5 +1,5 @@
 [[using-templates]]
-### Using Templates
+## Using Templates
 
 :data-uri:
 
@@ -9,22 +9,21 @@ PHP application that accesses this database using the service exposed by
 the database. We will provide a route (a URL) to access the frontend
 application from a browser.
 
-*Step 1: Create a Project*
+### Create a Project
 
 Based on the experience gained from the previous exercise, log into the
-OpenShift Web Console. You will see the list of Projects.
+OpenShift Web Console.
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-Using the *New Project* button, create a new project. We will call it
-*consoleproject-userxx*.
+Create a new project. We will call it *consoleproject-userxx*.
 Type in a *Display Name* and *Description* of your choice.
 
 Press the *Create* button to complete the project creation from the Web
 Console. This will accomplish the same job as `oc new-project` from CLI.
 
-*Step 2: Create a MYSQL database using the template*
+### Create a MySQL database using the template
 
 Click on *Add to Project* button and you will be taken to select an
 image or template. You will see the application create screen as shown
@@ -32,60 +31,42 @@ below:
 
 image::application_create_screen.png[image]
 
-Scroll down and click on *Data Stores* session. Find *MySQL (Ephemeral)*
-template from the list and click *Select*. You will also notice *MySQL
-(Persistent)* template. But we will address that in a different lab
-exercise.
+Click on *Databases* tab, then *MySQL*.
 
-image::mysql_ephemeral_template.png[MySQL Template,300,align="center"]
+Select *MySQL (Ephemeral)* template from the list.
 
-You will be taken to the mysql ephemeral creation screen. Click edit
-parameters and edit the values to use the following values:
+You will be taken to the MySQL Ephemeral creation screen.
 
-----
-Database Service Name: mysql
-MySQL Connection Username: mysqluser
-MySQL Connection Password: supersecret
-MySQL Database Name: sample
-----
- 
+Click on *Next >*.
 
-Click the *Create* button.
+Edit the fields to use the following values:
 
-image::mysql_ephemeral_creation.png[image]
+[width="50%",options="header"]
+|=========================================================
+|Attribute Name            |Value
+|Database Service Name     |mysql
+|MySQL Connection Username |mysqluser
+|MySQL Connection Password |supersecret
+|MySQL Database Name       |sample
+|=========================================================
 
-Click *Go to overview*.
+Click on *Next >* and keep the default at the *Binding* step, then click on *Create*.
 
-image::mysql_pod_on_proj_details.png[image]
-
-It will take you back to the project overview page and soon you will see
-an image of a running pod.
+In the left menu click on *Overview*.
 
 image::mysql_pod_on_proj_overview.png[image]
 
-If pod does not show running, Click *Applications* and select
-*Deployments*, do the following:
-
-1.  Click onto `mysql` deployments config
-2.  Click on the *Actions* button and select *Edit Health Checks*
-3.  Under the Readiness Probe section remove the single quotes around
-`$MYSQL_PASSWORD`.
-4.  Click *Save*
-5.  Click *Applications* and select *Pods*
-6.  Click onto the pod name
-7.  Click on the *Actions* button and select *Delete*
 
 Browse over to Pods, Services and Deployments from the *Applications*
 tab to notice the additions to the project. You will note that the
-service has been assigned an IP address that starts with `172.*`. Make a
-note of that. Also note the port that is exposed by this service. By
-default it exposes `3306`.
+service has been assigned an IP address that starts with `172.*`.Also note the port
+that is exposed by this service. By default it exposes `3306`.
 
 image::mysql_service.png[image]
 
-*Step 3: Add data to MySQL database*
+### Add data to MySQL database
 
-Let us see how we can enter the pod and access the database.
+Let's see how we can enter the pod and access the database.
 
 From the command line, change the project to the
 `consoleproject-userxx` using the following command:
@@ -103,7 +84,7 @@ Based on what you learned previously get the list of running pods by running:
 $ oc get pods
 ----
 
-You will find one pod for mysql running. Take a note of it's name.
+You will find one pod for MySQL running. Take a note of it's name.
 
 Enter the pod by running the following command. Substitute the pod name
 with your mysql pod name.
@@ -111,15 +92,10 @@ with your mysql pod name.
 ----
 $ oc rsh mysql-1-aewve
 
-bash-4.2$
+sh-4.2$
 ----
 
-You will be taken to a bash prompt inside the running pod. Now using the
-service ip address you noted earlier, port number, username and password
-you used start the mysql client as shown below. You will have to
-substitute your values here.
-
-TIP: If you need service ip address navigate to *Applications->Services* tab on the Web Console.
+You will be taken to a bash prompt inside the running pod. Now start the mysql client as shown below.
 
 [source,sh]
 ----
@@ -153,7 +129,7 @@ Database changed
 Now `show tables` shows an empty set. So let us create a table and add
 some records using the commands shown below.
 
-Create the table:
+Create the `users` table:
 
 [source,sql]
 ----
@@ -177,11 +153,11 @@ select * from users;
 
 Now `exit` MySQL client and `exit` out of the pod.
 
-*Step 4: Add a PHP frontend to talk to this database*
+### Add a PHP frontend to talk to MySQL database
 
 In this step we will add a PHP frontend application that talks to
 recently create database. The code is available on github to use at
-https://github.com/rgupta1234/dbtest.
+https://github.com/RedHatWorkshops/dbtest.
 
 Browse through the code in this repository. It has a simple php file
 (`dbtest.php`) that connects to the database and reads the values from
@@ -189,80 +165,49 @@ the users table and displays them.
 
 To add a frontend again click on *Add to Project* to spin up a frontend
 application in the same *consoleproject-userxx*. It takes you to
-select image or template page and choose the *PHP* template under PHP
-apps.
+select image or template page and choose the *PHP* template under *Languages* tab.
 
-image::php.png[PHP Template,300,align="center"]
+Click on *Next >*.
+
+Before changing any parameter we will click in the *advanced options* link.
+
+image::dbtest_advanced_options.png[image]
 
 Enter the following values for each parameters:
 
 [width="50%",options="header"]
 |=========================================================
-|Name |Git Repository URL
-|dbtest   |https://github.com/VeerMuchandi/dbtest
+|Attribute Name       |Value
+|Name                 |dbtest
+|Git Repository URL   |https://github.com/RedHatWorkshops/dbtest
 |=========================================================
 
-Click onto the link "Show advanced routing, build, and deployment
-options", go to Deployment Configuration section and enter the following
-environment variables:
+
+Under *Deployment Configuration* section enter the following environment variables:
 
 image::dbtest_deployment_env.jpg[image]
 
-In the next section add a label:
-
-[width="50%",options="header"]
-|=========================================================
-|Name |Value
-|name   |dbtest
-|=========================================================
-
 Click *Create* to add this frontend application to talk to the database.
-
-image::cakephp_confirm.png[image]
 
 Click *Continue to overview*.
 
 You will be taken back to the *Project Overview* page and you will start
 seeing that a new service is now available and exposed as a route.
 
-image::dbtest_build.png[image]
-
-You can check the build logs using the following command:
-
-----
-$ oc logs build/dbtest-1
-
-Cloning "https://github.com/VeerMuchandi/dbtest.git" ...
-    Commit: 1bb0515221459a11ca2e7563dca903bb93d8150e (small change)
-    Author: VeerMuchandi <veer.muchandi@gmail.com>
-    Date:   Tue Jan 26 12:53:35 2016 -0500
-
----> Installing application source...
-
-
-Pushing image 172.30.89.28:5000/consoleproject-userxx/dbtest:latest ...
-Pushed 0/5 layers, 7% complete
-Pushed 1/5 layers, 21% complete
-Pushed 2/5 layers, 41% complete
-Pushed 3/5 layers, 70% complete
-Pushed 3/5 layers, 99% complete
-Pushed 4/5 layers, 100% complete
-Pushed 5/5 layers, 100% complete
-Push successful
-----
-
-Once the build completes, OpenShift initiates a deploy process. Once the
-deployment is complete, the frontend pod starts running. You will find
+Once the build completes, OpenShift initiates a deploy process. When the
+deployment is completed, the frontend pod will start running. You will find
 the running pod when you navigate to *Applications->Pods* on the Web
 console.
 
-Now type in your application url in the browser or use curl with:
+IMPORTANT: Please replace *userxx* with the username assigned to you.
+
+Use the following example link (make sure you add at the end `/dbtest.php`):
 
 ----
-http://[your application url]/dbtest.php
+http://dbtest-consoleproject-userxx.{{APPS_ADDRESS}}/dbtest.php
 ----
 
-You will notice that it displays the records read from the database
+You will notice that it displays the records read from the database:
 
 ----
 Hello All.. Here is the list of users:
@@ -277,4 +222,4 @@ database. We added data manually by getting into the pod. Then we added
 the frontend code that was built using the OpenShift S2I process. You
 configured this frontend application to access the database using a
 service, in this case, the "mysql" service. The frontend is made
-accessible using a route for which you gave a URL.
+accessible using a route.
