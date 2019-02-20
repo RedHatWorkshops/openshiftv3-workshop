@@ -1,13 +1,12 @@
 [[creating-an-application-using-jboss-eap-builder-image]]
-### Creating an application using JBoss EAP builder image
-
+## Creating an application using JBoss EAP builder image
 
 :data-uri:
 
 In this exercise we will learn how to create an application using source
 code and the JBoss EAP builder image.
 
-*Step 1: Create a project or use an existing project*
+### Create a project or use an existing project
 
 If you want to, you can create a new project based on what you have
 learned in previous labs. Or you can create a new project for JBoss
@@ -20,10 +19,10 @@ the commands below.
 $ oc new-project myjbossapp-userxx --display-name="My JBoss Applications" --description="A place for my JBoss EAP Applications"
 ----
 
-*Step 2: Create an application that uses the JBoss EAP builder image*
+### Create an application that uses the JBoss EAP builder image
 
-We will be using a sample application called "Kitchensink" (found
-https://github.com/RedHatWorkshops/kitchensink[here]). Taking that
+We will be using a sample application called *Kitchensink* (found
+https://github.com/jboss-developer/jboss-eap-quickstarts[here]). Taking that
 source-code; we will use the JBoss `ImageStream` (or the builder image) to
 assemble our application.
 
@@ -31,34 +30,26 @@ Open the browser and select your new project *My JBoss Applications*.
 
 Click into *Add to Project* button.
 
-In the search text box type `jboss-eap64-openshift` and select the
-latest version tag for this builder image (at the moment of creation
-this lab it is `jboss-eap64-openshift:1.5`).
+In the search text box type `eap` and select the *JBoss EAP 6.4 (no https)*.
+
+Click on *Next >* button.
 
 Fill the fields with the following information:
 
 [width="50%",options="header"]
 |=========================================================
-|Name |Git Repository URL
-|ks   |https://github.com/RedHatWorkshops/kitchensink
+|Attribute Name     |Value
+|Application Name   |ks
+|Maven mirror url   |{{NEXUS_URL}}
 |=========================================================
 
-Click on the blue link that says: *Show advanced routing, build, and
-deployment options*.
+NOTE: Besides the changes we've made in this previous step we'll keep the defaults to all the other fields.
 
-On *Build Configuration* add a new _Environment Variable_.
+Click on *Next >* and keep the default at the *Binding* step, then click on *Create*.
 
-[width="50%",options="header"]
-|=========================================================
-|Name |Value
-|MAVEN_MIRROR_URL   |{{NEXUS_URL}}
-|=========================================================
+Click on *Close*.
 
-image::nexus_repo.png[image]
-
-Click on *Create* and then on *Continue to overview*.
-
-*Step 3: Build*
+### Build
 
 Give it some seconds and you will see OpenShift starts the build process
 for you. You can view the list of builds using `oc get builds` command.
@@ -91,7 +82,7 @@ $ oc logs pod/ks-1-build
 
 [INFO]
 [INFO] ------------------------------------------------------------------------
-[INFO] Building JBoss AS Quickstarts: kitchensink 7.1.1-SNAPSHOT
+[INFO] Building JBoss EAP Quickstart: kitchensink 6.4.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 
 skipped logs
@@ -119,7 +110,7 @@ Copying all ear artifacts from /home/jboss/source/deployments directory into /op
 Copying all rar artifacts from /home/jboss/source/deployments directory into /opt/eap/standalone/deployments for later deployment...
 Copying all jar artifacts from /home/jboss/source/deployments directory into /opt/eap/standalone/deployments for later deployment...
 
-Pushing image 172.30.89.28:5000/myjbossapp-userxx/ks:latest ...
+Pushing image docker-registry.default.svc:5000/myjbossapp-userxx/ks:latest ...
 Pushed 0/6 layers, 2% complete
 Pushed 1/6 layers, 22% complete
 Pushed 2/6 layers, 47% complete
@@ -133,10 +124,9 @@ Push successful
 You will notice that in the logs that not only does it copy your source
 code to the builder image, but it also does a `maven` build to compile
 your code as well. Also, in the above log, note how the image is pushed
-to the local docker registry. The registry is running at `172.30.89.28`
-at port `5000` in this case.
+to the local docker registry.
 
-*Step 4: Deployment*
+### Deployment
 
 Once the image is pushed to the docker registry, OpenShift will trigger
 a deploy process. Let us also quickly look at the deployment
@@ -147,41 +137,147 @@ configuration by running the following command. Note `dc` represents
 $ oc get dc ks -o json
 
 {
+    "apiVersion": "apps.openshift.io/v1",
     "kind": "DeploymentConfig",
-    "apiVersion": "v1",
     "metadata": {
+        "creationTimestamp": "2019-02-20T02:01:16Z",
+        "generation": 2,
+        "labels": {
+            "application": "ks",
+            "template": "eap64-basic-s2i",
+            "template.openshift.io/template-instance-owner": "680372a6-34b3-11e9-acdb-0a0eee487cae",
+            "xpaas": "1.4.14"
+        },
         "name": "ks",
         "namespace": "myjbossapp-userxx",
-        "selfLink": "/oapi/v1/namespaces/myjbossapp-userxx/deploymentconfigs/ks",
-        "uid": "eb474e40-8b8a-11e6-ba5b-080027782cf7",
-        "resourceVersion": "32872",
-        "generation": 2,
-        "creationTimestamp": "2016-10-06T06:05:45Z",
-        "labels": {
-            "app": "ks"
-        },
-        "annotations": {
-            "openshift.io/generated-by": "OpenShiftNewApp"
-        }
+        "resourceVersion": "307971",
+        "selfLink": "/apis/apps.openshift.io/v1/namespaces/myjbossapp-userxx/deploymentconfigs/ks",
+        "uid": "68092254-34b3-11e9-acdb-0a0eee487cae"
     },
     "spec": {
-        "strategy": {
-            "type": "Rolling",
-            "rollingParams": {
-                "updatePeriodSeconds": 1,
-                "intervalSeconds": 1,
-                "timeoutSeconds": 600,
-                "maxUnavailable": "25%",
-                "maxSurge": "25%"
-            },
-            "resources": {}
+        "replicas": 1,
+        "revisionHistoryLimit": 10,
+        "selector": {
+            "deploymentConfig": "ks"
         },
+        "strategy": {
+            "activeDeadlineSeconds": 21600,
+            "recreateParams": {
+                "timeoutSeconds": 600
+            },
+            "resources": {},
+            "type": "Recreate"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "application": "ks",
+                    "deploymentConfig": "ks"
+                },
+                "name": "ks"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "JGROUPS_PING_PROTOCOL",
+                                "value": "openshift.DNS_PING"
+                            },
+                            {
+                                "name": "OPENSHIFT_DNS_PING_SERVICE_NAME",
+                                "value": "ks-ping"
+                            },
+                            {
+                                "name": "OPENSHIFT_DNS_PING_SERVICE_PORT",
+                                "value": "8888"
+                            },
+                            {
+                                "name": "HORNETQ_CLUSTER_PASSWORD",
+                                "value": "vDyNnLdy"
+                            },
+                            {
+                                "name": "HORNETQ_QUEUES"
+                            },
+                            {
+                                "name": "HORNETQ_TOPICS"
+                            },
+                            {
+                                "name": "JGROUPS_CLUSTER_PASSWORD",
+                                "value": "eayWw1tf"
+                            },
+                            {
+                                "name": "AUTO_DEPLOY_EXPLODED",
+                                "value": "false"
+                            }
+                        ],
+                        "image": "docker-registry.default.svc:5000/myjbossapp-userxx/ks@sha256:25a2a3ecae1c10bd4ba7d8e5b2153c6ba2bde8bdfdc103dcc3298bb489effee4",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "exec": {
+                                "command": [
+                                    "/bin/bash",
+                                    "-c",
+                                    "/opt/eap/bin/livenessProbe.sh"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 60,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "ks",
+                        "ports": [
+                            {
+                                "containerPort": 8778,
+                                "name": "jolokia",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8888,
+                                "name": "ping",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "exec": {
+                                "command": [
+                                    "/bin/bash",
+                                    "-c",
+                                    "/opt/eap/bin/readinessProbe.sh"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {
+                            "limits": {
+                                "memory": "1Gi"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File"
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "terminationGracePeriodSeconds": 60
+            }
+        },
+        "test": false,
         "triggers": [
             {
-                "type": "ConfigChange"
-            },
-            {
-                "type": "ImageChange",
                 "imageChangeParams": {
                     "automatic": true,
                     "containerNames": [
@@ -189,90 +285,57 @@ $ oc get dc ks -o json
                     ],
                     "from": {
                         "kind": "ImageStreamTag",
-                        "namespace": "myjbossapp-userxx",
-                        "name": "ks:latest"
+                        "name": "ks:latest",
+                        "namespace": "myjbossapp-userxx"
                     },
-                    "lastTriggeredImage": "172.30.89.28:5000/myjbossapp-userxx/ks@sha256:156db8530725a535f9b7ab7b696fab2e3c9c27c7fa0db0ea91bec87ed52b4193"
-                }
-            }
-        ],
-        "replicas": 1,
-        "test": false,
-        "selector": {
-            "app": "ks",
-            "deploymentconfig": "ks"
-        },
-        "template": {
-            "metadata": {
-                "creationTimestamp": null,
-                "labels": {
-                    "app": "ks",
-                    "deploymentconfig": "ks"
+                    "lastTriggeredImage": "docker-registry.default.svc:5000/myjbossapp-userxx/ks@sha256:25a2a3ecae1c10bd4ba7d8e5b2153c6ba2bde8bdfdc103dcc3298bb489effee4"
                 },
-                "annotations": {
-                    "openshift.io/container.ks.image.entrypoint": "[\"/opt/eap/bin/openshift-launch.sh\"]",
-                    "openshift.io/generated-by": "OpenShiftNewApp"
-                }
+                "type": "ImageChange"
             },
-            "spec": {
-                "containers": [
-                    {
-                        "name": "ks",
-                        "image": "172.30.89.28:5000/myjbossapp-userxx/ks@sha256:156db8530725a535f9b7ab7b696fab2e3c9c27c7fa0db0ea91bec87ed52b4193",
-                        "ports": [
-                            {
-                                "containerPort": 8080,
-                                "protocol": "TCP"
-                            },
-                            {
-                                "containerPort": 8443,
-                                "protocol": "TCP"
-                            },
-                            {
-                                "containerPort": 8778,
-                                "protocol": "TCP"
-                            }
-                        ],
-                        "resources": {},
-                        "terminationMessagePath": "/dev/termination-log",
-                        "imagePullPolicy": "Always"
-                    }
-                ],
-                "restartPolicy": "Always",
-                "terminationGracePeriodSeconds": 30,
-                "dnsPolicy": "ClusterFirst",
-                "securityContext": {}
+            {
+                "type": "ConfigChange"
             }
-        }
+        ]
     },
     "status": {
-        "latestVersion": 1,
-        "observedGeneration": 2,
-        "replicas": 1,
-        "updatedReplicas": 1,
         "availableReplicas": 1,
+        "conditions": [
+            {
+                "lastTransitionTime": "2019-02-20T02:04:04Z",
+                "lastUpdateTime": "2019-02-20T02:04:04Z",
+                "message": "Deployment config has minimum availability.",
+                "status": "True",
+                "type": "Available"
+            },
+            {
+                "lastTransitionTime": "2019-02-20T02:04:05Z",
+                "lastUpdateTime": "2019-02-20T02:04:05Z",
+                "message": "replication controller \"ks-1\" successfully rolled out",
+                "reason": "NewReplicationControllerAvailable",
+                "status": "True",
+                "type": "Progressing"
+            }
+        ],
         "details": {
-            "message": "caused by an image change",
             "causes": [
                 {
-                    "type": "ImageChange",
-                    "imageTrigger": {
-                        "from": {
-                            "kind": "ImageStreamTag",
-                            "namespace": "myjbossapp-userxx",
-                            "name": "ks:latest"
-                        }
-                    }
+                    "type": "ConfigChange"
                 }
-            ]
-        }
+            ],
+            "message": "config change"
+        },
+        "latestVersion": 1,
+        "observedGeneration": 2,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "unavailableReplicas": 0,
+        "updatedReplicas": 1
     }
 }
 ----
 
 Note where the image is picked from. It shows that the deployment picks
-the image from the local registry (same ip address and port as in
-`buildconfig`) and the image tag is the same as what we built earlier.
+the image from the local registry and the image tag is the same as what we built earlier.
 This means the deployment step deploys the application image what was
 built earlier during the build step.
 
@@ -283,11 +346,11 @@ deployed quickly and starts running in its own pod.
 $ oc get pods
 
 NAME         READY     STATUS      RESTARTS   AGE
-ks-1-build   0/1       Completed   0          26m
-ks-1-ey7m2   1/1       Running     0          12m
+ks-1-build   0/1       Completed   0          21m
+ks-1-vvbn5   1/1       Running     0          18m
 ----
 
-*Step 5: Adding route*
+### Adding a route
 
 This step is very much the same as what we did in previous exercises. We
 will check the service and add a route to expose that service.
@@ -295,8 +358,8 @@ will check the service and add a route to expose that service.
 ----
 $ oc get service ks
 
-NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
-ks        172.30.201.90   <none>        8080/TCP,8443/TCP,8778/TCP   21m
+NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+ks        ClusterIP   172.30.142.190   <none>        8080/TCP   22m
 ----
 
 Route should be already created.
@@ -304,8 +367,8 @@ Route should be already created.
 ----
 $ oc get routes
 
-NAME      HOST/PORT                                                      PATH      SERVICES   PORT       TERMINATION
-ks        ks-myjbossapp-userxx.{{APPS_ADDRESS}}                                 ks         8080-tcp
+NAME      HOST/PORT                                                      PATH      SERVICES   PORT      TERMINATION   WILDCARD
+ks        ks-myjbossapp-userxx.apps.verizon-e346.openshiftworkshop.com             ks         <all>                   None
 ----
 
 If route does not show, we expose the service `ks` via the command
@@ -319,25 +382,14 @@ route "ks" exposed
 
 And now we can check the route uri.
 
-*Step 6: Run the application*
+### Running the application
 
 Now access the application by using the route you got in the previous
-step. You can use either curl or your browser.
-
-----
-$ curl ks-myjbossapp-userxx.{{APPS_ADDRESS}}
-
- <!-- Plain HTML page that kicks us into the app -->
-<html>
-<head>
-<meta http-equiv="Refresh" content="0; URL=index.jsf">
-</head>
-</html>
-----
-
-Go to https://ks-myjbossapp-userxx.{{APPS_ADDRESS}} via your browser.
+step.
 
 IMPORTANT: Please replace *userxx* with the username assigned to you.
+
+Go to https://ks-myjbossapp-userxx.{{APPS_ADDRESS}} via your browser.
 
 image::ks-myjbossapp.png[image]
 
