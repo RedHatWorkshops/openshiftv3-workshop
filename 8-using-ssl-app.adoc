@@ -1,16 +1,16 @@
 [[using-ssl-in-your-application]]
-### Using SSL in your application
+## Using SSL in your application
 
 
 In this exercise you will set up your application to encrypt traffic
 with the OpenShift Wildcard certificate.
 
-*Step 1: Switch to an existing project*
+### Switch to an existing project
 
 For this exercise, we will use an application that we created before. We
 will be using the *myjbossapp-userxx* that you created in the previous
-labs. Make sure you are switched to that project by using the *oc
-project* command.
+labs. Make sure you are switched to that project by using the `oc
+project` command.
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
@@ -19,7 +19,7 @@ the commands below.
 $ oc project myjbossapp-userxx
 ----
 
-*Step 2: View the routing config*
+### View the routing config
 
 To view the routing config you will need to use the `oc get route`
 command:
@@ -32,35 +32,39 @@ You should get a result like this:
 
 [source,yaml]
 ----
-apiVersion: v1
-kind: Route
-metadata:
-  annotations:
-    openshift.io/host.generated: "true"
-  creationTimestamp: 2016-10-06T06:28:23Z
-  labels:
-    app: ks
-  name: ks
-  namespace: myjbossapp-userxx
-  resourceVersion: "33256"
-  selfLink: /oapi/v1/namespaces/myjbossapp-userxx/routes/ks
-  uid: 14cf078c-8b8e-11e6-ba5b-080027782cf7
-spec:
-  host: ks-myjbossapp-userxx.{{APPS_ADDRESS}}
-  port:
-    targetPort: 8080-tcp
-  to:
-    kind: Service
+  apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for application's http service.
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-02-20T02:01:16Z
+    labels:
+      application: ks
+      template: eap64-basic-s2i
+      template.openshift.io/template-instance-owner: 680372a6-34b3-11e9-acdb-0a0eee487cae
+      xpaas: 1.4.14
     name: ks
-    weight: 100
-status:
-  ingress:
-  - conditions:
-    - lastTransitionTime: 2016-10-06T06:28:23Z
-      status: "True"
-      type: Admitted
+    namespace: myjbossapp-userxx
+    resourceVersion: "307462"
+    selfLink: /apis/route.openshift.io/v1/namespaces/myjbossapp-userxx/routes/ks
+    uid: 68077bba-34b3-11e9-acdb-0a0eee487cae
+  spec:
     host: ks-myjbossapp-userxx.{{APPS_ADDRESS}}
-    routerName: router
+    to:
+      kind: Service
+      name: ks
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-02-20T02:01:16Z
+        status: "True"
+        type: Admitted
+      host: ks-myjbossapp-userxx.{{APPS_ADDRESS}}
+      routerName: router
+      wildcardPolicy: None
 ----
 
 Note here that the `host:` is set to the FQDN that your application is
@@ -71,7 +75,7 @@ Currently the routing component of OpenShift 3 supports ports `80` and
 is done automatically. There are a few things that need to be done in
 order to get the `443` mapping to work.
 
-*Step 3: TLS Edge Termination*
+### TLS Edge Termination
 
 OpenShift has a _wildcard_ SSL certificate that it can use for any
 application. We can use this SSL certificate to serve SSL from our
@@ -114,7 +118,7 @@ spec:
 status: {}
 ----
 
-*Step 4: Verify*
+### Verify
 
 Verify by visiting your page by using the `https://` URI
 

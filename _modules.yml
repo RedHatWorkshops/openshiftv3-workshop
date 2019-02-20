@@ -22,6 +22,8 @@ modules:
     name: Binary Deployment of a war file
   8-using-ssl-app:
     name: Using SSL in your application
+    requires:
+      - 4-create-app-using-jboss-builder-image
   9-bluegreen-deployments:
     name: Blue-Green Deployments
   10-webhooks:
