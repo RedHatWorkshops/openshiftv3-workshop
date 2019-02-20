@@ -1,5 +1,5 @@
 [[dynamic-configuration-updates-using-configmap]]
-### Dynamic configuration updates using ConfigMap
+## Dynamic configuration updates using ConfigMap
 
 
 In this lab, we will learn how to dynamically update this configuration
@@ -9,7 +9,7 @@ database connection to use a PostgreSQL database.
 In the last lab, we created a configuration to connect to the MySQL database by mounting
 `application.properties` file using ConfigMap.
 
-*Step 1: Create PostgreSQL Pod*
+### Create PostgreSQL Pod
 
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
@@ -29,11 +29,11 @@ values.
 _Feel free to use your own values, but make a note of the same_ (write
 down..we will need these)
 
-*Step 2: Add data to the database*
+### Add data to the database
 
 While the code has `schema-postgresql.sql` and `data-postgresql.sql`
 files, these scripts will only be executed if the pod restarts. Since we
-are going to use this database without restarting the sampleapp pod, we
+are going to use this database without restarting the *bootaapp* pod, we
 will add the data manually.
 
 Select the `postgresql` pod and navigate to the `terminal`.
@@ -72,30 +72,7 @@ These scripts are available here:
 https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/schema-postgresql.sql
 https://github.com/RedHatWorkshops/spring-sample-app/blob/master/src/main/resources/data-postgresql.sql
 
-Here is how to add the data in the terminal:
-
-[source,bash]
-----
-sh-4.2$ psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE
-sampledb=> CREATE TABLE IF NOT EXISTS customer (
-sampledb(>    CUST_ID serial primary key,
-sampledb(>    NAME varchar(100) NOT NULL,
-sampledb(>    AGE integer NOT NULL);
-sampledb=> insert into customer (name,age) values ('Joe Psql', 88);
-sampledb=> insert into customer (name,age) values ('Jack Psql', 54);
-sampledb=> insert into customer (name,age) values ('Ann Psql', 32);
-sampledb=> select * from customer;
- cust_id |   name    | age
----------+-----------+-----
-       1 | Joe Psql  |  88
-       2 | Jack Psql |  54
-       3 | Ann Psql  |  32
-(3 rows)
-
-sampledb=> \q
-----
-
-*Step 3: Update ConfigMap*
+### Update ConfigMap
 
 Now let us update the ConfigMap to change the `application.properties`
 to point to `postgresql` datasource.
@@ -127,44 +104,44 @@ spring.datasource.url = jdbc:[databasetype]://[service-host]:[service-port]/[dbn
 Here:
 
 * `databasetype` is `postgresql` +
-* `service-host` can be ip-address of the service or the service name.
+* `service-host` can be ip address of the service or the service name.
 Above, it is configured as `service-name.projectname`. This is the fully
-qualified service name discoverable by kubernetes. Kubernetes uses
-SkyDNS. +
+qualified service name discoverable by Openshift. +
 * `service-port` for postgresql is `5432`
 
 NOTE: This change does not redeploy the pod. You can check the pod
 details to see how long the pod has been running for.
 
-Now verify the `application.properties` inside the pod (Go to sampleapp
+Now verify the `application.properties` inside the pod (Go to *bootapp*
 pod terminal on the Web Console or use `oc rsh`). You will note that the
 `application.properties` file is now updated as a result of updating the
 ConfigMap.
 
 ----
 sh-4.2$ cat config/application.properties
+
 spring.datasource.platform=postgresql
 spring.datasource.url= jdbc:postgresql://postgresql.spring-userxx:5432/sampledb
 spring.datasource.username=user
 spring.datasource.password=password
 ----
 
-*Step 4: Test the application connection*
+### Test the application connection
 
 Click the application url now i.e
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/`. It will open
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/`. It will open
 a new tab and greets you:
 
 ----
-Hello from sampleapp-2-06a4b
+Hello from bootapp-2-06a4b
 ----
 
 Also watch the pod logs either using web console or using CLI. For
-example `oc logs -f sampleapp-2-06a4b` Watch out for connection url in the
+example `oc logs -f bootapp-2-06a4b` Watch out for connection url in the
 output.
 
 Now try the `/dbtest` endpoint i.e.
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`.
+`http://bootapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`.
 
 NOTE: the output is still from the MySQLDB.
 
@@ -190,7 +167,7 @@ annotation. So we can invoke `/refresh` endpoint to refresh the cache.
 Run the following command from CLI to refresh the cache.
 
 ----
-$ curl -X POST http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/refresh
+$ curl -X POST http://bootapp-spring-userxx.{{APPS_ADDRESS}}/refresh
 ["spring.datasource.url","spring.datasource.platform"]
 ----
 
