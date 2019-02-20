@@ -1,5 +1,5 @@
 [[deploy-a-springboot-application]]
-### Deploy a SpringBoot Application
+## Deploy a SpringBoot Application
 
 
 In this exercise we will deploy a SpringBoot application using a custom
@@ -8,12 +8,12 @@ source to image builder image.
 IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
-*Step 1: Create a project*
+### Create a project
 
 Using the knowledge you gained from the earlier labs create a
 new project with name `spring-userxx`.
 
-*Step 2: Create the application*
+### Create the application
 
 Create a new application using SpringBoot S2I Builder image.
 Here we will deploy sample code from a git repository
@@ -21,7 +21,7 @@ https://github.com/RedHatWorkshops/spring-sample-app. Please take time
 to understand the code; it is pretty simple.
 
 You may want to clone this into your git repository and deploy that, if
-you want to make changes and test.
+you want to make changes and test. You can use your Gogs account to do this.
 
 NOTE: We are using an S2I builder image from docker directly. This S2I
 builder image was created using this Dockerfile.
@@ -29,6 +29,7 @@ https://github.com/codecentric/springboot-maven3-centos/blob/master/Dockerfile
 
 ----
 $ oc new-app veermuchandi/spring-mvn-base~https://github.com/RedHatWorkshops/spring-sample-app --name=bootapp
+
 --> Found Docker image c3ddd9e (7 days old) from Docker Hub for "veermuchandi/spring-mvn-base"
 
     Spring Boot Maven 3
@@ -71,11 +72,11 @@ NAME      HOST/PORT                                      PATH      SERVICES   PO
 bootapp   bootapp-spring-userxx.{{APPS_ADDRESS}}             bootapp    8080-tcp
 ----
 
-Wait for your application to be built and deployed. Using the knowlege
+Wait for your application to be built and deployed. Using the knowledge
 you gained from the previous labs, check your build logs by running
 `oc logs -f <build pod name>`
 
-*Step 3: Test the application*
+### Test the application
 
 Test your application by using the hostname assigned in the route.
 
