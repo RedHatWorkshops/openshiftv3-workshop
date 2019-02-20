@@ -1,6 +1,5 @@
 [[adding-a-backend-database-to-the-springboot-application]]
-### Adding a backend database to the SpringBoot application
-
+## Adding a backend database to the SpringBoot application
 
 :data-uri:
 
@@ -28,8 +27,7 @@ spring.datasource.password=password
 
 Of course,
 https://github.com/RedHatWorkshops/spring-sample-app/blob/master/pom.xml
-has the required dependencies. So springboot is able to create the in
-memory database.
+has the required dependencies. So SpringBoot is able to create the in memory database.
 
 Where is the data coming from? See these two files:
 
@@ -44,7 +42,7 @@ straight forward.. isn't it!!
 In this lab, we will deploy the same as a 2-tier application by adding a
 MySQL database running as a separate pod.
 
-*Step 1: Add a MySQL database to this project*
+### Add a MySQL database to the project
 
 Based on what you learned in the previous labs, you know what to do!!
 
@@ -52,8 +50,8 @@ IMPORTANT: Please replace *userxx* with the username assigned to you in
 the commands below.
 
 Make sure you are in the `spring-userxx` project where your springboot
-application is running. Click on `Add to project` on your webconsole,
-select `MySQL Ephemeral` from the catalog and deploy it. When you are
+application is running. Click on *Add to project* in your webconsole,
+select *Databases* then *MySQL* and *MySQL Ephemeral* from the catalog and deploy it. When you are
 deploying this database you will have to choose the following values:
 
 *Database Service Name:* mysql +
@@ -61,13 +59,13 @@ deploying this database you will have to choose the following values:
 *MySQL Connection Password:* password +
 *MySQL Database Name:* sampledb
 
-_Feel free to use your own values, but make a note of the same_ (write
+_Feel free to use your own values, but make a note of them_ (write
 down... we will need these)
 
-Click on the `Create` button and within a few min or two your MySQL
+Click on the *Create* button and within a few min or two your MySQL
 database pod should be up and running.
 
-*Step 2: Configuring database connection params*
+### Configuring database connection params
 
 The simplest way is to edit `application.properties` file to the values
 you noted in the last step i.e.
@@ -79,7 +77,7 @@ spring.datasource.username=user
 spring.datasource.password=password
 ----
 
-But wait, that requires you to rebuild he code and deploy.
+But wait, that requires you to rebuild the code and deploy.
 
 So, is there another way?.. *Yes* Let's use a `ConfigMap`.
 
@@ -105,7 +103,7 @@ content.
 
 ----
 spring.datasource.platform=mysql
-spring.datasource.url= jdbc:mysql://mysql.spring-userxx:3306/sampledb?useSSL=false
+spring.datasource.url=jdbc:mysql://mysql.spring-userxx:3306/sampledb?useSSL=false
 spring.datasource.username=user
 spring.datasource.password=password
 ----
@@ -156,7 +154,7 @@ $ oc edit configmap app-props
 So far, we have created a ConfigMap in the project but your springboot
 application does not know how to use it.
 
-*Step 3: Edit Deployment Configuration*
+### Edit Deployment Configuration
 
 Now we will mount the ConfigMap so that the springboot application can
 use it. You can either edit from CLI or from WebConsole.
@@ -262,7 +260,7 @@ like this:
 deploymentConfig:
 
 ----
-$ oc set volumes dc/sampleapp --add -m /opt/app-root/src/config --configmap-name=app-props
+$ oc set volumes dc/bootapp --add -m /opt/app-root/src/config --configmap-name=app-props
 ----
 
 So what is this location `/opt/app-root/src/config`?
@@ -277,7 +275,7 @@ Save the changes and exit. If you now got the `Overview` page, you will
 see that the pod gets re-deployed. Yes, redeployed, not rebuilt (no S2I
 build process).
 
-*Step 4: Verify the changes*
+### Verify the changes
 
 Once the deployment is complete:
 1. Click on the pod circle.
@@ -300,25 +298,11 @@ spring.datasource.password=password
 
 Note the contents of this file are what you added to the ConfigMap.
 
-*Step 5: Test your application*
+### Test your application
 
-Go back to the `Overview` page. Click on your application url which
-would be something like
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/`
+Now access the application with the `/dbtest` extension:
 
-It will open a new tab and your running application will greet you
-
-`Hello from sampleapp-2-06a4b`
-
-Now move back to your webconsole and watch the pod logs. You can also do
-this from CLI by running
-
-----
-$ oc logs -f sampleapp-2-06a4b
-----
-
-Now access the application with the `/dbtest` extension -
-`http://sampleapp-spring-userxx.{{APPS_ADDRESS}}/dbtest`
+http://bootapp-spring-userxx.{{APPS_ADDRESS}}/dbtest
 
 It should show the data from your MySQL database.
 
