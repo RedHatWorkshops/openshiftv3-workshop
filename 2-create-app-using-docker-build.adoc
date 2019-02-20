@@ -87,7 +87,7 @@ In the meanwhile lets have a look at the `buildconfig` by running the
 command shown below.
 
 ----
-$ oc get bc dockerbuild -o json
+$ oc get bc dockerbuildapp -o json
 
 {
     "apiVersion": "build.openshift.io/v1",
