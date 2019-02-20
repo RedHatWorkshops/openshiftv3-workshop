@@ -1,14 +1,14 @@
 [[adding-spring-boot-s2i-image-to-the-project-catalog]]
-### Adding Spring Boot S2I Image to the Project Catalog
+## Adding Spring Boot S2I Image to the Project Catalog
 
 
-In the last lab to deploy a spring boot application, we used the S2I image directly from a docker registry
+In the last lab, to deploy a spring boot application, we used the S2I image directly from a docker registry
 that is outside OpenShift environment. The Spring Boot image was not in
 the catalog. In this lab, we will learn how to add the Spring Boot image
 to the project catalog so that you can deploy the application directly
-from your screen.
+from the Web Console.
 
-*Step 1: Cleaning up the project*
+### Cleaning up the project
 
 Clean up the project that you created in the last lab.
 
@@ -21,12 +21,12 @@ not, change your project by running `oc project spring-userxx`.
 Clean up the contents of this project:
 
 ----
-oc delete all --all
+$ oc delete all --all
 ----
 
 Verify that all the contents are gone by running `oc get all`
 
-*Step 2: Add the Spring Boot image stream*
+### Add the Spring Boot image stream
 
 We will use the image stream from the file
 https://github.com/VeerMuchandi/openshift-springboot/blob/master/springboot-imagestream.json
@@ -83,19 +83,19 @@ command:
 
 ----
 $ oc new-app --search springboot
+
 Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
------
+
 springboot
-  Project: springtest2
+  Project: spring-userxx
   Tags:    latest
-..
 ----
 
 To add using the web console, select `Add to Project`, and then
 `Import YAML/JSON` tab on the top. Then you can copy paste the above
 `imagestream` contents into the text box and press `Create` button.
 
-*Step 3: Create the application*
+### Create the application
 
 Now it is time to create your application. Press on `Add to Project`
 button on the web console. This will take you to `Browse Catalog`. You
@@ -107,7 +107,7 @@ Now use that S2I image to deploy your sample spring boot application
 https://github.com/RedHatWorkshops/spring-sample-app on OpenShift
 using your experience from the previous labs.
 
-Congratulations!! you have learnt to make an image stream available in
+Congratulations!! you have learned how to make an image stream available in
 your project.
 
 *If you got a question in mind* - _Well how can I make this image

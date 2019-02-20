@@ -38,6 +38,8 @@ modules:
     name: Deploy a SpringBoot Application
   15-adding-springboot-sti-to-catalog:
     name: Adding Spring Boot S2I Image to the Project Catalog
+    requires:
+      - 14-deploy-springboot-app
   16-adding-database-to-springboot-app:
     name: Adding a backend database to the SpringBoot application
     requires:
