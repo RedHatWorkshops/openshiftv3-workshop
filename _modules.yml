@@ -30,6 +30,8 @@ modules:
     name: SCM Web Hooks
   11-rollback-applications:
     name: Rollback Applications
+    requires:
+      - 10-webhooks
   12-code-promotion-across-envs:
     name: Code Promotion across Environments
   14-deploy-springboot-app:
