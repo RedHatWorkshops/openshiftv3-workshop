@@ -1,12 +1,11 @@
 [[create-an-app-using-docker-build]]
-### Create an App using Docker build
-
+## Create an App using Docker build
 
 In this exercise we will learn how to create an application from a
 Dockerfile. OpenShift takes Dockerfile as an input and generates your
 application docker image for you.
 
-*Step 1: Create a project or use an existing project*
+### Create a project or use an existing project
 
 If you want to, you can create a new project based on what you have
 learned in the previous lab. Since we already have a project we will use
@@ -19,19 +18,16 @@ the commands below.
 $ oc project mycliproject-userxx
 ----
 
-*Step 2: Create an application that uses Dockerfile*
+### Create an application that uses a Dockerfile
 
 This time we will use a project that has a Dockerfile in a source code
-repository. We will use a simple project on github
-(https://github.com/VeerMuchandi/time). "rhel" folder from this github
+repository. We will use a simple project on GitHub
+(https://github.com/RedHatWorkshops/dockerbuildapp). "rhel" folder from this github
 project is built starting with rhel7 as the base image which is
 described in Dockerfile. Look at the Dockerfile for this project. It
-starts off with `registry.access.redhat.com/rhel7` image. It copies the
-source code which is a simple `init.sh` file and exposes port `8080`.
-Look at the `init.sh` that just displays the current datetime. There is
-also a PHP version of the same project available in the php folder if
-you like to use that. The php version does exactly the same it has a
-`time.php` file that displays the time.
+starts off with `registry.access.redhat.com/rhscl/httpd-24-rhel7` image. It copies the
+source code which is a simple `index.html` file and exposes port `8080`.
+
 
 NOTE: When OpenShift finds a Dockerfile in the source, it uses
 this Dockerfile as the basis to create a docker image for your
@@ -45,27 +41,37 @@ Now let's create an application using this approach. We will run
 `oc new-app` command by supplying the git uri as the parameter.
 
 ----
-$ oc new-app https://github.com/VeerMuchandi/time --context-dir=rhel
+$ oc new-app https://github.com/RedHatWorkshops/dockerbuildapp --context-dir=rhel
 
---> Found Docker image 1d309a6 (6 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhel7"
+--> Found Docker image 510d1c5 (3 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/rhscl/httpd-24-rhel7"
 
-    * An image stream will be created as "rhel7:latest" that will track the source image
-    * A Docker build using source code from https://github.com/VeerMuchandi/time will be created
-      * The resulting image will be pushed to image stream "time:latest"
-      * Every time "rhel7:latest" changes a new build will be triggered
-    * This image will be deployed in deployment config "time"
-    * Port 8080 will be load balanced by service "time"
-      * Other containers can access this service through the hostname "time"
-    * WARNING: Image "registry.access.redhat.com/rhel7" runs as the 'root' user which may not be permitted by your cluster administrator
+    Apache httpd 2.4
+    ----------------
+    Apache httpd 2.4 available as container, is a powerful, efficient, and extensible web server.
+    Apache supports a variety of features, many implemented as compiled modules which extend the core functionality.
+    These can range from server-side programming language support to authentication schemes.
+    Virtual hosting allows one Apache installation to serve many different Web sites.
 
---> Creating resources with label app=time ...
-    imagestream "rhel7" created
-    imagestream "time" created
-    buildconfig "time" created
-    deploymentconfig "time" created
-    service "time" created
+    Tags: builder, httpd, httpd24
+
+    * An image stream tag will be created as "httpd-24-rhel7:latest" that will track the source image
+    * A Docker build using source code from https://github.com/RedHatWorkshops/dockerbuildapp will be created
+      * The resulting image will be pushed to image stream tag "dockerbuildapp:latest"
+      * Every time "httpd-24-rhel7:latest" changes a new build will be triggered
+    * This image will be deployed in deployment config "dockerbuildapp"
+    * Ports 8080/tcp, 8443/tcp will be load balanced by service "dockerbuildapp"
+      * Other containers can access this service through the hostname "dockerbuildapp"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "httpd-24-rhel7" created
+    imagestream.image.openshift.io "dockerbuildapp" created
+    buildconfig.build.openshift.io "dockerbuildapp" created
+    deploymentconfig.apps.openshift.io "dockerbuildapp" created
+    service "dockerbuild" created
 --> Success
-    Build scheduled, use 'oc logs -f bc/time' to track its progress.
+    Build scheduled, use 'oc logs -f bc/dockerbuildapp' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/dockerbuildapp'
     Run 'oc status' to view your app.
 ----
 
@@ -75,80 +81,83 @@ the above list. The application is not running yet. It needs to be built
 and deployed. Within a minute or so, you will see that OpenShift starts
 the build.
 
-*Step 3: Build*
+### Build
 
 In the meanwhile lets have a look at the `buildconfig` by running the
 command shown below.
 
 ----
-$ oc get bc time -o json
+$ oc get bc dockerbuild -o json
 
 {
+    "apiVersion": "build.openshift.io/v1",
     "kind": "BuildConfig",
-    "apiVersion": "v1",
     "metadata": {
-        "name": "time",
-        "namespace": "mycliproject-userxx",
-        "selfLink": "/oapi/v1/namespaces/mycliproject-admin/buildconfigs/time",
-        "uid": "ac4beccd-9569-11e6-ad4c-000d3af733e4",
-        "resourceVersion": "134692",
-        "creationTimestamp": "2016-10-18T19:32:57Z",
-        "labels": {
-            "app": "time"
-        },
         "annotations": {
             "openshift.io/generated-by": "OpenShiftNewApp"
-        }
+        },
+        "creationTimestamp": "2019-02-20T00:32:54Z",
+        "labels": {
+            "app": "dockerbuildapp"
+        },
+        "name": "dockerbuildapp",
+        "namespace": "mycliproject-userxx",
+        "resourceVersion": "292476",
+        "selfLink": "/apis/build.openshift.io/v1/namespaces/mycliproject-userxx/buildconfigs/dockerbuildapp",
+        "uid": "103f77ec-34a7-11e9-acdb-0a0eee487cae"
     },
     "spec": {
-        "triggers": [
-            {
-                "type": "GitHub",
-                "github": {
-                    "secret": "1pOQJ1G5tr6M70CQ5779"
+        "failedBuildsHistoryLimit": 5,
+        "nodeSelector": null,
+        "output": {
+            "to": {
+                "kind": "ImageStreamTag",
+                "name": "dockerbuildapp:latest"
+            }
+        },
+        "postCommit": {},
+        "resources": {},
+        "runPolicy": "Serial",
+        "source": {
+            "contextDir": "rhel",
+            "git": {
+                "uri": "https://github.com/RedHatWorkshops/dockerbuildapp"
+            },
+            "type": "Git"
+        },
+        "strategy": {
+            "dockerStrategy": {
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "name": "httpd-24-rhel7:latest"
                 }
             },
+            "type": "Docker"
+        },
+        "successfulBuildsHistoryLimit": 5,
+        "triggers": [
             {
-                "type": "Generic",
+                "github": {
+                    "secret": "ERuRy3B_Frgyu3SLxViH"
+                },
+                "type": "GitHub"
+            },
+            {
                 "generic": {
-                    "secret": "Bge9C-De7rm9PPDG_EQR"
-                }
+                    "secret": "4HWeLrwSTz-XBY3ng3Zh"
+                },
+                "type": "Generic"
             },
             {
                 "type": "ConfigChange"
             },
             {
-                "type": "ImageChange",
                 "imageChange": {
-                    "lastTriggeredImageID": "registry.access.redhat.com/rhel7@sha256:eac2421be7a6844a5c83b8f394d1f5f121b18fa4e455c5f09be940e0384a1d97"
-                }
+                    "lastTriggeredImageID": "registry.access.redhat.com/rhscl/httpd-24-rhel7@sha256:1520e04b65b8e55d4ce0766b978767f3c63c315a3fa7b2f6e30e6860a9a5e359"
+                },
+                "type": "ImageChange"
             }
-        ],
-        "runPolicy": "Serial",
-        "source": {
-            "type": "Git",
-            "git": {
-                "uri": "https://github.com/VeerMuchandi/time"
-            },
-            "contextDir": "rhel"
-        },
-        "strategy": {
-            "type": "Docker",
-            "dockerStrategy": {
-                "from": {
-                    "kind": "ImageStreamTag",
-                    "name": "rhel7:latest"
-                }
-            }
-        },
-        "output": {
-            "to": {
-                "kind": "ImageStreamTag",
-                "name": "time:latest"
-            }
-        },
-        "resources": {},
-        "postCommit": {}
+        ]
     },
     "status": {
         "lastVersion": 1
@@ -156,153 +165,198 @@ $ oc get bc time -o json
 }
 ----
 
-Note the name of the `buildconfig` in metadata is set to "time", the git
+Note the name of the `buildconfig` in metadata is set to *dockerbuildapp*, the git
 uri pointing to the value you gave while creating the application. Also
-note the Strategy.type set to "Docker". This indicates that the build
+note the Strategy.type set to *Docker*. This indicates that the build
 will use the instructions in this Dockerfile to do the docker build.
 
 Build starts in a minute or so. You can view the list of builds using
 `oc get builds` command. You can also start the build using
-`oc start-build time` where "time" is the name we noticed in the
+`oc start-build dockerbuildapp` where *dockerbuildapp* is the name we noticed in the
 `buildconfig`.
 
 ----
 $ oc get builds
-NAME      TYPE      STATUS    POD
-time-1    Docker    Running   time-1-build
+NAME               TYPE      FROM      STATUS    STARTED         DURATION
+dockerbuildapp-1   Docker    Git       Running   8 seconds ago
 ----
 
-Note the name of the build that is running i.e. `time-1`. We will use that
+Note the name of the build that is running i.e. `dockerbuildapp-1`. We will use that
 name to look at the build logs. Run the command as shown below to look
 at the build logs. This will run for a few mins. At the end you will
 notice that the docker image is successfully created and it will start
 pushing this to OpenShift internal docker registry.
 
 ----
-$ oc logs build/time-1
+$ oc logs build/dockerbuildapp-1
 
-Successfully built 99563b872361
-I0701 01:00:01.954898       1 cfg.go:46] PUSH_DOCKERCFG_PATH=/var/run/secrets/openshift.io/push/.dockercfg
-I0701 01:00:01.955401       1 cfg.go:64] Using serviceaccount user for Docker authentication
-I0701 01:00:01.955426       1 docker.go:84] Using Docker authentication provided
-I0701 01:00:01.955441       1 docker.go:87] Pushing 172.30.246.7:5000/mycliproject-userxx/time image ...
-I0701 01:05:24.258995       1 docker.go:91] Successfully pushed 172.30.246.7:5000/mycliproject-userxx/time
+Successfully built 3d1211ef5f1f
+
+Pushing image docker-registry.default.svc:5000/mycliproject-userxx/dockerbuildapp:latest ...
+Pushed 1/5 layers, 22% complete
+Pushed 2/5 layers, 40% complete
+Push successful
 ----
 
-In the above log note how the image is pushed to the local docker
-registry. The registry is running at `172.30.246.7` at port `5000`.
+In the above log note how the image is pushed to the local docker registry.
+The registry is available by the internal service name `docker-registry.default.svc` at port `5000`.
 
-*Step 4: Deployment*
+### Deployment
 
-Once the image is pushed to the docker registry, OpenShift will trigger
-a deploy process. Let us also quickly look at the deployment
-configuration by running the following command. Note `dc` represents
+Once the image is pushed to the docker registry, OpenShift will trigger a deploy process.
+Let us also quickly look at the deployment configuration by running the following command. Note `dc` represents
 `deploymentconfig`.
 
 ----
 $ oc get dc -o json
 
 {
-    "kind": "List",
     "apiVersion": "v1",
-    "metadata": {},
     "items": [
         {
+            "apiVersion": "apps.openshift.io/v1",
             "kind": "DeploymentConfig",
-            "apiVersion": "v1",
             "metadata": {
-                "name": "time",
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewApp"
+                },
+                "creationTimestamp": "2019-02-20T00:43:16Z",
+                "generation": 2,
+                "labels": {
+                    "app": "dockerbuildapp"
+                },
+                "name": "dockerbuildapp",
                 "namespace": "mycliproject-userxx",
-                "selfLink": "/osapi/v1beta3/namespaces/mycliproject-userxx/deploymentconfigs/time",
-                "uid": "85a3d5c0-1fad-11e5-a792-fa163e91b409",
-                "resourceVersion": "12684",
-                "creationTimestamp": "2015-07-01T04:56:23Z"
+                "resourceVersion": "294360",
+                "selfLink": "/apis/apps.openshift.io/v1/namespaces/mycliproject-userxx/deploymentconfigs/dockerbuildapp",
+                "uid": "82d6aaff-34a8-11e9-acdb-0a0eee487cae"
             },
             "spec": {
-                "strategy": {
-                    "type": "Recreate",
-                    "resources": {}
-                },
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "time"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "name": "time:latest"
-                            },
-                            "lastTriggeredImage": "172.30.246.7:5000/mycliproject-userxx/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5"
-                        }
-                    }
-                ],
                 "replicas": 1,
+                "revisionHistoryLimit": 10,
                 "selector": {
-                    "deploymentconfig": "time"
+                    "app": "dockerbuildapp",
+                    "deploymentconfig": "dockerbuildapp"
+                },
+                "strategy": {
+                    "activeDeadlineSeconds": 21600,
+                    "resources": {},
+                    "rollingParams": {
+                        "intervalSeconds": 1,
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%",
+                        "timeoutSeconds": 600,
+                        "updatePeriodSeconds": 1
+                    },
+                    "type": "Rolling"
                 },
                 "template": {
                     "metadata": {
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        },
                         "creationTimestamp": null,
                         "labels": {
-                            "deploymentconfig": "time"
+                            "app": "dockerbuildapp",
+                            "deploymentconfig": "dockerbuildapp"
                         }
                     },
                     "spec": {
                         "containers": [
                             {
-                                "name": "time",
-                                "image": "172.30.246.7:5000/mycliproject-userxx/time@sha256:1251dbf51a699928359046c0d5a98601fb2883f34c24a6ca80492c5a047942f5",
+                                "image": "docker-registry.default.svc:5000/mycliproject-userxx/dockerbuildapp@sha256:8b06f694894a69d58dda3bea6ffa3cf4f379c7e559020e4bd1a4dec5baa29bfa",
+                                "imagePullPolicy": "Always",
+                                "name": "dockerbuildapp",
                                 "ports": [
                                     {
-                                        "name": "time-tcp-80",
-                                        "containerPort": 80,
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8443,
                                         "protocol": "TCP"
                                     }
                                 ],
                                 "resources": {},
                                 "terminationMessagePath": "/dev/termination-log",
-                                "imagePullPolicy": "Always",
-                                "securityContext": {
-                                    "capabilities": {},
-                                    "privileged": false
-                                }
+                                "terminationMessagePolicy": "File"
                             }
                         ],
+                        "dnsPolicy": "ClusterFirst",
                         "restartPolicy": "Always",
-                        "dnsPolicy": "ClusterFirst"
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30
                     }
-                }
+                },
+                "test": false,
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "dockerbuildapp"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "dockerbuildapp:latest",
+                                "namespace": "testlabs"
+                            },
+                            "lastTriggeredImage": "docker-registry.default.svc:5000/mycliproject-userxx/dockerbuildapp@sha256:8b06f694894a69d58dda3bea6ffa3cf4f379c7e559020e4bd1a4dec5baa29bfa"
+                        },
+                        "type": "ImageChange"
+                    }
+                ]
             },
             "status": {
-                "latestVersion": 2,
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2019-02-20T00:43:35Z",
+                        "lastUpdateTime": "2019-02-20T00:43:35Z",
+                        "message": "Deployment config has minimum availability.",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2019-02-20T00:43:35Z",
+                        "lastUpdateTime": "2019-02-20T00:43:35Z",
+                        "message": "replication controller \"dockerbuildapp-1\" successfully rolled out",
+                        "reason": "NewReplicationControllerAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
                 "details": {
                     "causes": [
                         {
-                            "type": "ImageChange",
-                            "imageTrigger": {
-                                "from": {
-                                    "kind": "DockerImage",
-                                    "name": "172.30.246.7:5000/mycliproject-userxx/time:latest"
-                                }
-                            }
+                            "type": "ConfigChange"
                         }
-                    ]
-                }
+                    ],
+                    "message": "config change"
+                },
+                "latestVersion": 1,
+                "observedGeneration": 2,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "unavailableReplicas": 0,
+                "updatedReplicas": 1
             }
         }
-    ]
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
 }
 ----
 
 Note where the image is picked from. It shows that the deployment picks
-the image from the local registry (same ip address and port as in
-`buildconfig`) and the image tag is same as what we built earlier. This
+the image from the local registry and the image tag is same as what we built earlier. This
 means the deployment step deploys the application image what was built
 earlier during the build step.
 
@@ -312,12 +366,12 @@ deployed quickly and starts running in its own pod.
 ----
 $ oc get pods
 
-NAME           READY     STATUS      RESTARTS   AGE
-time-1-build   0/1       Completed   0          2h
-time-1-rqa7c   1/1       Running     0          2h
+NAME                     READY     STATUS      RESTARTS   AGE
+dockerbuildapp-1-build   0/1       Completed   0          3m
+dockerbuildapp-1-hkzx9   1/1       Running     0          3m
 ----
 
-*Step 5: Adding route*
+### Adding a route
 
 This step is very much the same as what we did in the previous exercise.
 We will check the service and add a route to expose that service.
@@ -325,17 +379,14 @@ We will check the service and add a route to expose that service.
 ----
 $ oc get services
 
-NAME      CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-time      172.30.xx.82   <none>        8080/TCP   2h
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+dockerbuildapp   ClusterIP   172.30.253.94   <none>        8080/TCP,8443/TCP   4m
 ----
 
 Here we expose the service as a route.
 
 ----
-$ oc expose service time
-
-NAME      HOST/PORT   PATH      SERVICE   LABELS     TLS TERMINATION
-time                            time      app=time
+$ oc expose service dockerbuildapp
 ----
 
 And then we check the route exposed.
@@ -343,27 +394,23 @@ And then we check the route exposed.
 ----
 $ oc get routes
 
-NAME      HOST/PORT                                                          PATH      SERVICES   PORT       TERMINATION
-time      time-mycliproject-userxx.{{APPS_ADDRESS}}                       time       8080-tcp
+NAME             HOST/PORT                                                         PATH      SERVICES         PORT       TERMINATION   WILDCARD
+dockerbuildapp   dockerbuildapp-mycliproject-userxx.{{APPS_ADDRESS}}             dockerbuildapp   8080-tcp                 None
 ----
 
 NOTE: Unlike in the previous lab, this time we did not use --hostname
 parameter while exposing the service to create a route. OpenShift
 automatically assigned the project name extension to the route name.
 
-*Step 6: Run the application*
+### Run the application
 
 Now run the application by using the route you provided in the previous
-step. You can use either curl or your browser. The application displays
-time.
-
-NOTE: If you don't provide time.php extension, it displays apache's
-default index page.
+step. You can use either curl or your browser.
 
 ----
-$ curl time-mycliproject-userxx.{{APPS_ADDRESS}}
-Wednesday 1st of July 2015 01:12:20 AM
+$ curl dockerbuildapp-mycliproject-userxx.{{APPS_ADDRESS}}
+Congratulations you just deployed your app by using a Docker build strategy!
 ----
 
 Congratulations!! In this exercise you have learnt how to create, build
-and deploy an application using OpenShift's "Docker Build strategy".
+and deploy an application using OpenShift Docker Build strategy.
