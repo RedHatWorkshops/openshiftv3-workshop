@@ -34,9 +34,11 @@ In the search text box type `dotnet` and select `.Net Core` template with
 latest version tag for this builder image (at the moment of creation
 this lab it is `.NET Core Builder Images`).
 
+Be sure to change the 'Version' pull-down to 2.0 and hit 'advanced options' to expose the additional options.
 Fill the fields with the following information:
 
 ....
+Version: 2.0
 Name: dotnet20
 Git Repository URL: https://github.com/redhat-developer/s2i-dotnetcore-ex
 Branch: dotnetcore-2.0
