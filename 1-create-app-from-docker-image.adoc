@@ -163,7 +163,7 @@ NAME                                     DOCKER REPO                            
 imagestream.image.openshift.io/welcome   docker-registry.default.svc:5000/testlabs/welcome   latest    2 minutes ago
 
 NAME                               HOST/PORT                                                PATH      SERVICES   PORT       TERMINATION   WILDCARD
-route.route.openshift.io/welcome   welcome-userxx.apps.verizon-e346.openshiftworkshop.com             welcome    8080-tcp                 None
+route.route.openshift.io/welcome   welcome-userxx.{{APPS_ADDRESS}}             welcome    8080-tcp                 None
 ----
 
 Now you can delete all these components by running one command.
