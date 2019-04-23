@@ -1,0 +1,43 @@
+id: "devday"
+name: "OpenShift Developer Day Workshop"
+
+content:
+  url: https://raw.githubusercontent.com/redhatworkshops/openshiftv3-workshop/asciidoc
+
+
+vars:
+  DEFAULT_PASSWORD: "openshift"
+  GIT_SERVER_URL: "http://gogs-lab-infra.apps.hartford-5466.openshiftworkshop.com/"
+  CONSOLE_ADDRESS: "https://master.hartford-5466.openshiftworkshop.com"
+  APPS_ADDRESS: "apps.hartford-5466.openshiftworkshop.com"
+  GET_STARTED_CLI_URL: "https://docs.openshift.com/container-platform/latest/cli_reference/get_started_cli.html"
+  NEXUS_URL: "http://nexus.lab-infra.svc.cluster.local:8081/repository/maven-public/"
+  REDHAT_DOWNLOAD_OC_PORTAL_URL: "https://access.redhat.com/downloads/content/290"
+  TERMINAL_URL: "https://terminal-lab-infra.apps.hartford-5466.openshiftworkshop.com/"
+  ETHERPAD_USERS_LIST: "http://etherpad-lab-infra.apps.hartford-5466.openshiftworkshop.com/p/users"
+  JAVA_APP: true
+
+
+# We are deploying ALL the labs in this workshop config, if you want customize please create another _workshop.yml file
+
+modules:
+  activate:
+  - 0-setting-up-client-tools
+#  - 1-create-app-from-docker-image
+#  - 2-create-app-using-docker-build
+#  - 3-using-web-console
+  - 4-create-app-using-jboss-builder-image
+#  - 5-using-templates
+  - 6-scaling-app-instances
+#  - 7-binary-deployment-war-file
+  - 8-using-ssl-app
+  - 9-bluegreen-deployments
+#  - 10-webhooks
+  - 11-rollback-applications
+  - 12-code-promotion-across-envs
+  - 14-deploy-springboot-app
+  - 15-adding-springboot-sti-to-catalog
+  - 16-adding-database-to-springboot-app
+  - 17-dynamic-config-updates-using-configmaps
+#  - 18-changing-code-onthefly
+  - 20-deploy-dotnet-app
