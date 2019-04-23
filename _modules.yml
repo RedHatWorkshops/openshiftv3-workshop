@@ -47,6 +47,10 @@ modules:
       - 15-adding-springboot-sti-to-catalog
   17-dynamic-config-updates-using-configmaps:
     name: Dynamic configuration updates using ConfigMap
+    requires:
+      - 14-deploy-springboot-app
+      - 15-adding-springboot-sti-to-catalog
+      - 16-adding-database-to-springboot-app
   18-changing-code-onthefly:
     name: Changing code on the fly
   20-deploy-dotnet-app:

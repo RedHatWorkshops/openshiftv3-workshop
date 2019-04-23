@@ -23,7 +23,7 @@ vars:
 modules:
   activate:
   - 0-setting-up-client-tools
-#  - 1-create-app-from-docker-image
+  - 1-create-app-from-docker-image
 #  - 2-create-app-using-docker-build
 #  - 3-using-web-console
   - 4-create-app-using-jboss-builder-image
@@ -32,7 +32,7 @@ modules:
 #  - 7-binary-deployment-war-file
   - 8-using-ssl-app
   - 9-bluegreen-deployments
-#  - 10-webhooks
+  - 10-webhooks
   - 11-rollback-applications
   - 12-code-promotion-across-envs
   - 14-deploy-springboot-app
