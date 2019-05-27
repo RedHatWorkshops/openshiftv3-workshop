@@ -26,7 +26,7 @@ $ oc new-project scm-web-hooks-UserName --display-name="Test WebHooks"
 
 *Step 2: Create new application*
 
-* We will use the forked repository from the previous lab.
+* Fork the github repository from the previous lab and use it for the following commands.
 
 *Remember* to substitute the UserName.
 
