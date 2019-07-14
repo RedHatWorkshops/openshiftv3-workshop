@@ -17,7 +17,7 @@ modules:
   6-scaling-app-instances:
     name: Scale up and Scale down and Idle the application instances
     requires:
-      - 1-create-app-from-docker-image
+      - 2-create-app-using-docker-build 
   7-binary-deployment-war-file:
     name: Binary Deployment of a war file
   8-using-ssl-app:
